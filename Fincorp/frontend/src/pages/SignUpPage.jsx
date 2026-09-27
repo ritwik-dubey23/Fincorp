@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { ShieldCheck, UserPlus, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { ShieldCheck, UserPlus, ArrowRight, Eye, EyeOff, AlertCircle, CheckCircle2, X, LogIn } from 'lucide-react';
 
 const SignUpPage = () => {
   const [name, setName] = useState('');
@@ -11,15 +11,17 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isExistingUserError, setIsExistingUserError] = useState(false);
+  const [message, setMessage] = useState('');
   const { register } = useAuth();
   const navigate = useNavigate();
-  
-  // ... rest of submit logic
-
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsExistingUserError(false);
+    setMessage('');
 
     if (!/^[6-9]\d{9}$/.test(mobile)) {
       setError('Please enter a valid 10-digit Indian mobile number');
@@ -30,17 +32,72 @@ const SignUpPage = () => {
     try {
       const data = await register(name, email, mobile, password);
       if (data.success) {
-        navigate('/track-status');
+        setMessage('Congratulations! Your account has been created successfully.');
+        const destination = location.state?.from || '/track-status';
+        setTimeout(() => {
+          navigate(destination);
+        }, 1200);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      const errMsg = err.response?.data?.message || 'Registration failed';
+      if (errMsg.toLowerCase().includes('already exists')) {
+        setError('Account already exists with this email or mobile number.');
+        setIsExistingUserError(true);
+      } else {
+        setError(errMsg);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+      
+      {/* TOP-CENTER FLOATING POPUP / TOAST FOR ERRORS & SUCCESS */}
+      {(error || message) && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[200] max-w-md w-11/12 animate-in slide-in-from-top-4 duration-200">
+          <div className={`p-4 rounded-2xl shadow-2xl border backdrop-blur-md flex items-start justify-between gap-3 ${
+            error
+              ? 'bg-red-950/95 border-red-800 text-red-100'
+              : 'bg-emerald-950/95 border-emerald-800 text-emerald-100'
+          }`}>
+            <div className="flex items-start gap-3">
+              {error ? (
+                <AlertCircle className="w-6 h-6 text-red-400 shrink-0 mt-0.5" />
+              ) : (
+                <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0 mt-0.5" />
+              )}
+              <div className="space-y-1 text-xs">
+                <p className="font-extrabold text-sm">
+                  {error ? (isExistingUserError ? 'Account Already Exists' : 'Registration Error') : 'Success'}
+                </p>
+                <p className="leading-relaxed">{error || message}</p>
+
+                {/* ALREADY EXISTS -> DIRECT BUTTON TO SIGN IN */}
+                {isExistingUserError && (
+                  <div className="pt-2">
+                    <button
+                      onClick={() => navigate('/login', { state: { from: location.state?.from } })}
+                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-md hover:from-blue-500 transition cursor-pointer"
+                    >
+                      <LogIn className="w-4 h-4" /> Sign In to Existing Account →
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <button
+              onClick={() => { setError(''); setMessage(''); setIsExistingUserError(false); }}
+              className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-md w-full bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xl space-y-6">
         
         <div className="text-center space-y-2">
@@ -50,8 +107,6 @@ const SignUpPage = () => {
           <h2 className="text-2xl font-black text-slate-900">Create Fincorp Account</h2>
           <p className="text-xs text-slate-500">Join Fincorp for instant loans, credit score monitoring, and financial services.</p>
         </div>
-
-        {error && <div className="p-3 bg-red-50 text-red-600 text-xs font-medium rounded-xl">⚠️ {error}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

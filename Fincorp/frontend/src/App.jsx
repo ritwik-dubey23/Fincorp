@@ -1,8 +1,9 @@
-import React, { useState, Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ApplyModal from './components/ApplyModal';
+import { useAuth } from './context/AuthContext';
 import { ShieldCheck } from 'lucide-react';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -33,6 +34,28 @@ const PageLoader = () => (
   </div>
 );
 
+// Protected Apply Route Guard
+const ProtectedApplyRoute = ({ handleOpenApply }) => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        navigate('/login', {
+          state: { from: '/apply', message: 'Please Sign Up or Log In first to apply for a loan.' },
+          replace: true,
+        });
+      } else {
+        handleOpenApply('personal_loan');
+        navigate('/', { replace: true });
+      }
+    }
+  }, [user, loading, navigate, handleOpenApply]);
+
+  return <PageLoader />;
+};
+
 function App() {
   const [applyModalOpen, setApplyModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState('personal_loan');
@@ -58,6 +81,10 @@ function App() {
             <Route path="/track-status" element={<TrackStatusPage />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+
+            {/* Direct Apply Protected Routes */}
+            <Route path="/apply" element={<ProtectedApplyRoute handleOpenApply={handleOpenApply} />} />
+            <Route path="/apply-loan" element={<ProtectedApplyRoute handleOpenApply={handleOpenApply} />} />
 
             {/* User Auth */}
             <Route path="/login" element={<LoginPage />} />
@@ -85,4 +112,3 @@ function App() {
 }
 
 export default App;
-

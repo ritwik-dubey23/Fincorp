@@ -32,7 +32,10 @@ export const register = async (req, res) => {
       return res.status(400).json({ success: false, message: 'All mandatory fields are required' });
     }
 
-    if (!/^[6-9]\d{9}$/.test(mobile)) {
+    const cleanEmail = email.toLowerCase().trim();
+    const cleanMobile = mobile.trim();
+
+    if (!/^[6-9]\d{9}$/.test(cleanMobile)) {
       return res.status(400).json({ success: false, message: 'Please enter a valid 10-digit Indian mobile number' });
     }
 
@@ -44,14 +47,14 @@ export const register = async (req, res) => {
 
     if (mongoose.connection.readyState === 1) {
       try {
-        const userExists = await User.findOne({ $or: [{ email }, { mobile }] });
+        const userExists = await User.findOne({ $or: [{ email: cleanEmail }, { mobile: cleanMobile }] });
         if (userExists) {
           return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
         }
         user = await User.create({
-          name,
-          email,
-          mobile,
+          name: name.trim(),
+          email: cleanEmail,
+          mobile: cleanMobile,
           password: hashedPassword,
           role: userRole,
         });
@@ -61,15 +64,15 @@ export const register = async (req, res) => {
     }
 
     if (!user) {
-      const existingMem = memoryUsers.find((u) => u.email === email || u.mobile === mobile);
+      const existingMem = memoryUsers.find((u) => u.email === cleanEmail || u.mobile === cleanMobile);
       if (existingMem) {
         return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
       }
       user = {
         _id: Date.now().toString(),
-        name,
-        email,
-        mobile,
+        name: name.trim(),
+        email: cleanEmail,
+        mobile: cleanMobile,
         password: hashedPassword,
         role: userRole,
       };
@@ -83,6 +86,7 @@ export const register = async (req, res) => {
 
     res.status(201).json({
       success: true,
+      message: 'Congratulations! Your account has been created successfully.',
       token,
       user: {
         id: user._id,
@@ -105,22 +109,23 @@ export const login = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please provide both email and password' });
     }
 
+    const cleanEmail = email.toLowerCase().trim();
     let user = null;
 
     if (mongoose.connection.readyState === 1) {
       try {
-        user = await User.findOne({ email });
+        user = await User.findOne({ email: cleanEmail });
       } catch (dbErr) {
         console.warn('[DB Fallback Login]');
       }
     }
 
     if (!user) {
-      user = memoryUsers.find((u) => u.email === email);
+      user = memoryUsers.find((u) => u.email === cleanEmail);
     }
 
     // Default admin fallback if logging into admin account
-    if (!user && email === 'admin@fincorp.com' && password === 'admin123') {
+    if (!user && cleanEmail === 'admin@fincorp.com' && password === 'admin123') {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash('admin123', salt);
       user = {
@@ -149,6 +154,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      message: 'Congratulations! You have logged in successfully.',
       token,
       user: {
         id: user._id,
