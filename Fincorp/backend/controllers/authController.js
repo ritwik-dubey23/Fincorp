@@ -228,17 +228,24 @@ export const sendForgotPasswordOtp = async (req, res) => {
       createdAt: now,
     });
 
-    await sendOtpEmail({
+    console.log(`🔑 [FORGOT PASSWORD OTP GENERATED] Email: ${cleanEmail} | OTP: ${generatedOtp}`);
+
+    const mailResult = await sendOtpEmail({
       to: cleanEmail,
       otp: generatedOtp,
       expiryMinutes: 5,
       purpose: 'Password Reset',
     });
 
+    const isEmailSent = mailResult && mailResult.success;
+    const isMock = mailResult && mailResult.mock;
+
     res.status(200).json({
       success: true,
-      message: `OTP sent successfully to ${cleanEmail}`,
-      otpPreview: process.env.NODE_ENV !== 'production' ? generatedOtp : undefined,
+      message: isEmailSent && !isMock
+        ? `OTP sent successfully to ${cleanEmail}`
+        : `OTP generated for ${cleanEmail}.${!isEmailSent ? ' (SMTP email failed - check Gmail App Password credentials)' : ''}`,
+      otpPreview: (!isEmailSent || isMock || process.env.NODE_ENV !== 'production') ? generatedOtp : undefined,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message || 'Failed to send password reset OTP' });

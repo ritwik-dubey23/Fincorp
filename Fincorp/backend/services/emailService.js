@@ -31,6 +31,7 @@ export const sendEmail = async ({ to, subject, html, text }) => {
       return { success: true, messageId: info.messageId };
     } catch (err) {
       console.error(`[Email Transport Error]: ${err.message}`);
+      return { success: false, error: err.message };
     }
   }
 
