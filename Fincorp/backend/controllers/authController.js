@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import User from '../models/User.js';
-import { sendWelcomeEmail, sendLoginNotificationEmail } from '../services/emailService.js';
+import { sendWelcomeEmail, sendLoginNotificationEmail, sendOtpEmail } from '../services/emailService.js';
 
 // Fallback in-memory users for offline DB
 const memoryUsers = [];
@@ -181,3 +181,162 @@ export const logout = async (req, res) => {
   });
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 };
+
+// In-memory OTP store for password reset
+const forgotPasswordOtps = new Map();
+
+export const sendForgotPasswordOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email address is required' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    let user = null;
+
+    if (mongoose.connection.readyState === 1) {
+      try {
+        user = await User.findOne({ email: cleanEmail });
+      } catch (dbErr) {
+        console.warn('[DB Lookup Warning on sendForgotPasswordOtp]');
+      }
+    }
+
+    if (!user) {
+      user = memoryUsers.find((u) => u.email.toLowerCase() === cleanEmail);
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'No registered account found with this email address.' });
+    }
+
+    const now = Date.now();
+    const existingOtp = forgotPasswordOtps.get(cleanEmail);
+    if (existingOtp && now - existingOtp.createdAt < 60 * 1000) {
+      return res.status(429).json({ success: false, message: 'Please wait 60 seconds before requesting a new OTP' });
+    }
+
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = now + 5 * 60 * 1000; // 5 mins
+
+    forgotPasswordOtps.set(cleanEmail, {
+      otp: generatedOtp,
+      expiresAt,
+      attempts: 0,
+      isVerified: false,
+      createdAt: now,
+    });
+
+    await sendOtpEmail({
+      to: cleanEmail,
+      otp: generatedOtp,
+      expiryMinutes: 5,
+      purpose: 'Password Reset',
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `OTP sent successfully to ${cleanEmail}`,
+      otpPreview: process.env.NODE_ENV !== 'production' ? generatedOtp : undefined,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message || 'Failed to send password reset OTP' });
+  }
+};
+
+export const verifyForgotPasswordOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({ success: false, message: 'Email and OTP are required' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const otpRecord = forgotPasswordOtps.get(cleanEmail);
+
+    if (!otpRecord) {
+      return res.status(400).json({ success: false, message: 'OTP expired or not requested. Please request a new OTP.' });
+    }
+
+    if (Date.now() > otpRecord.expiresAt) {
+      forgotPasswordOtps.delete(cleanEmail);
+      return res.status(400).json({ success: false, message: 'OTP has expired. Please request a new OTP.' });
+    }
+
+    if (otpRecord.attempts >= 5) {
+      forgotPasswordOtps.delete(cleanEmail);
+      return res.status(400).json({ success: false, message: 'Too many invalid attempts. Please request a new OTP.' });
+    }
+
+    if (otpRecord.otp !== otp.toString().trim()) {
+      otpRecord.attempts += 1;
+      return res.status(400).json({ success: false, message: 'Invalid OTP. Please check the code sent to your email.' });
+    }
+
+    otpRecord.isVerified = true;
+    forgotPasswordOtps.set(cleanEmail, otpRecord);
+
+    res.status(200).json({ success: true, message: 'OTP verified successfully! Please enter your new password.' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message || 'OTP verification failed' });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Email, OTP, and new password are required' });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const otpRecord = forgotPasswordOtps.get(cleanEmail);
+
+    if (!otpRecord || !otpRecord.isVerified || otpRecord.otp !== otp.toString().trim()) {
+      return res.status(400).json({ success: false, message: 'Session expired or unverified OTP. Please verify OTP first.' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    let updated = false;
+
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const user = await User.findOne({ email: cleanEmail });
+        if (user) {
+          user.password = hashedPassword;
+          await user.save();
+          updated = true;
+        }
+      } catch (dbErr) {
+        console.warn('[DB Update Warning on resetPassword]');
+      }
+    }
+
+    const memUser = memoryUsers.find((u) => u.email.toLowerCase() === cleanEmail);
+    if (memUser) {
+      memUser.password = hashedPassword;
+      updated = true;
+    }
+
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'User account not found' });
+    }
+
+    forgotPasswordOtps.delete(cleanEmail);
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully! You can now log in with your new password.',
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message || 'Failed to reset password' });
+  }
+};
+

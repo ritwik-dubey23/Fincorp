@@ -64,3 +64,38 @@ export const sendLoginNotificationEmail = async (user) => {
   `;
   return sendEmail({ to: user.email, subject, html, text: `New login to your Fincorp account at ${new Date().toLocaleString()}` });
 };
+
+export const sendOtpEmail = async ({ to, otp, expiryMinutes = 5, purpose = 'Password Reset' }) => {
+  const subject = `[Fincorp] ${otp} is your ${purpose} OTP Verification Code`;
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 520px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px; color: #1e293b;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="display: inline-block; background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #ffffff; padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 20px; tracking: 1px;">
+          FINCORP
+        </div>
+      </div>
+      <h2 style="color: #0f172a; font-size: 20px; font-weight: 700; margin-bottom: 12px; text-align: center;">${purpose} Verification Code</h2>
+      <p style="font-size: 14px; color: #475569; text-align: center; margin-bottom: 24px; line-height: 1.5;">
+        Use the One-Time Password (OTP) below to complete your ${purpose.toLowerCase()} request. Do not share this code with anyone.
+      </p>
+      <div style="background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 24px;">
+        <span style="font-family: monospace; font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #1e40af;">${otp}</span>
+      </div>
+      <p style="font-size: 13px; color: #64748b; text-align: center; margin-bottom: 24px;">
+        ⏱️ This code will expire in <strong>${expiryMinutes} minutes</strong>.
+      </p>
+      <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; font-size: 11px; color: #94a3b8; text-align: center;">
+        If you did not request this OTP, please ignore this email or contact support.
+        <br/><br/>
+        © ${new Date().getFullYear()} FINCORP FINANCIAL SERVICES LIMITED • Visakhapatnam, AP, India
+      </div>
+    </div>
+  `;
+  return sendEmail({
+    to,
+    subject,
+    html,
+    text: `Your Fincorp ${purpose} OTP code is ${otp}. Valid for ${expiryMinutes} minutes.`
+  });
+};
+
