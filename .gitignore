@@ -15,6 +15,15 @@ dist/
 build/
 **/build/
 
+# Reference Videos, Screenshots & Demos
+ref/
+**/ref/
+*.png
+*.jpg
+*.jpeg
+*.mp4
+Screenshot*
+
 # Logs
 *.log
 npm-debug.log*
