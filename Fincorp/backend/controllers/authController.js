@@ -8,20 +8,29 @@ import { sendWelcomeEmail, sendLoginNotificationEmail, sendOtpEmail } from '../s
 const memoryUsers = [];
 
 const generateToken = (res, userId, role) => {
-  const token = jwt.sign(
-    { id: userId, role },
-    process.env.JWT_SECRET || 'fincorp_super_secret_jwt_key_2026_finance',
-    { expiresIn: '7d' }
-  );
+  try {
+    const token = jwt.sign(
+      { id: userId, role },
+      process.env.JWT_SECRET || 'fincorp_super_secret_jwt_key_2026_finance',
+      { expiresIn: '7d' }
+    );
 
-  res.cookie('token', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
-  return token;
+    return token;
+  } catch (err) {
+    console.error('[Token Generation Error]:', err.message);
+    return jwt.sign(
+      { id: userId, role },
+      process.env.JWT_SECRET || 'fincorp_super_secret_jwt_key_2026_finance',
+      { expiresIn: '7d' }
+    );
+  }
 };
 
 export const register = async (req, res) => {
@@ -39,13 +48,23 @@ export const register = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please enter a valid 10-digit Indian mobile number' });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' });
+    }
+
+    // Check memory users first
+    const existingMem = memoryUsers.find((u) => u.email === cleanEmail || u.mobile === cleanMobile);
+    if (existingMem) {
+      return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const userRole = role === 'admin' ? 'admin' : 'user';
 
     let user = null;
 
-    if (mongoose.connection.readyState === 1) {
+    if (mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
       try {
         const userExists = await User.findOne({ $or: [{ email: cleanEmail }, { mobile: cleanMobile }] });
         if (userExists) {
@@ -59,15 +78,14 @@ export const register = async (req, res) => {
           role: userRole,
         });
       } catch (dbErr) {
-        console.warn('[DB Fallback Register]');
+        console.warn('[DB Register Warning]:', dbErr.message);
+        if (dbErr.code === 11000 || dbErr.message?.includes('duplicate key')) {
+          return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
+        }
       }
     }
 
     if (!user) {
-      const existingMem = memoryUsers.find((u) => u.email === cleanEmail || u.mobile === cleanMobile);
-      if (existingMem) {
-        return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
-      }
       user = {
         _id: Date.now().toString(),
         name: name.trim(),
@@ -81,10 +99,10 @@ export const register = async (req, res) => {
 
     const token = generateToken(res, user._id, user.role);
 
-    // Send Welcome Email
-    sendWelcomeEmail(user).catch((err) => console.error(err));
+    // Send Welcome Email asynchronously
+    sendWelcomeEmail(user).catch((err) => console.error('[Welcome Email Error]:', err.message));
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Congratulations! Your account has been created successfully.',
       token,
@@ -97,7 +115,8 @@ export const register = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message || 'Registration failed' });
+    console.error('[Registration Handler Error]:', error);
+    return res.status(500).json({ success: false, message: error.message || 'Registration failed' });
   }
 };
 
