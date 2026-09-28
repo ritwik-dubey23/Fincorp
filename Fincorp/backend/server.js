@@ -76,14 +76,20 @@ const initAdmin = async () => {
 };
 initAdmin();
 
-// Routes
+// Primary API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/otp', otpRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/admin', adminRoutes);
 
+// Fallback Route Aliases (Handles requests without /api prefix)
+app.use('/auth', authRoutes);
+app.use('/otp', otpRoutes);
+app.use('/applications', applicationRoutes);
+app.use('/admin', adminRoutes);
+
 // Base Health Check
-app.get('/api/health', (req, res) => {
+app.get(['/api/health', '/health'], (req, res) => {
   res.status(200).json({ success: true, message: 'Fincorp Backend API is running smoothly', time: new Date() });
 });
 
