@@ -1,9 +1,6 @@
 import mongoose from 'mongoose';
 import dns from 'dns';
 
-// Disable Mongoose command buffering so queries fail-fast instead of timing out after 10000ms
-mongoose.set('bufferCommands', false);
-
 // Fix DNS SRV lookup issues on Windows Node.js for MongoDB Atlas
 try {
   dns.setDefaultResultOrder('ipv4first');
@@ -12,15 +9,35 @@ try {
   console.log('[DNS Config]: Using system default DNS');
 }
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 3000, // 3s timeout for Atlas connection
-    });
-    console.log(`[MongoDB Connected]: ${conn.connection.host} | Database: ${conn.connection.name}`);
-  } catch (error) {
-    console.warn(`[MongoDB Warning]: Atlas cluster unreachable (${error.message}). Operating seamlessly with in-memory fallback.`);
+let connectionPromise = null;
+
+export const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
   }
+
+  if (connectionPromise) {
+    return connectionPromise;
+  }
+
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    console.error('[MongoDB Error]: MONGODB_URI environment variable is not defined.');
+    throw new Error('MONGODB_URI is not set in environment variables');
+  }
+
+  connectionPromise = mongoose.connect(uri, {
+    serverSelectionTimeoutMS: 10000,
+  }).then((conn) => {
+    console.log(`[MongoDB Connected]: ${conn.connection.host} | Database: ${conn.connection.name}`);
+    return conn.connection;
+  }).catch((err) => {
+    connectionPromise = null;
+    console.error(`[MongoDB Connection Error]: ${err.message}`);
+    throw err;
+  });
+
+  return connectionPromise;
 };
 
 export default connectDB;

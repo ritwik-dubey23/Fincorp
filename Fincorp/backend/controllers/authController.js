@@ -2,18 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import User from '../models/User.js';
+import connectDB from '../config/db.js';
 import { sendWelcomeEmail, sendLoginNotificationEmail, sendOtpEmail } from '../services/emailService.js';
-
-const ensureDbConnection = async () => {
-  if (mongoose.connection.readyState !== 1 && process.env.MONGODB_URI) {
-    try {
-      await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
-      console.log('[MongoDB Reconnected Successfully]');
-    } catch (connErr) {
-      console.error('[MongoDB Reconnect Error]:', connErr.message);
-    }
-  }
-};
 
 const generateToken = (res, userId, role) => {
   try {
@@ -60,7 +50,7 @@ export const register = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' });
     }
 
-    await ensureDbConnection();
+    await connectDB();
 
     const existingUser = await User.findOne({
       $or: [{ email: cleanEmail }, { mobile: cleanMobile }],
@@ -122,7 +112,7 @@ export const login = async (req, res) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    await ensureDbConnection();
+    await connectDB();
 
     let user = await User.findOne({ email: cleanEmail });
 
@@ -202,7 +192,7 @@ export const sendForgotPasswordOtp = async (req, res) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    await ensureDbConnection();
+    await connectDB();
 
     const user = await User.findOne({ email: cleanEmail });
 
@@ -307,7 +297,7 @@ export const resetPassword = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Session expired or unverified OTP. Please verify OTP first.' });
     }
 
-    await ensureDbConnection();
+    await connectDB();
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);

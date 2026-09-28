@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import User from '../models/User.js';
+import connectDB from '../config/db.js';
 
 export const protect = async (req, res, next) => {
   let token = null;
@@ -18,13 +19,7 @@ export const protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fincorp_super_secret_jwt_key_2026_finance');
     
-    if (mongoose.connection.readyState !== 1 && process.env.MONGODB_URI) {
-      try {
-        await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
-      } catch (connErr) {
-        console.error('[MongoDB Reconnect Warning in protect]:', connErr.message);
-      }
-    }
+    await connectDB();
 
     let user = null;
     if (decoded.id && mongoose.Types.ObjectId.isValid(decoded.id)) {

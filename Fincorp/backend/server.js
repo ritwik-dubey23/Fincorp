@@ -19,7 +19,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Connect to MongoDB
-connectDB();
+connectDB().catch((err) => console.error('[Startup DB Warning]:', err.message));
 
 // Middleware
 app.use(
@@ -54,21 +54,20 @@ app.use('/uploads', express.static(uploadDir));
 // Seed Default Admin User if DB connected
 const initAdmin = async () => {
   try {
-    if (mongoose.connection.readyState === 1) {
-      const adminExists = await User.findOne({ role: 'admin' });
-      if (!adminExists) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash('admin123', salt);
-        await User.create({
-          name: 'Fincorp Administrator',
-          email: 'admin@fincorp.com',
-          mobile: '9876543210',
-          password: hashedPassword,
-          role: 'admin',
-          isMobileVerified: true,
-        });
-        console.log('[System]: Created default Admin account: admin@fincorp.com / admin123');
-      }
+    await connectDB();
+    const adminExists = await User.findOne({ role: 'admin' });
+    if (!adminExists) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash('admin123', salt);
+      await User.create({
+        name: 'Fincorp Administrator',
+        email: 'admin@fincorp.com',
+        mobile: '9876543210',
+        password: hashedPassword,
+        role: 'admin',
+        isMobileVerified: true,
+      });
+      console.log('[System]: Created default Admin account: admin@fincorp.com / admin123');
     }
   } catch (err) {
     console.warn('[Admin Init Warning]:', err.message);
