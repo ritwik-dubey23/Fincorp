@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { ShieldCheck, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { ShieldCheck, Lock, ArrowRight, Eye, EyeOff, CheckCircle2, AlertCircle, X } from 'lucide-react';
 
 const AdminLoginPage = () => {
   const [email, setEmail] = useState('admin@fincorp.com');
@@ -9,31 +9,67 @@ const AdminLoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setMessage('');
     setLoading(true);
     try {
       const data = await login(email, password);
       if (data.success) {
-        if (data.user.role === 'admin') {
-          navigate('/admin/dashboard');
+        if (data.user?.role === 'admin') {
+          setMessage('Congratulations! You have logged in successfully.');
+          setTimeout(() => {
+            navigate('/admin/dashboard');
+          }, 1000);
         } else {
           setError('Access denied: You do not have administrator permissions.');
         }
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Admin authentication failed.');
+      setError(err.response?.data?.message || 'Admin authentication failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-900">
+    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-900 relative">
+      
+      {/* TOP-CENTER FLOATING POPUP / TOAST FOR ERRORS & SUCCESS */}
+      {(error || message) && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[200] max-w-md w-11/12 animate-in slide-in-from-top-4 duration-200">
+          <div className={`p-4 rounded-2xl shadow-2xl border backdrop-blur-md flex items-start justify-between gap-3 ${
+            error
+              ? 'bg-red-950/95 border-red-800 text-red-100'
+              : 'bg-emerald-950/95 border-emerald-800 text-emerald-100'
+          }`}>
+            <div className="flex items-start gap-3">
+              {error ? (
+                <AlertCircle className="w-6 h-6 text-red-400 shrink-0 mt-0.5" />
+              ) : (
+                <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0 mt-0.5" />
+              )}
+              <div className="space-y-1 text-xs">
+                <p className="font-extrabold text-sm">{error ? 'Admin Authentication Error' : 'Success'}</p>
+                <p className="leading-relaxed">{error || message}</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => { setError(''); setMessage(''); }}
+              className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-md w-full bg-slate-950 border border-slate-800 rounded-3xl p-8 shadow-2xl space-y-6 text-white">
         
         <div className="text-center space-y-2">
@@ -43,8 +79,6 @@ const AdminLoginPage = () => {
           <h2 className="text-2xl font-black tracking-tight">Fincorp Admin Portal</h2>
           <p className="text-xs text-slate-400">Restricted Administration & Lead Management Console</p>
         </div>
-
-        {error && <div className="p-3 bg-red-950/80 border border-red-800 text-red-300 text-xs font-medium rounded-xl">⚠️ {error}</div>}
 
         <div className="p-3 bg-blue-950/50 border border-blue-800/50 rounded-xl text-[11px] text-blue-300 space-y-1">
           <p className="font-bold">Default Admin Credentials:</p>
