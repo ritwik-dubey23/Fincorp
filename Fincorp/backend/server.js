@@ -82,16 +82,34 @@ app.use('/api/otp', otpRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Fallback Route Aliases (Handles requests without /api prefix)
+// Fallback Route Aliases (Handles API requests without /api prefix)
 app.use('/auth', authRoutes);
 app.use('/otp', otpRoutes);
 app.use('/applications', applicationRoutes);
-app.use('/admin', adminRoutes);
 
 // Base Health Check
 app.get(['/api/health', '/health'], (req, res) => {
   res.status(200).json({ success: true, message: 'Fincorp Backend API is running smoothly', time: new Date() });
 });
+
+// Serve Frontend Static Production Build (SPA Fallback for refresh issues)
+const frontendDistPath = path.join(process.cwd(), '../frontend/dist');
+const altFrontendDistPath = path.join(process.cwd(), 'frontend/dist');
+const resolvedDist = fs.existsSync(frontendDistPath)
+  ? frontendDistPath
+  : fs.existsSync(altFrontendDistPath)
+  ? altFrontendDistPath
+  : null;
+
+if (resolvedDist) {
+  app.use(express.static(resolvedDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/auth') || req.path.startsWith('/otp') || req.path.startsWith('/applications') || req.path.startsWith('/uploads')) {
+      return next();
+    }
+    res.sendFile(path.join(resolvedDist, 'index.html'));
+  });
+}
 
 // Global Error Handler
 app.use((err, req, res, next) => {

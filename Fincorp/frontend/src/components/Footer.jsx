@@ -21,7 +21,7 @@ const Footer = ({ onOpenApply }) => {
   };
 
   return (
-    <footer className="bg-slate-950 text-slate-300 relative pt-16 pb-28 lg:pb-16 border-t border-slate-900">
+    <footer className="bg-slate-950 text-slate-300 relative pt-16 pb-28 lg:pb-16 border-t border-slate-900 font-['Urbanist',sans-serif]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Upper Grid */}
@@ -29,31 +29,31 @@ const Footer = ({ onOpenApply }) => {
           
           {/* Col 1: Brand & Contact Info */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
+            <Link to="/" className="inline-flex items-center gap-2.5 group">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center group-hover:scale-105 transition transform duration-200">
                 <ShieldCheck className="w-6 h-6 text-white" />
               </div>
               <span className="text-2xl font-extrabold tracking-tight text-white">
                 FIN<span className="text-blue-500">CORP</span>
               </span>
-            </div>
+            </Link>
 
             <p className="text-sm text-slate-400 leading-relaxed max-w-md">
               Fincorp helps you navigate lending with clarity and confidence for greater financial progress. We offer smart loan comparison, instant eligibility checks, and zero application fees.
             </p>
 
-            <div className="space-y-2 text-sm text-slate-400">
+            <div className="space-y-2.5 text-sm text-slate-400">
               <div className="flex items-center gap-3">
-                <MapPin className="w-4 h-4 text-blue-500" />
+                <MapPin className="w-4 h-4 text-blue-500 shrink-0" />
                 <span>Financial District, Visakhapatnam, AP, India</span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-blue-500" />
-                <a href="tel:+919154297990" className="hover:text-white transition">+91 91542 97990</a>
+                <Phone className="w-4 h-4 text-blue-500 shrink-0" />
+                <a href="tel:+919154297990" className="hover:text-white transition font-medium">+91 91542 97990</a>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-blue-500" />
-                <a href="mailto:supportmaharajji@gmail.com" className="hover:text-white transition">supportmaharajji@gmail.com</a>
+                <Mail className="w-4 h-4 text-blue-500 shrink-0" />
+                <a href="mailto:supportmaharajji@gmail.com" className="hover:text-white transition font-medium">supportmaharajji@gmail.com</a>
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ const Footer = ({ onOpenApply }) => {
                 />
                 <button
                   type="submit"
-                  className="absolute right-1.5 top-1.5 bottom-1.5 px-5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex items-center gap-1.5"
+                  className="absolute right-1.5 top-1.5 bottom-1.5 px-5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>Subscribe</span>
                   <Send className="w-3.5 h-3.5" />
@@ -91,7 +91,7 @@ const Footer = ({ onOpenApply }) => {
             </form>
           </div>
 
-          {/* Col 3: Exact Reference Speedometer Card */}
+          {/* Col 3: Speedometer Gauge Card */}
           <div className="lg:col-span-3">
             <SpeedometerGauge />
           </div>
@@ -101,39 +101,44 @@ const Footer = ({ onOpenApply }) => {
         {/* Lower Links Section */}
         <div className="py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-xs text-slate-400 border-b border-slate-900">
           <div>
-            <h4 className="font-bold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">Loan Products</h4>
-            <ul className="space-y-2">
-              <li><Link to="/personal-loan" className="hover:text-white transition">Personal Loan</Link></li>
-              <li><Link to="/business-loan" className="hover:text-white transition">Business Loan</Link></li>
-              <li><Link to="/credit-card" className="hover:text-white transition">Credit Cards</Link></li>
-              <li><Link to="/credit-score" className="hover:text-white transition">Credit Score</Link></li>
+            <h4 className="font-extrabold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">Loan Products</h4>
+            <ul className="space-y-2.5 font-medium">
+              <li><Link to="/personal-loan" className="hover:text-blue-400 transition cursor-pointer">Personal Loan</Link></li>
+              <li><Link to="/business-loan" className="hover:text-blue-400 transition cursor-pointer">Business Loan</Link></li>
+              <li><Link to="/credit-card" className="hover:text-blue-400 transition cursor-pointer">Credit Cards</Link></li>
+              <li><Link to="/credit-score" className="hover:text-blue-400 transition cursor-pointer">Credit Score</Link></li>
             </ul>
           </div>
+
           <div>
-            <h4 className="font-bold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">Financial Tools</h4>
-            <ul className="space-y-2">
-              <li><Link to="/tools" className="hover:text-white transition">EMI Calculator</Link></li>
-              <li><Link to="/tools" className="hover:text-white transition">Loan Eligibility Checker</Link></li>
-              <li><Link to="/tools" className="hover:text-white transition">IFSC Code Finder</Link></li>
-              <li><Link to="/tools" className="hover:text-white transition">Gold Rate Trends</Link></li>
+            <h4 className="font-extrabold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">Financial Tools</h4>
+            <ul className="space-y-2.5 font-medium">
+              <li><Link to="/tools" className="hover:text-blue-400 transition cursor-pointer">EMI Calculator</Link></li>
+              <li><Link to="/tools" className="hover:text-blue-400 transition cursor-pointer">Loan Eligibility Checker</Link></li>
+              <li><Link to="/tools" className="hover:text-blue-400 transition cursor-pointer">IFSC Code Finder</Link></li>
+              <li><Link to="/tools" className="hover:text-blue-400 transition cursor-pointer">Gold Rate Trends</Link></li>
             </ul>
           </div>
+
           <div>
-            <h4 className="font-bold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">Governance & Policy</h4>
-            <ul className="space-y-2">
-              <li><a href="#lenders" className="hover:text-white transition">Our Lending Partners</a></li>
-              <li><a href="#grievance" className="hover:text-white transition">Grievance Policy</a></li>
-              <li><a href="#redressal" className="hover:text-white transition">Grievance Redressal</a></li>
-              <li><Link to="/privacy" className="hover:text-white transition">Privacy Policy</Link></li>
+            <h4 className="font-extrabold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">Governance & Policy</h4>
+            <ul className="space-y-2.5 font-medium">
+              <li><Link to="/lenders" className="hover:text-blue-400 transition cursor-pointer">Our Lending Partners</Link></li>
+              <li><Link to="/grievance" className="hover:text-blue-400 transition cursor-pointer">Grievance Policy</Link></li>
+              <li><Link to="/grievance" className="hover:text-blue-400 transition cursor-pointer">Grievance Redressal</Link></li>
+              <li><Link to="/privacy" className="hover:text-blue-400 transition cursor-pointer">Privacy Policy</Link></li>
             </ul>
           </div>
+
           <div>
-            <h4 className="font-bold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">Terms & Support</h4>
-            <ul className="space-y-2">
-              <li><Link to="/terms" className="hover:text-white transition">Terms & Conditions</Link></li>
-              <li><Link to="/terms" className="hover:text-white transition">Disclaimer</Link></li>
-              <li><Link to="/track-status" className="hover:text-white transition">Track Application</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition">Contact Us</Link></li>
+            <h4 className="font-extrabold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">Company & Support</h4>
+            <ul className="space-y-2.5 font-medium">
+              <li><Link to="/customers" className="hover:text-blue-400 transition cursor-pointer">Customers & Reviews</Link></li>
+              <li><Link to="/about" className="hover:text-blue-400 transition cursor-pointer">About Us</Link></li>
+              <li><Link to="/terms" className="hover:text-blue-400 transition cursor-pointer">Terms & Conditions</Link></li>
+              <li><Link to="/disclaimer" className="hover:text-blue-400 transition cursor-pointer">Disclaimer</Link></li>
+              <li><Link to="/track-status" className="hover:text-blue-400 transition cursor-pointer">Track Application</Link></li>
+              <li><Link to="/contact" className="hover:text-blue-400 transition cursor-pointer">Contact Us</Link></li>
             </ul>
           </div>
         </div>
@@ -141,10 +146,13 @@ const Footer = ({ onOpenApply }) => {
         {/* Bottom Copyright */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p>© {new Date().getFullYear()} FINCORP FINANCIAL SERVICES LIMITED. All Rights Reserved.</p>
-          <div className="flex items-center gap-4">
-            <Link to="/privacy" className="hover:text-slate-400">Privacy</Link>
-            <Link to="/terms" className="hover:text-slate-400">Terms</Link>
-            <button onClick={scrollToTop} className="p-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white transition">
+          <div className="flex items-center gap-4 font-medium">
+            <Link to="/customers" className="hover:text-slate-300 transition">Customers</Link>
+            <Link to="/about" className="hover:text-slate-300 transition">About</Link>
+            <Link to="/privacy" className="hover:text-slate-300 transition">Privacy</Link>
+            <Link to="/terms" className="hover:text-slate-300 transition">Terms</Link>
+            <Link to="/contact" className="hover:text-slate-300 transition">Contact</Link>
+            <button onClick={scrollToTop} aria-label="Back to top" className="p-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white transition cursor-pointer">
               <ArrowUp className="w-4 h-4" />
             </button>
           </div>
@@ -165,14 +173,14 @@ const Footer = ({ onOpenApply }) => {
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={onOpenApply}
-            className="px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-purple-900 font-bold text-xs shadow-md transition transform active:scale-95"
+            onClick={() => onOpenApply && onOpenApply('personal_loan')}
+            className="px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-purple-900 font-bold text-xs shadow-md transition transform active:scale-95 cursor-pointer"
           >
             Apply Now
           </button>
           <button
             onClick={scrollToTop}
-            className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition"
+            className="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition cursor-pointer"
           >
             <ArrowUp className="w-4 h-4" />
           </button>

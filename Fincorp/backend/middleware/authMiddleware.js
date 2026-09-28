@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import User from '../models/User.js';
 
 export const protect = async (req, res, next) => {
@@ -17,21 +18,25 @@ export const protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fincorp_super_secret_jwt_key_2026_finance');
     
+    if (mongoose.connection.readyState !== 1 && process.env.MONGODB_URI) {
+      try {
+        await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
+      } catch (connErr) {
+        console.error('[MongoDB Reconnect Warning in protect]:', connErr.message);
+      }
+    }
+
     let user = null;
-    try {
-      user = await User.findById(decoded.id).select('-password');
-    } catch (dbErr) {
-      console.warn('[DB Auth Fallback]');
+    if (decoded.id && mongoose.Types.ObjectId.isValid(decoded.id)) {
+      try {
+        user = await User.findById(decoded.id).select('-password');
+      } catch (dbErr) {
+        console.warn('[DB Lookup Error in protect]:', dbErr.message);
+      }
     }
 
     if (!user) {
-      // Fallback user object if DB offline or user logged in via fallback
-      user = {
-        _id: decoded.id,
-        name: decoded.role === 'admin' ? 'Fincorp Administrator' : 'Fincorp User',
-        email: decoded.role === 'admin' ? 'admin@fincorp.com' : 'user@fincorp.com',
-        role: decoded.role || 'user',
-      };
+      return res.status(401).json({ success: false, message: 'Session expired or user not found. Please log in again.' });
     }
 
     req.user = user;

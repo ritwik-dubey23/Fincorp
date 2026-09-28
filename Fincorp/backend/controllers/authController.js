@@ -4,8 +4,16 @@ import mongoose from 'mongoose';
 import User from '../models/User.js';
 import { sendWelcomeEmail, sendLoginNotificationEmail, sendOtpEmail } from '../services/emailService.js';
 
-// Fallback in-memory users for offline DB
-const memoryUsers = [];
+const ensureDbConnection = async () => {
+  if (mongoose.connection.readyState !== 1 && process.env.MONGODB_URI) {
+    try {
+      await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
+      console.log('[MongoDB Reconnected Successfully]');
+    } catch (connErr) {
+      console.error('[MongoDB Reconnect Error]:', connErr.message);
+    }
+  }
+};
 
 const generateToken = (res, userId, role) => {
   try {
@@ -52,50 +60,32 @@ export const register = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' });
     }
 
-    // Check memory users first
-    const existingMem = memoryUsers.find((u) => u.email === cleanEmail || u.mobile === cleanMobile);
-    if (existingMem) {
-      return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
+    await ensureDbConnection();
+
+    const existingUser = await User.findOne({
+      $or: [{ email: cleanEmail }, { mobile: cleanMobile }],
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: existingUser.email === cleanEmail
+          ? 'User with this email already exists'
+          : 'User with this mobile number already exists',
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const userRole = role === 'admin' ? 'admin' : 'user';
 
-    let user = null;
-
-    if (mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
-      try {
-        const userExists = await User.findOne({ $or: [{ email: cleanEmail }, { mobile: cleanMobile }] });
-        if (userExists) {
-          return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
-        }
-        user = await User.create({
-          name: name.trim(),
-          email: cleanEmail,
-          mobile: cleanMobile,
-          password: hashedPassword,
-          role: userRole,
-        });
-      } catch (dbErr) {
-        console.warn('[DB Register Warning]:', dbErr.message);
-        if (dbErr.code === 11000 || dbErr.message?.includes('duplicate key')) {
-          return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
-        }
-      }
-    }
-
-    if (!user) {
-      user = {
-        _id: Date.now().toString(),
-        name: name.trim(),
-        email: cleanEmail,
-        mobile: cleanMobile,
-        password: hashedPassword,
-        role: userRole,
-      };
-      memoryUsers.push(user);
-    }
+    const user = await User.create({
+      name: name.trim(),
+      email: cleanEmail,
+      mobile: cleanMobile,
+      password: hashedPassword,
+      role: userRole,
+    });
 
     const token = generateToken(res, user._id, user.role);
 
@@ -116,6 +106,9 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     console.error('[Registration Handler Error]:', error);
+    if (error.code === 11000 || error.message?.includes('duplicate key')) {
+      return res.status(400).json({ success: false, message: 'User with this email or mobile already exists' });
+    }
     return res.status(500).json({ success: false, message: error.message || 'Registration failed' });
   }
 };
@@ -129,32 +122,22 @@ export const login = async (req, res) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    let user = null;
+    await ensureDbConnection();
 
-    if (mongoose.connection.readyState === 1) {
-      try {
-        user = await User.findOne({ email: cleanEmail });
-      } catch (dbErr) {
-        console.warn('[DB Fallback Login]');
-      }
-    }
+    let user = await User.findOne({ email: cleanEmail });
 
-    if (!user) {
-      user = memoryUsers.find((u) => u.email === cleanEmail);
-    }
-
-    // Default admin fallback if logging into admin account
+    // Seed default admin if logging in with admin credentials and not in DB
     if (!user && cleanEmail === 'admin@fincorp.com' && password === 'admin123') {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash('admin123', salt);
-      user = {
-        _id: 'admin-default-id',
+      user = await User.create({
         name: 'Fincorp Administrator',
         email: 'admin@fincorp.com',
         mobile: '9876543210',
         password: hashedPassword,
         role: 'admin',
-      };
+        isMobileVerified: true,
+      });
     }
 
     if (!user) {
@@ -168,10 +151,10 @@ export const login = async (req, res) => {
 
     const token = generateToken(res, user._id, user.role);
 
-    // Send Login Notification Email
-    sendLoginNotificationEmail(user).catch((err) => console.error(err));
+    // Send Login Notification Email asynchronously
+    sendLoginNotificationEmail(user).catch((err) => console.error('[Login Email Error]:', err.message));
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Congratulations! You have logged in successfully.',
       token,
@@ -184,18 +167,19 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message || 'Login failed' });
+    console.error('[Login Handler Error]:', error);
+    return res.status(500).json({ success: false, message: error.message || 'Login failed' });
   }
 };
 
 export const getMe = async (req, res) => {
   try {
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       user: req.user,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -204,7 +188,7 @@ export const logout = async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
   });
-  res.status(200).json({ success: true, message: 'Logged out successfully' });
+  return res.status(200).json({ success: true, message: 'Logged out successfully' });
 };
 
 // In-memory OTP store for password reset
@@ -218,19 +202,9 @@ export const sendForgotPasswordOtp = async (req, res) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    let user = null;
+    await ensureDbConnection();
 
-    if (mongoose.connection.readyState === 1) {
-      try {
-        user = await User.findOne({ email: cleanEmail });
-      } catch (dbErr) {
-        console.warn('[DB Lookup Warning on sendForgotPasswordOtp]');
-      }
-    }
-
-    if (!user) {
-      user = memoryUsers.find((u) => u.email.toLowerCase() === cleanEmail);
-    }
+    const user = await User.findOne({ email: cleanEmail });
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'No registered account found with this email address.' });
@@ -265,7 +239,7 @@ export const sendForgotPasswordOtp = async (req, res) => {
     const isEmailSent = mailResult && mailResult.success;
     const isMock = mailResult && mailResult.mock;
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: isEmailSent && !isMock
         ? `OTP sent successfully to ${cleanEmail}`
@@ -273,7 +247,7 @@ export const sendForgotPasswordOtp = async (req, res) => {
       otpPreview: (!isEmailSent || isMock || process.env.NODE_ENV !== 'production') ? generatedOtp : undefined,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message || 'Failed to send password reset OTP' });
+    return res.status(500).json({ success: false, message: error.message || 'Failed to send password reset OTP' });
   }
 };
 
@@ -309,9 +283,9 @@ export const verifyForgotPasswordOtp = async (req, res) => {
     otpRecord.isVerified = true;
     forgotPasswordOtps.set(cleanEmail, otpRecord);
 
-    res.status(200).json({ success: true, message: 'OTP verified successfully! Please enter your new password.' });
+    return res.status(200).json({ success: true, message: 'OTP verified successfully! Please enter your new password.' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message || 'OTP verification failed' });
+    return res.status(500).json({ success: false, message: error.message || 'OTP verification failed' });
   }
 };
 
@@ -333,42 +307,26 @@ export const resetPassword = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Session expired or unverified OTP. Please verify OTP first.' });
     }
 
+    await ensureDbConnection();
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    let updated = false;
-
-    if (mongoose.connection.readyState === 1) {
-      try {
-        const user = await User.findOne({ email: cleanEmail });
-        if (user) {
-          user.password = hashedPassword;
-          await user.save();
-          updated = true;
-        }
-      } catch (dbErr) {
-        console.warn('[DB Update Warning on resetPassword]');
-      }
-    }
-
-    const memUser = memoryUsers.find((u) => u.email.toLowerCase() === cleanEmail);
-    if (memUser) {
-      memUser.password = hashedPassword;
-      updated = true;
-    }
-
-    if (!updated) {
+    const user = await User.findOne({ email: cleanEmail });
+    if (!user) {
       return res.status(404).json({ success: false, message: 'User account not found' });
     }
 
+    user.password = hashedPassword;
+    await user.save();
+
     forgotPasswordOtps.delete(cleanEmail);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Password reset successfully! You can now log in with your new password.',
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message || 'Failed to reset password' });
+    return res.status(500).json({ success: false, message: error.message || 'Failed to reset password' });
   }
 };
-

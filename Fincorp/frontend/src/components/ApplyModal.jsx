@@ -8,12 +8,10 @@ import {
   Lock,
   Zap,
   FileText,
-  IndianRupee,
   ShieldCheck,
   ArrowRight,
   RefreshCw,
   UserCheck,
-  KeyRound,
   LogIn,
   UserPlus,
   Eye,
@@ -21,12 +19,10 @@ import {
 } from 'lucide-react';
 
 const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
-  const { user, login, register } = useAuth();
+  const { user, loading: authLoading, login, register } = useAuth();
   const navigate = useNavigate();
 
   // Mode & Step
-  // If user not logged in -> auth_required (or inline login/signup)
-  // If logged in -> step 1 (form) -> step 2 (otp) -> step 3 (success)
   const [authTab, setAuthTab] = useState('login'); // 'login' | 'signup'
   const [step, setStep] = useState(1);
 
@@ -208,14 +204,12 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
 
     setLoading(true);
     try {
-      // First verify OTP
       const verifyRes = await API.post('/applications/verify-otp', {
         email: user.email,
         otp: otp.trim(),
       });
 
       if (verifyRes.data.success) {
-        // Submit complete loan application
         const appRes = await API.post('/applications/apply', {
           ...formData,
           email: user.email,
@@ -290,8 +284,12 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
 
         {/* Body Content */}
         <div className="p-6">
-          {/* REQUIRE AUTHENTICATION IF NOT LOGGED IN */}
-          {!user ? (
+          {authLoading ? (
+            <div className="py-12 flex flex-col items-center justify-center space-y-3">
+              <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <p className="text-xs text-slate-500 font-bold">Verifying authentication status...</p>
+            </div>
+          ) : !user ? (
             <div className="space-y-5">
               <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-amber-800 text-xs font-semibold text-center space-y-1">
                 <p className="text-sm font-bold text-amber-900">⚠️ Please Sign Up or Log In first to apply for a loan.</p>

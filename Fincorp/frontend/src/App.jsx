@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ApplyModal from './components/ApplyModal';
+import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './context/AuthContext';
 import { ShieldCheck } from 'lucide-react';
 
@@ -15,6 +16,14 @@ const ToolsPage = lazy(() => import('./pages/ToolsPage'));
 const TrackStatusPage = lazy(() => import('./pages/TrackStatusPage'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
+
+// Footer Dedicated Pages
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
+const GrievancePage = lazy(() => import('./pages/GrievancePage'));
+const PartnersPage = lazy(() => import('./pages/PartnersPage'));
+const CustomersPage = lazy(() => import('./pages/CustomersPage'));
+const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
 
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignUpPage = lazy(() => import('./pages/SignUpPage'));
@@ -67,6 +76,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-['Urbanist',sans-serif]">
+      <ScrollToTop />
       <Navbar onOpenApply={() => handleOpenApply('personal_loan')} />
 
       <main className="flex-grow">
@@ -82,6 +92,15 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
 
+            {/* Footer Routes */}
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/grievance" element={<GrievancePage />} />
+            <Route path="/lenders" element={<PartnersPage onOpenApply={(prod) => handleOpenApply(prod)} />} />
+            <Route path="/partners" element={<PartnersPage onOpenApply={(prod) => handleOpenApply(prod)} />} />
+            <Route path="/customers" element={<CustomersPage onOpenApply={(prod) => handleOpenApply(prod)} />} />
+            <Route path="/disclaimer" element={<DisclaimerPage />} />
+
             {/* Direct Apply Protected Routes */}
             <Route path="/apply" element={<ProtectedApplyRoute handleOpenApply={handleOpenApply} />} />
             <Route path="/apply-loan" element={<ProtectedApplyRoute handleOpenApply={handleOpenApply} />} />
@@ -95,6 +114,9 @@ function App() {
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             <Route path="/admin/applications" element={<AdminApplicationsPage />} />
             <Route path="/admin/applications/:id" element={<AdminApplicationDetailPage />} />
+
+            {/* Fallback Catch-All Route to Home */}
+            <Route path="*" element={<Home onOpenApply={() => handleOpenApply('personal_loan')} />} />
           </Routes>
         </Suspense>
       </main>
