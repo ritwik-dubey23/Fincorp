@@ -102,13 +102,48 @@ const resolvedDist = fs.existsSync(frontendDistPath)
 
 if (resolvedDist) {
   app.use(express.static(resolvedDist));
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api') || req.path.startsWith('/auth') || req.path.startsWith('/otp') || req.path.startsWith('/applications') || req.path.startsWith('/uploads')) {
-      return next();
-    }
-    res.sendFile(path.join(resolvedDist, 'index.html'));
-  });
 }
+
+// Wildcard SPA Fallback - NEVER return raw text "Not Found" to browser
+app.get('*', (req, res, next) => {
+  // If it's an API route or file upload, return 404 JSON error
+  if (
+    req.path.startsWith('/api') ||
+    req.path.startsWith('/auth') ||
+    req.path.startsWith('/otp') ||
+    req.path.startsWith('/applications') ||
+    req.path.startsWith('/uploads')
+  ) {
+    return res.status(404).json({ success: false, message: `API Endpoint ${req.path} Not Found` });
+  }
+
+  // If frontend dist is available, send index.html so React Router renders the page
+  if (resolvedDist && fs.existsSync(path.join(resolvedDist, 'index.html'))) {
+    return res.sendFile(path.join(resolvedDist, 'index.html'));
+  }
+
+  // Fallback: Redirect browser to Home ("/") using clean HTML redirect script
+  return res.status(200).send(`
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fincorp - Redirecting...</title>
+        <script>
+          window.location.href = "/";
+        </script>
+      </head>
+      <body style="margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; background-color: #0f172a; color: #ffffff;">
+        <div style="text-align: center; padding: 20px;">
+          <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">FINCORP</h2>
+          <p style="color: #94a3b8; font-size: 14px; margin-bottom: 16px;">Redirecting you to Home Page...</p>
+          <a href="/" style="color: #3b82f6; text-decoration: none; font-weight: 700; font-size: 14px;">Click here to return to Home</a>
+        </div>
+      </body>
+    </html>
+  `);
+});
 
 // Global Error Handler
 app.use((err, req, res, next) => {
