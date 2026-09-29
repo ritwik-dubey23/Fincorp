@@ -13,9 +13,16 @@ const SignUpPage = () => {
   const [error, setError] = useState('');
   const [isExistingUserError, setIsExistingUserError] = useState(false);
   const [message, setMessage] = useState('');
-  const { register } = useAuth();
+  const { user, loading: authLoading, register } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Redirect if already logged in
+  React.useEffect(() => {
+    if (!authLoading && user) {
+      navigate(location.state?.from || '/', { replace: true });
+    }
+  }, [user, authLoading, navigate, location.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

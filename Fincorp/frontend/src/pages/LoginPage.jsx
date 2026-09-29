@@ -6,9 +6,16 @@ import { ShieldCheck, ArrowRight, Eye, EyeOff, KeyRound, Mail, CheckCircle2, Ref
 
 const LoginPage = () => {
   // Navigation & Auth
-  const { login } = useAuth();
+  const { user, loading: authLoading, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!authLoading && user) {
+      navigate(location.state?.from || '/', { replace: true });
+    }
+  }, [user, authLoading, navigate, location.state]);
 
   // Mode: 'login' | 'forgot_email' | 'forgot_otp' | 'forgot_reset' | 'forgot_success'
   const [view, setView] = useState('login');
