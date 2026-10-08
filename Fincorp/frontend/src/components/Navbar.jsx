@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, Menu, X, ShieldCheck, User as UserIcon, LogOut } from 'lucide-react';
+import { ChevronDown, Menu, X, User as UserIcon, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = ({ onOpenApply }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loansDropdown, setLoansDropdown] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  
-  // Accordion state inside mobile drawer
   const [mobileLoansOpen, setMobileLoansOpen] = useState(false);
 
   const { user, logout } = useAuth();
@@ -33,44 +31,25 @@ const Navbar = ({ onOpenApply }) => {
 
   return (
     <>
-      {/* Main Header */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-xs transition-all">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* FinCRO Official Logo */}
-            <Link to="/" className="flex items-center gap-2 group focus:outline-none shrink-0">
+            {/* 1. Left: Official Fincorp Company Logo */}
+            <Link to="/" className="flex items-center group focus:outline-none shrink-0 py-2">
               <img
                 src="/logo.png"
-                alt="FinCRO Logo"
-                className="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition transform duration-200"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  const textFallback = document.getElementById('navbar-logo-text-fallback');
-                  if (textFallback) textFallback.style.display = 'flex';
-                }}
+                alt="Fincorp Logo"
+                className="h-10 sm:h-12 w-auto object-contain transition transform group-hover:scale-105 duration-200"
               />
-              <div id="navbar-logo-text-fallback" className="hidden items-center gap-2">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20">
-                  <ShieldCheck className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex flex-col justify-center leading-none">
-                  <span className="text-xl font-black tracking-tight text-slate-950">
-                    FIN<span className="text-blue-600">CRO</span>
-                  </span>
-                  <span className="text-[9px] font-extrabold text-slate-400 tracking-wider uppercase mt-0.5">
-                    Smart Borrowing Partner
-                  </span>
-                </div>
-              </div>
             </Link>
 
-            {/* Desktop Navigation Pill Container - STRICT SINGLE LINE ALIGNMENT */}
-            <nav className="hidden lg:flex items-center bg-slate-100/90 backdrop-blur-md border border-slate-200/90 rounded-full px-3.5 xl:px-6 py-2 space-x-3 xl:space-x-5 text-[11px] xl:text-xs font-black uppercase tracking-wider text-slate-700 shadow-2xs whitespace-nowrap shrink-0">
+            {/* 2. Center: Desktop Navigation Items */}
+            <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-black uppercase tracking-wider text-slate-700 whitespace-nowrap">
               
               {/* Loans Dropdown */}
               <div 
-                className="relative group py-1"
+                className="relative group py-2"
                 onMouseEnter={() => setLoansDropdown(true)}
                 onMouseLeave={() => setLoansDropdown(false)}
               >
@@ -78,7 +57,7 @@ const Navbar = ({ onOpenApply }) => {
                   Loans <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform" />
                 </button>
                 {loansDropdown && (
-                  <div className="absolute top-full left-0 w-52 bg-white/95 backdrop-blur-xl border border-slate-100 rounded-2xl shadow-xl py-2 mt-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="absolute top-full left-0 w-52 bg-white/98 backdrop-blur-xl border border-slate-100 rounded-2xl shadow-xl py-2 mt-1 z-50 animate-in fade-in duration-150">
                     <Link to="/personal-loan" className="block px-4 py-2.5 hover:bg-blue-50 hover:text-blue-600 text-slate-700 font-bold transition text-xs capitalize">
                       • Personal Loan
                     </Link>
@@ -97,44 +76,11 @@ const Navbar = ({ onOpenApply }) => {
               <Link to="/track-status" className="text-blue-600 font-black hover:text-blue-700 transition leading-none">Track Status</Link>
             </nav>
 
-            {/* Right: Reference Trust Badges (Matching Screenshot 1) & Actions */}
-            <div className="hidden md:flex items-center gap-5 lg:gap-7 shrink-0">
-              {/* Badge 1: 100% Secure */}
-              <div className="flex items-center gap-2 text-left">
-                <div className="w-8 h-8 rounded-full bg-cyan-500 text-white flex items-center justify-center shadow-xs shrink-0">
-                  <ShieldCheck className="w-4.5 h-4.5 stroke-[2.5]" />
-                </div>
-                <div className="leading-tight">
-                  <span className="block text-xs font-black text-slate-900">100% Secure</span>
-                  <span className="block text-[10px] text-slate-500 font-medium">Your data is safe</span>
-                </div>
-              </div>
-
-              {/* Badge 2: Takes 2 Min */}
-              <div className="flex items-center gap-2 text-left">
-                <div className="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs shrink-0">
-                  <span className="text-sm">⏱️</span>
-                </div>
-                <div className="leading-tight">
-                  <span className="block text-xs font-black text-slate-900">Takes 2 Min</span>
-                  <span className="block text-[10px] text-slate-500 font-medium">Quick & Easy</span>
-                </div>
-              </div>
-
-              {/* Badge 3: 1L+ Users */}
-              <div className="flex items-center gap-2 text-left">
-                <div className="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-xs shrink-0">
-                  <span className="text-sm">👥</span>
-                </div>
-                <div className="leading-tight">
-                  <span className="block text-xs font-black text-slate-900">1L+ Users</span>
-                  <span className="block text-[10px] text-slate-500 font-medium">Trusted by millions</span>
-                </div>
-              </div>
-
+            {/* 3. Right: Actions Container */}
+            <div className="hidden lg:flex items-center gap-4 shrink-0">
               <button
                 onClick={() => onOpenApply('personal_loan')}
-                className="px-5 xl:px-7 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 text-white text-xs font-black uppercase tracking-wider shadow-md shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap"
+                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 text-white text-xs font-black uppercase tracking-wider shadow-md shadow-blue-500/25 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/35 hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap"
               >
                 Apply Now
               </button>
@@ -146,7 +92,7 @@ const Navbar = ({ onOpenApply }) => {
                     className="flex items-center gap-2 p-0.5 rounded-full hover:bg-slate-100 transition cursor-pointer focus:outline-none group"
                     title={user.name}
                   >
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-blue-700 text-white font-black text-sm flex items-center justify-center shadow-md border-2 border-white ring-2 ring-blue-500/20 group-hover:scale-105 group-hover:ring-blue-500/40 transition transform duration-200">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-black text-sm flex items-center justify-center shadow-md border-2 border-white group-hover:scale-105 transition transform duration-200">
                       {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                     </div>
                     <ChevronDown className={`w-3.5 h-3.5 text-slate-500 group-hover:text-blue-600 transition-transform ${profileDropdownOpen ? 'rotate-180' : ''}`} />
@@ -154,7 +100,7 @@ const Navbar = ({ onOpenApply }) => {
 
                   {profileDropdownOpen && (
                     <div 
-                      className="absolute right-0 top-full mt-2.5 w-60 bg-white/95 backdrop-blur-xl border border-slate-100 rounded-2xl shadow-xl py-3 px-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                      className="absolute right-0 top-full mt-2.5 w-60 bg-white/98 backdrop-blur-xl border border-slate-100 rounded-2xl shadow-xl py-3 px-2 z-50 animate-in fade-in duration-150"
                       onMouseLeave={() => setProfileDropdownOpen(false)}
                     >
                       <div className="px-3 pb-3 mb-2 border-b border-slate-100">
@@ -184,7 +130,7 @@ const Navbar = ({ onOpenApply }) => {
               )}
             </div>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Actions & Menu Toggle */}
             <div className="flex lg:hidden items-center gap-2">
               <button
                 onClick={() => onOpenApply('personal_loan')}
@@ -195,6 +141,7 @@ const Navbar = ({ onOpenApply }) => {
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition"
+                aria-label="Toggle mobile menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
