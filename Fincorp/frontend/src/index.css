@@ -109,6 +109,29 @@
   animation: floatY 4s ease-in-out infinite;
 }
 
+/* Twinkle animation for Credit Score CTA stars */
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.65;
+    transform: scale(0.95) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(8deg);
+  }
+}
+
+.animate-twinkle {
+  animation: starTwinkle 2.4s ease-in-out infinite;
+  display: inline-block;
+}
+
+.animate-twinkle-delay {
+  animation: starTwinkle 2.4s ease-in-out infinite;
+  animation-delay: 1.2s;
+  display: inline-block;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

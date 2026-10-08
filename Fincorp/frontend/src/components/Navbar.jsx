@@ -38,34 +38,35 @@ const Navbar = ({ onOpenApply }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* FinCRO Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group focus:outline-none">
+            {/* FinCRO Official Logo */}
+            <Link to="/" className="flex items-center gap-2 group focus:outline-none shrink-0">
               <img
                 src="/logo.png"
                 alt="FinCRO Logo"
-                className="h-10 max-h-11 w-auto object-contain group-hover:scale-105 transition transform duration-200"
+                className="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition transform duration-200"
                 onError={(e) => {
                   e.target.style.display = 'none';
-                  if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+                  const textFallback = document.getElementById('navbar-logo-text-fallback');
+                  if (textFallback) textFallback.style.display = 'flex';
                 }}
               />
-              <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition transform duration-200">
-                  <ShieldCheck className="w-6 h-6 text-white" />
+              <div id="navbar-logo-text-fallback" className="hidden items-center gap-2">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20">
+                  <ShieldCheck className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex flex-col justify-center leading-none">
-                  <span className="text-2xl font-black tracking-tight text-slate-950">
-                    FIN<span className="text-blue-600">CORP</span>
+                  <span className="text-xl font-black tracking-tight text-slate-950">
+                    FIN<span className="text-blue-600">CRO</span>
                   </span>
-                  <span className="text-[10px] font-extrabold text-slate-400 tracking-wider uppercase mt-1">
+                  <span className="text-[9px] font-extrabold text-slate-400 tracking-wider uppercase mt-0.5">
                     Smart Borrowing Partner
                   </span>
                 </div>
               </div>
             </Link>
 
-            {/* Desktop Navigation Pill Container */}
-            <nav className="hidden lg:flex items-center bg-slate-100/80 backdrop-blur-md border border-slate-200/90 rounded-full px-6 py-2.5 space-x-6 text-xs font-black uppercase tracking-wider text-slate-700 shadow-2xs">
+            {/* Desktop Navigation Pill Container - STRICT SINGLE LINE ALIGNMENT */}
+            <nav className="hidden lg:flex items-center bg-slate-100/90 backdrop-blur-md border border-slate-200/90 rounded-full px-3.5 xl:px-6 py-2 space-x-3 xl:space-x-5 text-[11px] xl:text-xs font-black uppercase tracking-wider text-slate-700 shadow-2xs whitespace-nowrap shrink-0">
               
               {/* Loans Dropdown */}
               <div 
@@ -96,11 +97,44 @@ const Navbar = ({ onOpenApply }) => {
               <Link to="/track-status" className="text-blue-600 font-black hover:text-blue-700 transition leading-none">Track Status</Link>
             </nav>
 
-            {/* Right: Desktop Actions */}
-            <div className="hidden lg:flex items-center gap-3.5">
+            {/* Right: Reference Trust Badges (Matching Screenshot 1) & Actions */}
+            <div className="hidden md:flex items-center gap-5 lg:gap-7 shrink-0">
+              {/* Badge 1: 100% Secure */}
+              <div className="flex items-center gap-2 text-left">
+                <div className="w-8 h-8 rounded-full bg-cyan-500 text-white flex items-center justify-center shadow-xs shrink-0">
+                  <ShieldCheck className="w-4.5 h-4.5 stroke-[2.5]" />
+                </div>
+                <div className="leading-tight">
+                  <span className="block text-xs font-black text-slate-900">100% Secure</span>
+                  <span className="block text-[10px] text-slate-500 font-medium">Your data is safe</span>
+                </div>
+              </div>
+
+              {/* Badge 2: Takes 2 Min */}
+              <div className="flex items-center gap-2 text-left">
+                <div className="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs shrink-0">
+                  <span className="text-sm">⏱️</span>
+                </div>
+                <div className="leading-tight">
+                  <span className="block text-xs font-black text-slate-900">Takes 2 Min</span>
+                  <span className="block text-[10px] text-slate-500 font-medium">Quick & Easy</span>
+                </div>
+              </div>
+
+              {/* Badge 3: 1L+ Users */}
+              <div className="flex items-center gap-2 text-left">
+                <div className="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-xs shrink-0">
+                  <span className="text-sm">👥</span>
+                </div>
+                <div className="leading-tight">
+                  <span className="block text-xs font-black text-slate-900">1L+ Users</span>
+                  <span className="block text-[10px] text-slate-500 font-medium">Trusted by millions</span>
+                </div>
+              </div>
+
               <button
                 onClick={() => onOpenApply('personal_loan')}
-                className="px-7 py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 text-white text-xs font-black uppercase tracking-wider shadow-md shadow-blue-500/25 transition transform hover:-translate-y-0.5 active:scale-[0.98] flex items-center gap-2 cursor-pointer"
+                className="px-5 xl:px-7 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 text-white text-xs font-black uppercase tracking-wider shadow-md shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap"
               >
                 Apply Now
               </button>

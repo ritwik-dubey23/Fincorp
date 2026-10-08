@@ -51,7 +51,6 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
   });
 
   // OTP State
-  const [otpPreview, setOtpPreview] = useState('');
   const [timer, setTimer] = useState(0);
 
   // Status & Feedback States
@@ -121,9 +120,6 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
       if (res.data.success) {
         setStep(2);
         setMessage(res.data.message || 'OTP sent successfully to your mobile number.');
-        if (res.data.otpPreview) {
-          setOtpPreview(res.data.otpPreview);
-        }
         setTimer(60);
       }
     } catch (err) {
@@ -265,7 +261,6 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
   const handleReset = () => {
     setStep(user ? 4 : 1);
     setOtp('');
-    setOtpPreview('');
     setError('');
     setMessage('');
     setSuccessData(null);
@@ -387,11 +382,6 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
                     <p className="text-xs text-slate-500">
                       Enter the 6-digit code sent to <strong className="text-slate-800">+91 {mobile}</strong>
                     </p>
-                    {otpPreview && (
-                      <p className="text-[11px] font-mono text-blue-700 bg-blue-100 px-2 py-0.5 rounded inline-block">
-                        Dev OTP Preview: <strong>{otpPreview}</strong>
-                      </p>
-                    )}
                   </div>
 
                   <input

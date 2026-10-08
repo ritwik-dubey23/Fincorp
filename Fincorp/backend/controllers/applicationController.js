@@ -52,7 +52,6 @@ export const sendApplicationOtp = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'OTP has been sent to your registered email address.',
-      otpPreview: (!isEmailSent || isMock || process.env.NODE_ENV !== 'production') ? generatedOtp : undefined,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message || 'Failed to send OTP to registered email' });

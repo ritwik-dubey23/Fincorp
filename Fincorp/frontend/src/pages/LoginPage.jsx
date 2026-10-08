@@ -110,10 +110,7 @@ const LoginPage = () => {
     try {
       const res = await API.post('/auth/forgot-password/send-otp', { email: forgotEmail });
       if (res.data.success) {
-        const msg = res.data.otpPreview
-          ? `${res.data.message} [OTP Code: ${res.data.otpPreview}]`
-          : res.data.message || 'OTP sent successfully to your email address.';
-        setMessage(msg);
+        setMessage(res.data.message || 'OTP sent successfully to your email address.');
         setView('forgot_otp');
         setTimer(60);
       }

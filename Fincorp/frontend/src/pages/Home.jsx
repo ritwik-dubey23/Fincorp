@@ -1,381 +1,499 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, CheckCircle2, ArrowRight, Zap, Building2, CreditCard, Lock, Sparkles, Award, TrendingUp, Clock } from 'lucide-react';
+import {
+  ShieldCheck,
+  CheckCircle2,
+  ArrowRight,
+  Zap,
+  Building2,
+  CreditCard,
+  Lock,
+  Sparkles,
+  Award,
+  TrendingUp,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  User as UserIcon,
+  Calendar,
+  FileText,
+  Target,
+  PhoneCall,
+  RotateCcw,
+} from 'lucide-react';
 import EMICalculator from '../components/EMICalculator';
 import SpeedometerGauge from '../components/SpeedometerGauge';
 import AnimatedCounter from '../components/AnimatedCounter';
 import ScrollReveal from '../components/ScrollReveal';
 
 const Home = ({ onOpenApply }) => {
+  // Hero Embedded Lead State
+  const [heroName, setHeroName] = useState('');
+  const [heroMobile, setHeroMobile] = useState('');
+
+  // Benefits Carousel State (Screenshot 3)
+  const [benefitIndex, setBenefitIndex] = useState(0);
+
+  // Testimonials Carousel State (Screenshot 5)
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+
+  const handleHeroSubmit = (e) => {
+    e.preventDefault();
+    if (onOpenApply) {
+      onOpenApply('personal_loan');
+    }
+  };
+
+  const benefits = [
+    {
+      icon: <Calendar className="w-10 h-10 text-blue-600" />,
+      title: 'Flexible Tenure',
+      description: 'Select repayment tenures that suit your comfort and financial planning.',
+    },
+    {
+      icon: <Building2 className="w-10 h-10 text-blue-600" />,
+      title: 'Trusted Lending Partners',
+      description: "Loans backed by India's leading banks and NBFCs for secure and reliable disbursals.",
+    },
+    {
+      icon: <Zap className="w-10 h-10 text-blue-600" />,
+      title: 'Instant Approvals',
+      description: 'Apply online and receive quick approvals with minimal documentation.',
+    },
+    {
+      icon: <Lock className="w-10 h-10 text-blue-600" />,
+      title: '100% Paperless',
+      description: 'Zero physical paperwork. Complete identity verification and KYC completely online.',
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: 'Ravi Kumar',
+      role: 'Personal Loan Customer',
+      text: 'Got my personal loan approved and disbursed within 24 hours. Very smooth experience and completely transparent rates!',
+    },
+    {
+      name: 'Neha Sharma',
+      role: 'Home Loan Customer',
+      text: 'FinCRO helped me compare pre-approved loan offers across 5 top lenders. The team guided me through the entire process.',
+    },
+    {
+      name: 'Arjun Mehta',
+      role: 'Business Loan Customer',
+      text: 'Got collateral-free business loan capital to expand my retail inventory. Highly recommended for all Indian entrepreneurs!',
+    },
+  ];
+
   return (
-    <div className="space-y-20 pb-16 overflow-x-hidden">
+    <div className="space-y-16 pb-16 overflow-x-hidden font-['Urbanist',sans-serif]">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden pt-10 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-blue-50/70 via-white to-slate-50">
+      {/* 1. HERO SECTION — EXACT MATCH TO SCREENSHOT 1 */}
+      <section className="relative bg-gradient-to-r from-[#072448] via-[#0d3b66] to-[#1e40af] text-white pt-12 pb-20 lg:pt-16 lg:pb-28 overflow-hidden">
         
-        {/* Ambient Blur Glow Orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Fine Dot Grid Pattern Overlay */}
+        <div 
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+            backgroundSize: '20px 20px',
+          }}
+        />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto space-y-7">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            {/* Tag Pill */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 text-blue-700 text-xs font-extrabold uppercase tracking-wider px-5 py-2 rounded-full shadow-xs">
-              <Zap className="w-4 h-4 text-blue-600 fill-blue-600" />
-              <span>EMPOWERING SMARTER BORROWING IN INDIA</span>
-            </div>
-
-            {/* Main Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-950 tracking-tight leading-[1.08]">
-              Your Smart Borrowing Partner <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-600">
-                — Fincorp Financial
-              </span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-base sm:text-xl text-slate-600 font-medium leading-relaxed max-w-3xl mx-auto">
-              A trusted partner for smarter financial decisions. Compare customized loans from 20+ RBI-approved lenders with instant digital approvals & zero application fees.
-            </p>
-
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
-              <button
-                onClick={onOpenApply}
-                className="px-9 py-4.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 text-white font-black text-base shadow-xl shadow-blue-500/30 transition transform hover:-translate-y-1 active:scale-95 flex items-center gap-2.5 cursor-pointer"
-              >
-                Apply Loan Now <ArrowRight className="w-5 h-5" />
-              </button>
-              <Link
-                to="/credit-score"
-                className="px-8 py-4.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-800 font-extrabold text-base shadow-sm transition hover:border-slate-300 hover:shadow-md flex items-center gap-2"
-              >
-                <Sparkles className="w-5 h-5 text-amber-500" /> Check Free Credit Score
-              </Link>
-            </div>
-
-            {/* Quick Trust Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-extrabold text-slate-500 pt-4">
-              <span className="flex items-center gap-1.5"><Lock className="w-4 h-4 text-blue-600" /> 256-Bit SSL Encrypted</span>
-              <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-600" /> 20+ RBI Lenders</span>
-              <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-indigo-600" /> 10-Min Fast Sanction</span>
-            </div>
-
-          </div>
-
-          {/* Hero Feature Visual Cards */}
-          <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-5xl mx-auto">
-            
-            {/* Left Float Glass Card */}
-            <ScrollReveal className="lg:col-span-5 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-950 text-white p-7 rounded-3xl shadow-2xl border border-slate-800 space-y-5 animate-float relative overflow-hidden" delay={0}>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl pointer-events-none" />
-              <div className="flex items-center gap-4">
-                <div className="w-13 h-13 rounded-2xl bg-amber-500/20 border border-amber-400/30 text-amber-400 flex items-center justify-center text-2xl font-bold">
-                  💼
-                </div>
-                <div>
-                  <h4 className="text-lg font-black text-white">Instant Loan Match</h4>
-                  <p className="text-xs text-amber-400 font-bold">20+ Top Lending Partners</p>
-                </div>
-              </div>
-
-              <ul className="space-y-2.5 text-xs font-semibold text-slate-300 pt-3 border-t border-slate-800/80">
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Free Monthly CRIF Credit Report
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Zero Application & Processing Surcharges
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Pre-approved Rates starting 10.49% p.a.
-                </li>
-              </ul>
-            </ScrollReveal>
-
-            {/* Right Card Concept */}
-            <ScrollReveal className="lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 p-7 shadow-xl flex flex-col sm:flex-row items-center gap-6 hover:shadow-2xl transition duration-300" delay={150}>
-              <div className="w-28 h-52 bg-slate-950 rounded-2xl p-2.5 shrink-0 border-4 border-slate-800 shadow-xl flex flex-col justify-between text-white text-[9px] relative overflow-hidden">
-                <div className="text-center font-black pt-1 text-blue-400 tracking-wider">FINCORP APP</div>
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-2 text-center shadow-md">
-                  <span className="block font-black text-xs text-white">₹15 Lakhs</span>
-                  <span className="text-[8px] text-blue-100 font-bold">Instant Disbursal</span>
-                </div>
-                <div className="space-y-1 font-bold">
-                  <div className="bg-slate-800/90 p-1.5 rounded-lg text-slate-300 text-center">Personal Loan</div>
-                  <div className="bg-slate-800/90 p-1.5 rounded-lg text-slate-300 text-center">Business Loan</div>
-                </div>
-              </div>
-
-              <div className="space-y-3 text-center sm:text-left">
-                <span className="text-xs font-black text-blue-600 uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-100 inline-block">
-                  Fast & 100% Paperless
-                </span>
-                <h3 className="text-2xl font-black text-slate-900 leading-tight">
-                  Seamless Digital Loan Processing with Minimum Documents
-                </h3>
-                <p className="text-xs text-slate-500 leading-relaxed font-medium">
-                  Compare personalized loan offers, lowest EMIs, and flexible tenure terms from 12 to 84 months directly from your phone.
+            {/* Left Hero Column */}
+            <div className="lg:col-span-7 space-y-8 text-left">
+              
+              {/* Main Heading */}
+              <div className="space-y-3">
+                <h1 className="text-4xl sm:text-6xl lg:text-6xl font-black tracking-tight leading-[1.1]">
+                  Get Instant Loans <br />
+                  <span className="text-white">up to </span>
+                  <span className="text-[#fbbf24] drop-shadow-md">₹10 Lakhs</span>
+                </h1>
+                <p className="text-base sm:text-lg text-blue-100 font-medium leading-relaxed max-w-xl">
+                  Simple, fast and 100% digital loan process. Check your eligibility in just 30 seconds.
                 </p>
-                <button 
-                  onClick={onOpenApply} 
-                  className="text-xs font-black text-blue-600 hover:text-blue-700 flex items-center gap-1 mx-auto sm:mx-0 group cursor-pointer"
-                >
-                  Explore Loans Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
-                </button>
               </div>
-            </ScrollReveal>
+
+              {/* 4 Feature Pills Row */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 px-3 py-2.5 rounded-xl">
+                  <div className="w-7 h-7 rounded-full bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <Zap className="w-4 h-4 fill-white" />
+                  </div>
+                  <span className="text-[11px] font-bold text-white leading-tight">Instant Approval</span>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 px-3 py-2.5 rounded-xl">
+                  <div className="w-7 h-7 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <span className="text-[11px] font-bold text-white leading-tight">Paperless Process</span>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 px-3 py-2.5 rounded-xl">
+                  <div className="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <span className="text-xs font-bold">₹</span>
+                  </div>
+                  <span className="text-[11px] font-bold text-white leading-tight">Quick Disbursal</span>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 px-3 py-2.5 rounded-xl">
+                  <div className="w-7 h-7 rounded-full bg-purple-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                  <span className="text-[11px] font-bold text-white leading-tight">Secure & Safe</span>
+                </div>
+
+              </div>
+
+              {/* Privacy Banner Box (Bottom Left) */}
+              <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 flex items-center gap-3.5 shadow-lg max-w-xl">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md">
+                  <ShieldCheck className="w-6 h-6 stroke-[2.5]" />
+                </div>
+                <p className="text-xs text-blue-100 font-semibold leading-relaxed">
+                  We value your privacy and keep your data <strong className="text-white font-extrabold">100% safe and confidential</strong>.
+                </p>
+              </div>
+
+            </div>
+
+            {/* Right Hero Column — Embedded Apply Lead Card (Matching Screenshot 1) */}
+            <div className="lg:col-span-5">
+              <div className="bg-white rounded-3xl p-7 text-slate-900 shadow-2xl border border-slate-100 relative">
+                
+                {/* Card Top Progress Bar */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-black text-blue-900 uppercase tracking-wider text-xs">Step 1 of 2</span>
+                    <span className="font-bold text-emerald-600 flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5" /> Your data is safe
+                    </span>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="w-1/2 h-full bg-blue-600 rounded-full transition-all duration-500" />
+                  </div>
+                </div>
+
+                {/* Lead Form */}
+                <form onSubmit={handleHeroSubmit} className="space-y-4">
+                  
+                  {/* Field 1: Full Name */}
+                  <div>
+                    <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5 flex items-center gap-1.5">
+                      <UserIcon className="w-3.5 h-3.5 text-blue-600" /> Full Name (as per PAN)
+                    </label>
+                    <input
+                      type="text"
+                      value={heroName}
+                      onChange={(e) => setHeroName(e.target.value)}
+                      placeholder="Enter your full name"
+                      required
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-semibold text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition"
+                    />
+                  </div>
+
+                  {/* Field 2: Mobile Number */}
+                  <div>
+                    <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5 flex items-center gap-1.5">
+                      <PhoneCall className="w-3.5 h-3.5 text-blue-600" /> Mobile Number
+                    </label>
+                    <div className="flex gap-2">
+                      <div className="bg-slate-100 border border-slate-200 rounded-xl px-3.5 py-3.5 text-sm font-bold text-slate-700 flex items-center justify-center shrink-0">
+                        +91
+                      </div>
+                      <input
+                        type="tel"
+                        maxLength={10}
+                        value={heroMobile}
+                        onChange={(e) => setHeroMobile(e.target.value.replace(/\D/g, ''))}
+                        placeholder="Enter 10-digit mobile number"
+                        required
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-semibold text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Primary CTA Button */}
+                  <button
+                    type="submit"
+                    className="w-full py-4 rounded-full bg-gradient-to-r from-[#0d3b66] via-blue-700 to-[#1e40af] hover:from-blue-800 hover:to-blue-900 text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-xl hover:scale-[1.01] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer mt-2"
+                  >
+                    <span>Get OTP</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+
+                  {/* Terms & Conditions Disclaimer */}
+                  <p className="text-[11px] text-slate-400 font-medium leading-normal text-center pt-2">
+                    By clicking "Continue", you agree to FinCRO's{' '}
+                    <Link to="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>,{' '}
+                    <Link to="/terms" className="text-blue-600 hover:underline">Terms & Conditions</Link>, and Bureau Terms & Conditions.{' '}
+                    <span className="text-blue-600 font-bold cursor-pointer hover:underline">Read More</span>
+                  </p>
+
+                </form>
+
+              </div>
+            </div>
 
           </div>
-
         </div>
       </section>
 
-      {/* 2. LENDING PARTNERS LOGOS / MARQUEE SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-        <p className="text-xs font-extrabold uppercase tracking-widest text-slate-400">
-          TRUSTED BY LEADING RBI-REGISTERED BANKS & NBFCs
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 items-center">
-          {['State Bank of India', 'HDFC Bank', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra', 'Bajaj Finserv'].map((partner, idx) => (
-            <ScrollReveal key={idx} delay={idx * 50} className="bg-white border border-slate-200/70 rounded-2xl py-4 px-3 text-center shadow-xs hover:shadow-md transition hover:border-blue-300">
+      {/* 2. OUR LENDERS SECTION — EXACT MATCH TO SCREENSHOT 2 */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+        <div className="space-y-2">
+          <p className="text-xs font-black uppercase tracking-widest text-slate-400">OUR LENDERS</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+            Leading Banks and NBFCs
+          </h2>
+        </div>
+
+        {/* Lender Logo Pill Cards Grid / Marquee */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 items-center">
+          {[
+            'Hero FINCORP',
+            'InCred Finance',
+            'indifi',
+            'ADITYA BIRLA CAPITAL',
+            'FlexiLoans',
+            'DMI FINANCE',
+            'Flot',
+            'L&T Finance',
+            'Tata Capital',
+            'Bajaj Finserv',
+            'Muthoot Finance',
+            'MoneyTap',
+            'PaySense',
+            'KreditBee',
+          ].map((partner, idx) => (
+            <ScrollReveal key={idx} delay={idx * 30} className="bg-white border border-slate-200/80 rounded-2xl py-4 px-3 text-center shadow-xs hover:shadow-md transition hover:border-blue-400 cursor-pointer">
               <span className="text-xs font-black text-slate-800 tracking-tight">{partner}</span>
             </ScrollReveal>
           ))}
         </div>
-      </section>
 
-      {/* 3. STATS BANNER WITH ANIMATED COUNT-UP */}
-      <section className="bg-slate-950 text-white py-16 relative overflow-hidden border-y border-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div className="space-y-1">
-              <div className="text-4xl sm:text-5xl font-black text-white font-mono">
-                <AnimatedCounter target={100} suffix="%" />
-              </div>
-              <p className="text-xs sm:text-sm font-bold text-slate-400">Seamless Digital Journey</p>
+        {/* 2 Blue Gradient Feature Banner Cards (Bottom of Screenshot 2) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 text-left">
+          
+          <ScrollReveal delay={100} className="bg-gradient-to-r from-[#0c356a] to-[#279eff] text-white p-7 rounded-3xl shadow-xl flex items-center justify-between gap-4">
+            <div className="space-y-2 max-w-sm">
+              <h3 className="text-xl font-black">Partner with Leading Lenders</h3>
+              <p className="text-xs text-blue-100 leading-relaxed font-medium">
+                We collaborate with Reputed Leading Banks, NBFCs, and fintech institutions to provide a wide range of loan options in one place.
+              </p>
             </div>
-            <div className="space-y-1">
-              <div className="text-4xl sm:text-5xl font-black text-emerald-400 font-mono">
-                <AnimatedCounter target={95} suffix="%+" />
-              </div>
-              <p className="text-xs sm:text-sm font-bold text-slate-400">Strong Approval Ratio</p>
+            <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/20 shadow-inner">
+              <Building2 className="w-8 h-8 text-white" />
             </div>
-            <div className="space-y-1">
-              <div className="text-4xl sm:text-5xl font-black text-white font-mono">
-                <AnimatedCounter target={20} suffix="+" />
-              </div>
-              <p className="text-xs sm:text-sm font-bold text-slate-400">Bank Partners</p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={200} className="bg-gradient-to-r from-[#0c356a] to-[#279eff] text-white p-7 rounded-3xl shadow-xl flex items-center justify-between gap-4">
+            <div className="space-y-2 max-w-sm">
+              <h3 className="text-xl font-black">Trusted Lending Partners</h3>
+              <p className="text-xs text-blue-100 leading-relaxed font-medium">
+                Access loans from India's most trusted financial institutions with competitive rates tailored to your requirements.
+              </p>
             </div>
-            <div className="space-y-1">
-              <div className="text-4xl sm:text-5xl font-black text-amber-400 font-mono">
-                <AnimatedCounter target={98} suffix="%" />
-              </div>
-              <p className="text-xs sm:text-sm font-bold text-slate-400">Client Satisfaction Score</p>
+            <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/20 shadow-inner">
+              <ShieldCheck className="w-8 h-8 text-white stroke-[2.5]" />
             </div>
-          </div>
+          </ScrollReveal>
+
         </div>
       </section>
 
-      {/* 4. PRODUCT CARDS SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100">
-            OUR FINANCIAL SERVICES
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight">
-            Tailored Financial Products For Every Need
+      {/* 3. LOAN FEATURES ("GET THE RIGHT BENEFITS") — EXACT MATCH TO SCREENSHOT 3 */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10">
+        <div className="space-y-2">
+          <p className="text-xs font-black uppercase tracking-widest text-slate-400">LOAN FEATURES</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+            Get the Right Benefits
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 font-medium">
-            Explore fast-track borrowing options with transparent terms, low interest rates, and dedicated support.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Benefits Carousel Slider */}
+        <div className="relative max-w-5xl mx-auto flex items-center gap-4">
           
-          {/* Card 1: Personal Loan */}
-          <ScrollReveal delay={0}>
-            <div className="bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm hover:shadow-2xl hover:border-blue-300 transition-all duration-300 flex flex-col justify-between group h-full">
-              <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-500/25">
-                  👤
-                </div>
-                <div>
-                  <span className="text-[10px] font-black uppercase text-blue-600 tracking-wider">Fast Disbursal</span>
-                  <h3 className="text-2xl font-black text-slate-900 group-hover:text-blue-600 transition mt-0.5">Personal Loan</h3>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Access quick personal financing for medical emergencies, home renovation, travel, weddings, or debt consolidation.
-                </p>
-                <ul className="space-y-2 text-xs font-bold text-slate-600 pt-2 border-t border-slate-100">
-                  <li className="flex items-center gap-2">✓ Loans up to ₹15 Lakhs</li>
-                  <li className="flex items-center gap-2">✓ Flexible Tenure up to 5 Years</li>
-                  <li className="flex items-center gap-2">✓ Interest Rates from 10.5% p.a.</li>
-                </ul>
-              </div>
-              <div className="pt-8">
-                <button
-                  onClick={onOpenApply}
-                  className="w-full py-3.5 rounded-full bg-slate-950 hover:bg-blue-600 text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition cursor-pointer"
-                >
-                  Apply Personal Loan
-                </button>
-              </div>
-            </div>
-          </ScrollReveal>
+          <button
+            onClick={() => setBenefitIndex((prev) => (prev === 0 ? benefits.length - 1 : prev - 1))}
+            className="w-11 h-11 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 flex items-center justify-center shadow-md transition cursor-pointer shrink-0"
+            aria-label="Previous Benefit"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
 
-          {/* Card 2: Business Loan */}
-          <ScrollReveal delay={100}>
-            <div className="bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm hover:shadow-2xl hover:border-indigo-300 transition-all duration-300 flex flex-col justify-between group h-full">
-              <div className="space-y-5">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg shadow-indigo-500/25">
-                  🏢
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
+            {benefits.slice(benefitIndex, benefitIndex + 3).concat(benefits.slice(0, Math.max(0, (benefitIndex + 3) - benefits.length))).map((item, idx) => (
+              <ScrollReveal key={idx} delay={idx * 100} className="bg-white rounded-3xl border border-slate-200/80 p-8 text-center space-y-4 shadow-sm hover:shadow-xl transition duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto shadow-inner">
+                  {item.icon}
                 </div>
-                <div>
-                  <span className="text-[10px] font-black uppercase text-indigo-600 tracking-wider">Collateral Free</span>
-                  <h3 className="text-2xl font-black text-slate-900 group-hover:text-indigo-600 transition mt-0.5">Business Loan</h3>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Empower your enterprise with collateral-free business capital for inventory, equipment purchase, and expansion.
+                <h3 className="text-xl font-black text-slate-900">{item.title}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                  {item.description}
                 </p>
-                <ul className="space-y-2 text-xs font-bold text-slate-600 pt-2 border-t border-slate-100">
-                  <li className="flex items-center gap-2">✓ Loans up to ₹50 Lakhs</li>
-                  <li className="flex items-center gap-2">✓ Minimum 1 year business age</li>
-                  <li className="flex items-center gap-2">✓ Sanction in under 48 hours</li>
-                </ul>
-              </div>
-              <div className="pt-8">
-                <button
-                  onClick={onOpenApply}
-                  className="w-full py-3.5 rounded-full bg-slate-950 hover:bg-indigo-600 text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition cursor-pointer"
-                >
-                  Apply Business Loan
-                </button>
-              </div>
-            </div>
-          </ScrollReveal>
+              </ScrollReveal>
+            ))}
+          </div>
 
-          {/* Card 3: Free Credit Score */}
-          <ScrollReveal delay={200}>
-            <div className="bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white rounded-3xl p-8 shadow-2xl flex flex-col justify-between relative overflow-hidden group border border-slate-800 h-full">
-              <div className="space-y-5 relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center text-2xl font-bold shadow-lg">
-                  🎯
-                </div>
-                <div>
-                  <span className="text-[10px] font-black uppercase text-emerald-400 tracking-wider">No Credit Impact</span>
-                  <h3 className="text-2xl font-black text-white mt-0.5">Free Credit Score</h3>
-                </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-medium">
-                  Get your comprehensive CRIF / CIBIL score report instantly without impacting your credit score rating.
-                </p>
-                <div className="p-3.5 bg-white/10 rounded-2xl backdrop-blur-md border border-white/10 space-y-1.5 text-xs font-bold">
-                  <p className="text-emerald-400 flex items-center gap-1.5">✓ Free Monthly Score Refresh</p>
-                  <p className="text-slate-300 flex items-center gap-1.5">✓ Custom Credit Improvement Insights</p>
-                </div>
-              </div>
-              <div className="pt-8 relative z-10">
-                <Link
-                  to="/credit-score"
-                  className="w-full py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg text-center block transition"
-                >
-                  Check Free Score Now
-                </Link>
-              </div>
-            </div>
-          </ScrollReveal>
+          <button
+            onClick={() => setBenefitIndex((prev) => (prev + 1) % benefits.length)}
+            className="w-11 h-11 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 flex items-center justify-center shadow-md transition cursor-pointer shrink-0"
+            aria-label="Next Benefit"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
 
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="flex items-center justify-center gap-2">
+          {benefits.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setBenefitIndex(idx)}
+              className={`h-2 rounded-full transition-all duration-300 ${idx === benefitIndex ? 'w-6 bg-blue-600' : 'w-2 bg-slate-300'}`}
+            />
+          ))}
         </div>
       </section>
 
-      {/* 5. CREDIT SCORE BANNER SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ScrollReveal className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-950 rounded-3xl p-8 lg:p-14 text-white shadow-2xl relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-10 border border-slate-800">
+      {/* 4. "SEE FINCRO IN ACTION" — EXACT MATCH TO SCREENSHOT 4 */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          <div className="space-y-5 max-w-xl text-center lg:text-left">
-            <span className="bg-white/15 text-blue-200 text-xs font-extrabold uppercase tracking-wider px-4 py-1.5 rounded-full inline-block border border-white/15">
-              INSTANT CREDIT CHECK
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black leading-tight tracking-tight">
-              Get Your Official Credit Score In 2 Minutes
+          {/* Left Column Text & Feature Cards */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight leading-tight">
+              See FinCRO in Action
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-              No hidden fees, no spam calls, no impact on score. Uncover pre-approved bank offers tailored specifically for your financial profile.
+            <p className="text-sm text-slate-600 font-medium leading-relaxed max-w-xl">
+              Discover how FinCRO helps you unlock pre-approved offers in minutes. Complete a simple digital application, get matched with trusted partners, and choose the best offer tailored to your profile — all through a fast, secure, and paperless process.
             </p>
-            <div className="pt-2">
-              <Link
-                to="/credit-score"
-                className="px-8 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm uppercase tracking-wider shadow-lg inline-flex items-center gap-2 transition"
-              >
-                Get Free Credit Score <ArrowRight className="w-4 h-4" />
-              </Link>
+
+            {/* 3 Color Feature Blocks Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              
+              {/* Card 1: Purple */}
+              <div className="bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-5 rounded-2xl shadow-lg space-y-2">
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <h4 className="text-sm font-black">Smart Offer Matching</h4>
+                <p className="text-[11px] text-purple-100 font-medium leading-tight">
+                  Instantly matched with lenders based on your profile and eligibility.
+                </p>
+              </div>
+
+              {/* Card 2: Green */}
+              <div className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-5 rounded-2xl shadow-lg space-y-2">
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5 text-white stroke-[2.5]" />
+                </div>
+                <h4 className="text-sm font-black">Quick & Secure Process</h4>
+                <p className="text-[11px] text-emerald-100 font-medium leading-tight">
+                  Complete your verification and documentation online in minutes.
+                </p>
+              </div>
+
+              {/* Card 3: Red/Pink */}
+              <div className="bg-gradient-to-br from-rose-500 to-red-600 text-white p-5 rounded-2xl shadow-lg space-y-2">
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-white fill-white" />
+                </div>
+                <h4 className="text-sm font-black">Fast Disbursal</h4>
+                <p className="text-[11px] text-rose-100 font-medium leading-tight">
+                  Get approved and receive money quickly without unnecessary delays.
+                </p>
+              </div>
+
             </div>
           </div>
 
-          <div className="w-full max-w-md">
-            <SpeedometerGauge />
+          {/* Right Column Illustration Mockup */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="relative w-full max-w-sm bg-gradient-to-b from-blue-50 to-white p-8 rounded-3xl border border-slate-200/80 shadow-2xl text-center space-y-6">
+              <div className="w-20 h-20 rounded-full bg-blue-600 text-white flex items-center justify-center mx-auto shadow-xl shadow-blue-500/30">
+                <Building2 className="w-10 h-10" />
+              </div>
+              <div className="space-y-2">
+                <span className="text-xs font-black uppercase text-blue-600 tracking-wider">FINCRO APP ENGINE</span>
+                <h3 className="text-2xl font-black text-slate-900">Instant Sanction</h3>
+                <p className="text-xs text-slate-500 font-medium">100% digital loan matching with 20+ RBI lenders</p>
+              </div>
+              <button
+                onClick={onOpenApply}
+                className="w-full py-3.5 rounded-full bg-slate-950 hover:bg-blue-600 text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition cursor-pointer"
+              >
+                Apply Loan Now
+              </button>
+            </div>
           </div>
 
-        </ScrollReveal>
+        </div>
       </section>
 
-      {/* 6. INTERACTIVE EMI CALCULATOR SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 5. CUSTOMER TESTIMONIALS (EXACT MATCH TO SCREENSHOT 5) */}
+      <section className="bg-gradient-to-b from-[#0d3b66] to-[#1e40af] text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10">
+          
+          <div className="space-y-2">
+            <p className="text-xs font-black uppercase tracking-widest text-blue-200">TESTIMONIALS</p>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">What Our Customers Say</h2>
+          </div>
+
+          <div className="relative max-w-4xl mx-auto flex items-center gap-4">
+            
+            <button
+              onClick={() => setTestimonialIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))}
+              className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition cursor-pointer shrink-0"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 text-slate-900">
+              {testimonials.map((item, idx) => (
+                <div key={idx} className="bg-white rounded-3xl p-6 text-left space-y-4 shadow-xl flex flex-col justify-between">
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium italic">
+                    "{item.text}"
+                  </p>
+                  <div className="pt-3 border-t border-slate-100">
+                    <h4 className="text-sm font-black text-slate-900">{item.name}</h4>
+                    <p className="text-[11px] text-blue-600 font-bold">{item.role}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setTestimonialIndex((prev) => (prev + 1) % testimonials.length)}
+              className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition cursor-pointer shrink-0"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+
+          </div>
+
+          <div className="flex items-center justify-center gap-2">
+            {testimonials.map((_, idx) => (
+              <span key={idx} className={`w-2 h-2 rounded-full ${idx === testimonialIndex ? 'bg-white' : 'bg-white/40'}`} />
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 6. CREDIT SCORE & EMI CALCULATOR SECTION */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <ScrollReveal>
           <EMICalculator onApply={onOpenApply} />
         </ScrollReveal>
-      </section>
-
-      {/* 7. 3-STEP APPLICATION PROCESS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100">
-            SIMPLE & TRANSPARENT
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight">
-            Get Approved In 3 Simple Steps
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          
-          <ScrollReveal delay={0} className="h-full">
-            <div className="bg-white border border-slate-200/80 rounded-3xl p-8 text-center space-y-5 shadow-sm hover:shadow-xl transition duration-300 h-full">
-              <div className="w-16 h-16 rounded-2xl bg-blue-100 text-blue-700 font-black text-2xl flex items-center justify-center mx-auto shadow-inner">
-                01
-              </div>
-              <h3 className="text-xl font-black text-slate-950">1. Share Basic Details</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Fill in basic income, employment, and contact details. Our intelligent engine matches you with top bank offers in seconds.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={150} className="h-full">
-            <div className="bg-white border border-slate-200/80 rounded-3xl p-8 text-center space-y-5 shadow-sm hover:shadow-xl transition duration-300 h-full">
-              <div className="w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-700 font-black text-2xl flex items-center justify-center mx-auto shadow-inner">
-                02
-              </div>
-              <h3 className="text-xl font-black text-slate-950">2. Select Best Offer</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Compare transparent interest rates, EMIs, tenure options, and select the deal that fits your financial goals perfectly.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={300} className="h-full">
-            <div className="bg-white border border-slate-200/80 rounded-3xl p-8 text-center space-y-5 shadow-sm hover:shadow-xl transition duration-300 h-full">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 font-black text-2xl flex items-center justify-center mx-auto shadow-inner">
-                03
-              </div>
-              <h3 className="text-xl font-black text-slate-950">3. Direct Disbursal</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Complete quick online KYC verification and receive loan funds directly into your verified bank account.
-              </p>
-            </div>
-          </ScrollReveal>
-
-        </div>
       </section>
 
     </div>
@@ -383,5 +501,3 @@ const Home = ({ onOpenApply }) => {
 };
 
 export default Home;
-
-

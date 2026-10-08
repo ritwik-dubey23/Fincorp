@@ -2,11 +2,11 @@ import Otp from '../models/Otp.js';
 import mongoose from 'mongoose';
 import { sendEmail } from './emailService.js';
 
-// In-memory OTP store for offline/unreachable DB environments
+// In-memory OTP store for rate limiting
 const memoryOtps = new Map();
 
 /**
- * Send OTP via MsgClub REST API (or secure fallback in dev/mock mode)
+ * Send OTP via MsgClub REST API Gateway
  */
 export const sendOtpService = async ({ mobile, email }) => {
   if (!mobile || !/^[6-9]\d{9}$/.test(mobile)) {
@@ -26,8 +26,8 @@ export const sendOtpService = async ({ mobile, email }) => {
   const baseUrl = process.env.MSGCLUB_BASE_URL || 'https://msg.msgclub.net/rest/otpservice/v2';
   const dltTeId = process.env.MSGCLUB_DLT_TE_ID || '';
 
-  // If MsgClub AUTH_KEY is provided in production, call MsgClub API
-  if (authKey && authKey !== 'mock' && authKey !== 'your_msgclub_auth_key_here') {
+  // If MsgClub AUTH_KEY is set in environment, send via MsgClub SMS Gateway
+  if (authKey && authKey !== 'your_msgclub_auth_key_here') {
     try {
       const url = `${baseUrl}/sendOtp?AUTH_KEY=${encodeURIComponent(authKey)}&mobileNumber=${encodeURIComponent(mobile)}&senderId=${encodeURIComponent(senderId)}&routeId=${encodeURIComponent(routeId)}${dltTeId ? `&dltTeId=${encodeURIComponent(dltTeId)}` : ''}`;
       
@@ -43,17 +43,20 @@ export const sendOtpService = async ({ mobile, email }) => {
         memoryOtps.set(mobile, { mobile, createdAt: now });
         return { success: true, message: 'OTP sent successfully to your mobile number.' };
       } else {
-        throw new Error(data.response || data.message || 'Failed to dispatch OTP via MsgClub Gateway');
+        throw new Error(`[MsgClub API Error]: ${data.response || data.message || 'Failed to dispatch SMS OTP. Check MsgClub credentials.'}`);
       }
     } catch (apiErr) {
       console.error('[MsgClub Send API Error]:', apiErr.message);
-      // Fail open to local/email OTP in fallback mode if API unreachable
+      if (apiErr.message.includes('[MsgClub API Error]')) {
+        throw apiErr;
+      }
+      throw new Error(`[MsgClub Connection Error]: ${apiErr.message}`);
     }
   }
 
-  // Fallback / Dev Generation: 6-digit random OTP
+  // Fallback mode ONLY if MsgClub AUTH_KEY is not configured in .env
   const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-  const expiresAt = new Date(now + 5 * 60 * 1000); // 5 minutes expiry
+  const expiresAt = new Date(now + 5 * 60 * 1000); // 5 mins
 
   const otpData = {
     mobile,
@@ -66,17 +69,16 @@ export const sendOtpService = async ({ mobile, email }) => {
 
   memoryOtps.set(mobile, otpData);
 
-  // Save to DB if connected
   if (mongoose.connection.readyState === 1) {
     try {
       await Otp.deleteMany({ mobile });
       await Otp.create({ mobile, otp: generatedOtp, expiresAt });
     } catch (dbErr) {
-      console.warn('[OTP DB Warning]: Saved OTP in fallback memory store');
+      console.warn('[OTP DB Warning]: Saved OTP in memory store');
     }
   }
 
-  console.log(`🔑 [OTP GENERATED (MOCK/DEV)]: Mobile: ${mobile} | OTP: ${generatedOtp}`);
+  console.log(`[OTP SENT]: Mobile: ${mobile} (MsgClub AUTH_KEY pending in backend .env)`);
 
   if (email) {
     await sendEmail({
@@ -89,12 +91,11 @@ export const sendOtpService = async ({ mobile, email }) => {
   return {
     success: true,
     message: 'OTP sent successfully to your mobile number.',
-    otpPreview: (process.env.NODE_ENV !== 'production' || !authKey) ? generatedOtp : undefined,
   };
 };
 
 /**
- * Verify OTP via MsgClub REST API (or fallback store in dev/mock mode)
+ * Verify OTP via MsgClub REST API Gateway
  */
 export const verifyOtpService = async ({ mobile, otp }) => {
   if (!mobile || !otp) {
@@ -105,8 +106,7 @@ export const verifyOtpService = async ({ mobile, otp }) => {
   const authKey = process.env.MSGCLUB_AUTH_KEY;
   const baseUrl = process.env.MSGCLUB_BASE_URL || 'https://msg.msgclub.net/rest/otpservice/v2';
 
-  // If MsgClub AUTH_KEY is provided in production, verify via MsgClub API
-  if (authKey && authKey !== 'mock' && authKey !== 'your_msgclub_auth_key_here') {
+  if (authKey && authKey !== 'your_msgclub_auth_key_here') {
     try {
       const url = `${baseUrl}/verifyOtp?AUTH_KEY=${encodeURIComponent(authKey)}&mobileNumber=${encodeURIComponent(mobile)}&otp=${encodeURIComponent(cleanOtp)}`;
       
@@ -121,21 +121,21 @@ export const verifyOtpService = async ({ mobile, otp }) => {
       if (data.responseCode === '3002' || data.status === 'success' || data.response === 'success' || data.code === 200) {
         return { success: true, message: 'OTP verified successfully.' };
       } else {
-        throw new Error(data.response || data.message || 'Invalid or expired OTP. Please try again.');
+        throw new Error(data.response || data.message || 'Invalid or expired OTP. Please check the 6-digit code sent to your mobile.');
       }
     } catch (apiErr) {
       console.error('[MsgClub Verify API Error]:', apiErr.message);
-      // Fallthrough to local verification if API call failed
+      throw new Error(apiErr.message || 'OTP verification failed via MsgClub Gateway');
     }
   }
 
-  // Local / Fallback verification
+  // Local DB / memory verification if AUTH_KEY not set
   let otpRecord = null;
   if (mongoose.connection.readyState === 1) {
     try {
       otpRecord = await Otp.findOne({ mobile });
     } catch (dbErr) {
-      console.warn('[OTP DB Fallback Lookup]');
+      console.warn('[OTP DB Lookup Warning]');
     }
   }
 
@@ -159,7 +159,7 @@ export const verifyOtpService = async ({ mobile, otp }) => {
 
   if (otpRecord.otp !== cleanOtp) {
     otpRecord.attempts = (otpRecord.attempts || 0) + 1;
-    throw new Error('Invalid OTP. Please check the 6-digit code sent to your mobile.');
+    throw new Error('Invalid OTP. Please check the code sent to your mobile.');
   }
 
   otpRecord.isVerified = true;

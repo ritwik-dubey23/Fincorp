@@ -308,7 +308,6 @@ export const sendForgotPasswordOtp = async (req, res) => {
       message: isEmailSent && !isMock
         ? `OTP sent successfully to ${cleanEmail}`
         : `OTP generated for ${cleanEmail}.${!isEmailSent ? ' (SMTP email failed)' : ''}`,
-      otpPreview: (!isEmailSent || isMock || process.env.NODE_ENV !== 'production') ? generatedOtp : undefined,
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message || 'Failed to send password reset OTP' });
