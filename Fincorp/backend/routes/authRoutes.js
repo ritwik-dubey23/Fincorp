@@ -2,6 +2,7 @@ import express from 'express';
 import {
   register,
   login,
+  otpUserAuth,
   getMe,
   logout,
   sendForgotPasswordOtp,
@@ -12,6 +13,7 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
+router.post('/otp-user', otpUserAuth);
 router.post('/register', register);
 router.post('/login', login);
 router.get('/me', protect, getMe);
@@ -22,4 +24,3 @@ router.post('/forgot-password/verify-otp', verifyForgotPasswordOtp);
 router.post('/forgot-password/reset-password', resetPassword);
 
 export default router;
-

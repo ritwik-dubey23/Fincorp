@@ -31,11 +31,90 @@ const generateToken = (res, userId, role) => {
   }
 };
 
+/**
+ * Passwordless OTP User Authentication (Login / Register)
+ */
+export const otpUserAuth = async (req, res) => {
+  try {
+    const { mobile, name, email } = req.body;
+
+    if (!mobile || !/^[6-9]\d{9}$/.test(mobile.toString().trim())) {
+      return res.status(400).json({ success: false, message: 'Valid 10-digit Indian mobile number is required' });
+    }
+
+    const cleanMobile = mobile.toString().trim();
+    await connectDB();
+
+    let user = await User.findOne({ mobile: cleanMobile });
+
+    if (user) {
+      const token = generateToken(res, user._id, user.role);
+      return res.status(200).json({
+        success: true,
+        isExistingUser: true,
+        message: 'Welcome back! Authentication successful.',
+        token,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          mobile: user.mobile,
+          role: user.role,
+        },
+      });
+    }
+
+    // New user path
+    if (!name || !email) {
+      return res.status(200).json({
+        success: true,
+        isExistingUser: false,
+        requiresRegistration: true,
+        message: 'Mobile number verified. Please provide your name and email address to complete registration.',
+      });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const existingEmail = await User.findOne({ email: cleanEmail });
+    if (existingEmail) {
+      return res.status(400).json({ success: false, message: 'An account with this email address already exists' });
+    }
+
+    const newUser = await User.create({
+      name: name.trim(),
+      email: cleanEmail,
+      mobile: cleanMobile,
+      role: 'user',
+      isMobileVerified: true,
+    });
+
+    const token = generateToken(res, newUser._id, newUser.role);
+    sendWelcomeEmail(newUser).catch((err) => console.error('[Welcome Email Error]:', err.message));
+
+    return res.status(201).json({
+      success: true,
+      isExistingUser: false,
+      message: 'Account created successfully.',
+      token,
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        mobile: newUser.mobile,
+        role: newUser.role,
+      },
+    });
+  } catch (error) {
+    console.error('[OTP User Auth Error]:', error);
+    return res.status(500).json({ success: false, message: error.message || 'Authentication failed' });
+  }
+};
+
 export const register = async (req, res) => {
   try {
     const { name, email, mobile, password, role } = req.body;
 
-    if (!name || !email || !mobile || !password) {
+    if (!name || !email || !mobile) {
       return res.status(400).json({ success: false, message: 'All mandatory fields are required' });
     }
 
@@ -44,10 +123,6 @@ export const register = async (req, res) => {
 
     if (!/^[6-9]\d{9}$/.test(cleanMobile)) {
       return res.status(400).json({ success: false, message: 'Please enter a valid 10-digit Indian mobile number' });
-    }
-
-    if (password.length < 6) {
-      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' });
     }
 
     await connectDB();
@@ -65,8 +140,8 @@ export const register = async (req, res) => {
       });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const salt = password ? await bcrypt.genSalt(10) : null;
+    const hashedPassword = password ? await bcrypt.hash(password, salt) : undefined;
     const userRole = role === 'admin' ? 'admin' : 'user';
 
     const user = await User.create({
@@ -75,16 +150,15 @@ export const register = async (req, res) => {
       mobile: cleanMobile,
       password: hashedPassword,
       role: userRole,
+      isMobileVerified: true,
     });
 
     const token = generateToken(res, user._id, user.role);
-
-    // Send Welcome Email asynchronously
     sendWelcomeEmail(user).catch((err) => console.error('[Welcome Email Error]:', err.message));
 
     return res.status(201).json({
       success: true,
-      message: 'Congratulations! Your account has been created successfully.',
+      message: 'Account created successfully.',
       token,
       user: {
         id: user._id,
@@ -134,19 +208,19 @@ export const login = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials. User not found.' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials. Password incorrect.' });
+    if (user.password) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ success: false, message: 'Invalid credentials. Password incorrect.' });
+      }
     }
 
     const token = generateToken(res, user._id, user.role);
-
-    // Send Login Notification Email asynchronously
     sendLoginNotificationEmail(user).catch((err) => console.error('[Login Email Error]:', err.message));
 
     return res.status(200).json({
       success: true,
-      message: 'Congratulations! You have logged in successfully.',
+      message: 'Logged in successfully.',
       token,
       user: {
         id: user._id,
@@ -233,7 +307,7 @@ export const sendForgotPasswordOtp = async (req, res) => {
       success: true,
       message: isEmailSent && !isMock
         ? `OTP sent successfully to ${cleanEmail}`
-        : `OTP generated for ${cleanEmail}.${!isEmailSent ? ' (SMTP email failed - check Gmail App Password credentials)' : ''}`,
+        : `OTP generated for ${cleanEmail}.${!isEmailSent ? ' (SMTP email failed)' : ''}`,
       otpPreview: (!isEmailSent || isMock || process.env.NODE_ENV !== 'production') ? generatedOtp : undefined,
     });
   } catch (error) {
@@ -314,7 +388,7 @@ export const resetPassword = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Password reset successfully! You can now log in with your new password.',
+      message: 'Password reset successfully!',
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message || 'Failed to reset password' });

@@ -48,6 +48,18 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
+  const otpUserAuth = async ({ mobile, name, email }) => {
+    const res = await API.post('/auth/otp-user', { mobile, name, email });
+    if (res.data.success && res.data.token) {
+      localStorage.setItem('fincorp_token', res.data.token);
+      if (res.data.user) {
+        localStorage.setItem('fincorp_user', JSON.stringify(res.data.user));
+        setUser(res.data.user);
+      }
+    }
+    return res.data;
+  };
+
   const login = async (email, password) => {
     const res = await API.post('/auth/login', { email, password });
     if (res.data.success && res.data.token) {
@@ -84,7 +96,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, fetchUser }}>
+    <AuthContext.Provider value={{ user, loading, otpUserAuth, login, register, logout, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );

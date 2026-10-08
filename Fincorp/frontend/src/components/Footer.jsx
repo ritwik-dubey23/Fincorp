@@ -30,12 +30,23 @@ const Footer = ({ onOpenApply }) => {
           {/* Col 1: Brand & Contact Info */}
           <div className="lg:col-span-5 space-y-6">
             <Link to="/" className="inline-flex items-center gap-2.5 group">
-              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center group-hover:scale-105 transition transform duration-200">
-                <ShieldCheck className="w-6 h-6 text-white" />
+              <img
+                src="/logo.png"
+                alt="FinCRO Logo"
+                className="h-10 max-h-11 w-auto object-contain group-hover:scale-105 transition transform duration-200"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  if (e.target.nextSibling) e.target.nextSibling.style.display = 'inline-flex';
+                }}
+              />
+              <div className="inline-flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center group-hover:scale-105 transition transform duration-200">
+                  <ShieldCheck className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-2xl font-extrabold tracking-tight text-white">
+                  FIN<span className="text-blue-500">CORP</span>
+                </span>
               </div>
-              <span className="text-2xl font-extrabold tracking-tight text-white">
-                FIN<span className="text-blue-500">CORP</span>
-              </span>
             </Link>
 
             <p className="text-sm text-slate-400 leading-relaxed max-w-md">

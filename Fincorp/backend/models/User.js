@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false, // Optional for Passwordless OTP users
     },
     role: {
       type: String,
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
     },
     isMobileVerified: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   { timestamps: true }
