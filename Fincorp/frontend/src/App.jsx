@@ -24,6 +24,8 @@ const PartnersPage = lazy(() => import('./pages/PartnersPage'));
 const CustomersPage = lazy(() => import('./pages/CustomersPage'));
 const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'));
 
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage'));
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'));
 const AdminApplicationsPage = lazy(() => import('./pages/AdminApplicationsPage'));
@@ -87,11 +89,11 @@ function App() {
             <Route path="/customers" element={<CustomersPage onOpenApply={(prod) => handleOpenApply(prod)} />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
 
-            {/* Direct Apply Trigger Routes */}
+            {/* Authentication Routes */}
+            <Route path="/login" element={<LoginPage initialView="login" />} />
+            <Route path="/signup" element={<LoginPage initialView="signup" />} />
             <Route path="/apply" element={<DirectApplyRoute handleOpenApply={handleOpenApply} />} />
             <Route path="/apply-loan" element={<DirectApplyRoute handleOpenApply={handleOpenApply} />} />
-            <Route path="/login" element={<DirectApplyRoute handleOpenApply={handleOpenApply} />} />
-            <Route path="/signup" element={<DirectApplyRoute handleOpenApply={handleOpenApply} />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLoginPage />} />

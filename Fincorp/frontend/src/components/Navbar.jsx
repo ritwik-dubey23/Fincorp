@@ -77,7 +77,16 @@ const Navbar = ({ onOpenApply }) => {
             </nav>
 
             {/* 3. Right: Actions Container */}
-            <div className="hidden lg:flex items-center gap-4 shrink-0">
+            <div className="hidden lg:flex items-center gap-3 shrink-0">
+              {!user && (
+                <Link
+                  to="/login"
+                  className="px-5 py-2.5 rounded-full bg-[#0d3b66] hover:bg-blue-700 text-white text-xs font-black uppercase tracking-wider shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap"
+                >
+                  Sign In
+                </Link>
+              )}
+
               <button
                 onClick={() => onOpenApply('personal_loan')}
                 className="px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 text-white text-xs font-black uppercase tracking-wider shadow-md shadow-blue-500/25 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/35 hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap"
