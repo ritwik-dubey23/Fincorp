@@ -32,6 +32,7 @@ import EMICalculator from '../components/EMICalculator';
 import SpeedometerGauge from '../components/SpeedometerGauge';
 import AnimatedCounter from '../components/AnimatedCounter';
 import ScrollReveal from '../components/ScrollReveal';
+import { personalLoanBannerBase64 } from '../assets/personalLoanBannerBase64';
 
 const Home = ({ onOpenApply }) => {
   // Hero Embedded Lead State
@@ -465,7 +466,7 @@ const Home = ({ onOpenApply }) => {
 
               <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-md">
                 <img
-                  src="/personal-loan-banner.jpg"
+                  src={personalLoanBannerBase64}
                   alt="Personal Loan - For Life's Important Moments"
                   className="w-full h-auto block rounded-2xl object-cover hover:scale-[1.02] transition-transform duration-300"
                 />
