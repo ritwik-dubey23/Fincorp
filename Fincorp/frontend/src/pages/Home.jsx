@@ -173,7 +173,7 @@ const Home = ({ onOpenApply }) => {
     <div className="space-y-16 pb-16 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif]">
       
       {/* 1. HERO SECTION */}
-      <section className="relative pt-10 pb-20 md:pt-16 md:pb-28 overflow-hidden bg-gradient-to-b from-white via-blue-50/40 to-[#f8faff]" data-purpose="hero-section">
+      <section className="relative pt-6 pb-12 md:pt-8 md:pb-16 overflow-hidden bg-gradient-to-b from-white via-blue-50/30 to-[#f8faff]" data-purpose="hero-section">
         {/* Subtle Decorative Grid Pattern Overlay */}
         <div 
           className="absolute inset-0 opacity-15 pointer-events-none"
@@ -185,42 +185,9 @@ const Home = ({ onOpenApply }) => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          {/* Hero Header Tag & Titles */}
-          <div className="text-center max-w-3xl mx-auto mb-10">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase bg-blue-100/70 text-[#0050b5] border border-blue-200/80 shadow-xs mb-4">
-              EMPOWERING SMARTER BORROWING
-            </span>
-            <h1 className="text-3xl sm:text-5xl lg:text-[52px] font-extrabold text-slate-900 tracking-tight leading-tight mb-5">
-              Your Smart Borrowing Partner<br className="hidden sm:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0050b5] to-blue-700"> - FinCrop</span>
-            </h1>
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
-              A trusted partner for smarter financial decisions, offering clarity, support, and tools to move ahead. Begin your journey toward confident financial progress today.
-            </p>
-            
-            {/* Action CTA Group */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <button
-                onClick={() => onOpenApply && onOpenApply('personal_loan')}
-                className="btn-smooth-animate btn-brand-glow px-8 py-3.5 bg-[#0050b5] hover:bg-[#003e8c] text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/25 flex items-center gap-2 cursor-pointer"
-              >
-                <span>Apply Now</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <a
-                href="#playstore"
-                className="btn-smooth-animate btn-dark-glow px-7 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl flex items-center gap-2.5 shadow-md"
-              >
-                <Smartphone className="w-4 h-4 text-blue-400" />
-                <span>Play Store</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Hero Banner Feature Graphic Display & Quick Apply Container */}
-          <div className="max-w-5xl mx-auto mt-8 space-y-10">
-            {/* Hero Banner Image */}
-            <div className="rounded-3xl overflow-hidden shadow-2xl border border-blue-100 bg-white group transition-all duration-300 hover:shadow-blue-500/10">
+          {/* Main Hero Visual Image (Immediately below Navbar) */}
+          <div className="max-w-6xl mx-auto">
+            <div className="rounded-3xl overflow-hidden shadow-2xl border border-blue-100/80 bg-white group transition-all duration-300 hover:shadow-blue-500/15">
               <img
                 src={heroBannerBase64 || "/hero-banner.png"}
                 alt="Seamless Loan Solutions To Empower Your Ambitions with FinCrop"
@@ -228,77 +195,19 @@ const Home = ({ onOpenApply }) => {
                   e.target.onerror = null;
                   e.target.src = "/ref-images/hero-banner.png";
                 }}
-                className="w-full h-auto object-cover rounded-3xl transform transition-transform duration-500 group-hover:scale-[1.01]"
+                className="w-full h-auto object-cover rounded-3xl transform transition-transform duration-500 group-hover:scale-[1.005]"
               />
             </div>
 
-            {/* Quick Lead Apply Card */}
-            <div className="max-w-xl mx-auto">
-              <div className="bg-white rounded-3xl p-6 sm:p-7 text-slate-900 shadow-xl border border-slate-200/80 relative">
-                
-                <div className="space-y-2 mb-5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-extrabold text-[#0050b5] uppercase tracking-wider text-xs">Instant Loan Eligibility</span>
-                    <span className="font-bold text-emerald-600 flex items-center gap-1 text-[11px]">
-                      <ShieldCheck className="w-3.5 h-3.5" /> 100% Digital
-                    </span>
-                  </div>
-                  <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                    <div className="w-1/2 h-full bg-[#0050b5] rounded-full" />
-                  </div>
-                </div>
-
-                <form onSubmit={handleHeroSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5 flex items-center gap-1.5">
-                      <UserIcon className="w-3.5 h-3.5 text-[#0050b5]" /> Full Name (as per PAN)
-                    </label>
-                    <input
-                      type="text"
-                      value={heroName}
-                      onChange={(e) => setHeroName(e.target.value)}
-                      placeholder="Enter your full name"
-                      required
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5 flex items-center gap-1.5">
-                      <PhoneCall className="w-3.5 h-3.5 text-[#0050b5]" /> Mobile Number
-                    </label>
-                    <div className="flex gap-2">
-                      <div className="bg-slate-100 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-bold text-slate-700 flex items-center justify-center shrink-0">
-                        +91
-                      </div>
-                      <input
-                        type="tel"
-                        maxLength={10}
-                        value={heroMobile}
-                        onChange={(e) => setHeroMobile(e.target.value.replace(/\D/g, ''))}
-                        placeholder="Enter 10-digit mobile"
-                        required
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
-                      />
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn-smooth-animate btn-brand-glow w-full py-3.5 rounded-xl bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 cursor-pointer mt-2"
-                  >
-                    <span>Get Instant OTP Offers</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-
-                  <p className="text-[11px] text-slate-400 font-medium leading-normal text-center pt-1">
-                    By clicking, you agree to FinCrop's{' '}
-                    <Link to="/privacy" className="text-[#0050b5] hover:underline">Privacy Policy</Link> &{' '}
-                    <Link to="/terms" className="text-[#0050b5] hover:underline">Terms</Link>.
-                  </p>
-                </form>
-
-              </div>
+            {/* Single Premium Apply Now Button (Immediately below Provided Image) */}
+            <div className="mt-6 sm:mt-8 flex justify-center">
+              <button
+                onClick={() => onOpenApply && onOpenApply('personal_loan')}
+                className="btn-smooth-animate btn-brand-glow px-10 py-4 bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-base sm:text-lg rounded-2xl shadow-xl shadow-blue-600/30 flex items-center gap-3 cursor-pointer group transition-all duration-300"
+              >
+                <span>Apply Now</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
           </div>
 
