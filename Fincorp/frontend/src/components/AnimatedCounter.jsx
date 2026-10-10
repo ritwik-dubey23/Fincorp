@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const AnimatedCounter = ({ target, suffix = '%', prefix = '', className = '' }) => {
+const AnimatedCounter = ({ target, end, suffix = '%', prefix = '', className = '' }) => {
+  const finalTarget = Number(target ?? end ?? 100);
   const [count, setCount] = useState(0);
   const counterRef = useRef(null);
   const animatedRef = useRef(false);
@@ -14,12 +15,12 @@ const AnimatedCounter = ({ target, suffix = '%', prefix = '', className = '' }) 
           const duration = 1200; // ms
           const steps = 30;
           const stepTime = duration / steps;
-          const increment = target / steps;
+          const increment = finalTarget / steps;
 
           const timer = setInterval(() => {
             start += increment;
-            if (start >= target) {
-              setCount(target);
+            if (start >= finalTarget) {
+              setCount(finalTarget);
               clearInterval(timer);
             } else {
               setCount(Math.round(start));
@@ -35,7 +36,7 @@ const AnimatedCounter = ({ target, suffix = '%', prefix = '', className = '' }) 
     }
 
     return () => observer.disconnect();
-  }, [target]);
+  }, [finalTarget]);
 
   return (
     <span ref={counterRef} className={className}>

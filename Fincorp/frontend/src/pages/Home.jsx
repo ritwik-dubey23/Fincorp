@@ -60,19 +60,66 @@ const Home = ({ onOpenApply }) => {
   };
 
   const lenders = [
-    { name: 'Hero FINCORP', logo: '/ref-images/fincrop_continuous_moving_lenders_marquee.png' },
-    { name: 'InCred Finance', logo: '/ref-images/incred.png' },
-    { name: 'indifi', logo: '/ref-images/indifi.png' },
-    { name: 'ADITYA BIRLA CAPITAL', logo: '/ref-images/aditya.png' },
-    { name: 'DMI FINANCE', logo: '/ref-images/dmi.png' },
-    { name: 'L&T Finance', logo: '/ref-images/lt.png' },
-    { name: 'Tata Capital', logo: '/ref-images/tatacaptial.png' },
-    { name: 'Poonawalla Fincorp', logo: '/ref-images/poonawalla.png' },
-    { name: 'IDFC FIRST Bank', logo: '/ref-images/idfc.png' },
-    { name: 'LENDINGKART', logo: '/ref-images/lending.png' },
-    { name: 'Ram Fincorp', logo: '/ref-images/ramfincorp.png' },
-    { name: 'SalaryOnTime', logo: '/ref-images/salaryontime.png' },
-    { name: 'Unity Bank', logo: '/ref-images/unity.png' },
+    {
+      name: 'Aditya Birla Capital',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD39a5MVXWjh9aQfm2QDHSUtI304dQ6w1o2mTTj9e_OJ1AilLjsA-LRyPN6ZiTcPI2pOKJW564KJnrYa1NULtph-Pg-WFEJ1iWo1YvgD_H3rzg6CYpAeX7y3EwTzgOeizj10P5aWpjNXCQ0NsXFu7-zSwN4Z1yVBut5GoKGYWpbLrnGgZhU6KEXUOw6Rl_QOpb23fjvxRfHidD6t857izkO6lwtZGJWl5M_UEoo6qkXyjdIK-lfNVs1N20xWbP2EPJh1BQ',
+      local: '/ref-images/aditya.png',
+    },
+    {
+      name: 'Indifi',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAQKzETx7yI1F1B7EUxx4hrLnoiD63pCaC4XFoxKTgA2Z5D1XVp5ARNEaNPhSAg1tntxWn7dr6i13Sbwuf-CoAedPX-yYMcHRD2MjamlGI1I5RdAMkitC-50Ezfi7MVD_gVMKz7iByNIq9L2QkiVjAKBeWwyz22r6wSycwJDRt6Aw7l9iuabWBo8LHEzeIYG3WEQfESWJaWIUp0jH8nq-RwHV976uAfOnDiTN86bE_RPWNBzdWDp4A52PFnSn3zaeBB9Xs',
+      local: '/ref-images/indifi.png',
+    },
+    {
+      name: 'Tata Capital',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC2Q_9-vDh85JM_nFWmaFgimN2zMU7CIk2pVuvd-01aTW3GGd9Pf2LsuQuEi1vqlHwaAUdLDmr95e2PcMU6WmoL9dyd5auxCQceCLRI9lbvbupqN6kdM0YeUws4i7G3QLOV7p7TO_UJNIoVx6-3dVXSSpelA6nMYXMpyXLSSgh4kq62E6HCV5usxT1oGA96fopOO8dLZJyk6qGAUQJzsSaAR1YZdPJ1zGLX4D-zbO7AozwYoAC_iz2cYYiXQenrRtsC55E',
+      local: '/ref-images/tatacaptial.png',
+    },
+    {
+      name: 'L&T Finance',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIM4EQ-6aIcA2Hde5ixdKt2mQP1OkfuBms18i4qYdS0NzIiJf-wVlxHW4b1h1P02_SZkTz_mVUCWPwDWFqNijianWXu9M_eHHBPbcdT89FNakf2UPdhP_CjzPNKNgEb15N0Ma-26R4iLCtX8leq1k6fWSvOx4B-GoflDHHSyINWw1ZJzmWA17GcFJjA-JP7z1p9v0RPs2k7ZL_91OHGkzEq0tji8P4ZKG62h_s8flsF2o5prTYIDuhy-klcp9VUR8Dcx0',
+      local: '/ref-images/lt.png',
+    },
+    {
+      name: 'IDFC FIRST Bank',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBq_QM1tD4KdwO9_WeZkVsJ_hn4Yy2lE2QmYu8t9Jj1laeAzDr-7p3pIi2k8KUOxGViAMtMWduG3PcDltDQ-uJDWdC2-7Xp6sdNKCRC6KvrNiDCs-FZDnHcjWVOwo8dhfVNGcHF4yXu4ya6u5oIKaivIPyIxhCuW3INhdht1i5Ufka8WDtVBxWw78Qt0bXWAyLVeEGD-vrL8hDSRTTqkasFvbv2KdDdM5fP3XvNjO5CgS_qXrhvARDEo36Syj6XbUY5L0s',
+      local: '/ref-images/idfc.png',
+    },
+    {
+      name: 'InCred Finance',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAPNQJzQCFYq2zwpgXpy-AKa-78SGen1YnDIiRgGCXGdyRmfkHOhQmDjnddFCXnnCG1eWn9AiWWD8rT_5_AhW4ZeAELmYsc2fFt9OS7ox2CAkqXUsOm1XdOPl8UoTz7_gBeQ-DN2RDfyIl4haqA2Ra-d_fd0OEulWmwOo-Nko-cyLptfEwMJiSsRiNmOwbW-Iz1ezDP9RrtRkjKij2LO1e-4pKSjgYNuV65zZqz2VOTe1ulHGHxuqWaOg3yBsQoOrbPvSI',
+      local: '/ref-images/incred.png',
+    },
+    {
+      name: 'SalaryOnTime',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC0ZFwtXgG9lXnmAbsYQQZB-ctC7uYhmZwaIK0XfmZjOP6SfwkcJQy8P_wTocy523OU54ld_4EOVdpteaJZemf_rCI-nZaTPRjiT9ScnKZoGNLKWFrVOxWq31Wm4sEYv2Ga-GL6s0E22UaeCzTVNvRfqkTBR-3EDUrkHKYSbwdP0e1g9r_wImbBFY73dnfu8ew0QF-_4P3p-D2jT4M3ye56lOi1XXojmNImsVO_QvhJXNhLmzKEqGPKl21duXSohxTGk2U',
+      local: '/ref-images/salaryontime.png',
+    },
+    {
+      name: 'Poonawalla Fincorp',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCcOVat2Vw7iIMmL2YY6Omr1ymPmzM4FUCiwvaiWFkSSFJL3XFN7BZXxdH0IQToO5qI_n7toidukX8MLHVog3t6HZCytVTT2xqJrPozY_ZoekpcUw3rhWozFzSK37BS6f5xc-v2SCDr81SUgxcz-U0NfbDSII50EloGRE56PvMRPKG-BncOOIZTZku7uF08zpOo4eAxFoBb5y83F4o8slbyHylM1Xj0zba8wLkYEVrrvNpH8yfy3aDRxO0-6kX_2rfgT58',
+      local: '/ref-images/poonawalla.png',
+    },
+    {
+      name: 'Unity Bank',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDkMScoa-5esneBTlRRHbDTIRMFkKLNcHYF0ffAbHLPS3bMb14uBw8auEBWYuVJuX8tvLWIizopzroJCu107_HbNC3Cp_vlEdVPVLCeei3OzU4F87qcnB26JGIfLak9g7AWPy6j26FwDT-CKmz0HPuUkGzlvmZwCa5D8A43P0zqpQB6eamuO4-wVsD__qJVhPVtbdEPlOASOMkQgPWWIyyzmb26EvOb6Wnqzml5N43z6Hyrgf-E6KSgt6r3ZGeck51r0yw',
+      local: '/ref-images/unity.png',
+    },
+    {
+      name: 'DMI Finance',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAREnmtZbKo_dFXG1xPpmHa9CYITvXYASxXqMEeIto7_f1yPaS1N3M9bVmIOhMKEv7cpwcKevA8SH9YjN8AHUpSFtbEI1-RgDydJcJ6BWWi6hIoXFRXrMwZY-VS_j5UDn6olnP9VExj8acpjYkKKtzT5ABxqF7It_I69S9RV62_qHdOsS3rnDmUWEVNMpZkMdHUeqzcVGgybTYWeHPONN-0EbeuC352BE5cG60Kjrdv3sAn4DqfUMrqwlrjWWpwlYkbVaM',
+      local: '/ref-images/dmi.png',
+    },
+    {
+      name: 'Ram Fincorp',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB_5Xumc6wxIVwUSR5MxnORSaNrKeCicvO0lSTH10KxGXPfAm-V8GXyMQk9WjGngm1xki25vF-qn4zYkKyd4lmVtEJmGZagQsBko8Y8zDlDQikfxz18HemZ5Y0Q0ahjnvS-NUKY12K2nTN1nnjakD1QDADGiFnDcGubcOXAbkFNPAymQDeYsM_Uo4ieG3uC6etMFRoR3LXkB9cWYPM7DNHiG6YWLAsVpUW4KBfNNznOM9JkvVs_yQLVyGGuEjdux4AAIWg',
+      local: '/ref-images/ramfincorp.png',
+    },
+    {
+      name: 'LENDINGKART',
+      url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpKBAf1q9mT1xt7KxwmcbkI-6Q8QJNjU9IYZmqTPK_x4s_ol5k7asF0wr_Qxr32u6NdIyRC70ye4wieVx6k1pcNy1oLjquyDVTiWc02vIZXQSLhzgo6Wf_Y3X9dJ1fq3E69LPcygxuoEmv4mQodBy4ap9yoJLQvEwOlr_DPqyc4vDp5Xrof8duj7waO0LTCSCCYldDXu6GbAkV9RWkRRSMHhhTOsO7uG5oduq-sSUpKdfeGwINdFbiqNiNaoCBpxTZcVs',
+      local: '/ref-images/lending.png',
+    },
   ];
 
   const benefits = [
@@ -370,13 +417,19 @@ const Home = ({ onOpenApply }) => {
                 key={idx}
                 className="bg-white border border-slate-200/90 hover:border-[#0050b5] rounded-xl px-5 py-3 shadow-xs hover:shadow-md transition cursor-pointer shrink-0 flex items-center gap-3 min-h-[52px]"
               >
-                {lender.logo && (
-                  <img
-                    src={lender.logo}
-                    alt={lender.name}
-                    className="h-7 max-w-[100px] object-contain"
-                  />
-                )}
+                <img
+                  src={lender.url}
+                  alt={lender.name}
+                  onError={(e) => {
+                    if (lender.local && !e.target.dataset.failedLocal) {
+                      e.target.dataset.failedLocal = 'true';
+                      e.target.src = lender.local;
+                    } else {
+                      e.target.style.display = 'none';
+                    }
+                  }}
+                  className="h-8 max-w-[110px] object-contain"
+                />
                 <span className="text-xs font-black text-slate-800 tracking-tight whitespace-nowrap">{lender.name}</span>
               </div>
             ))}
