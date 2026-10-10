@@ -33,6 +33,7 @@ import SpeedometerGauge from '../components/SpeedometerGauge';
 import AnimatedCounter from '../components/AnimatedCounter';
 import ScrollReveal from '../components/ScrollReveal';
 import { personalLoanBannerBase64 } from '../assets/personalLoanBannerBase64';
+import { heroBannerBase64 } from '../assets/heroBannerBase64';
 
 const Home = ({ onOpenApply }) => {
   // Hero Embedded Lead State
@@ -215,90 +216,23 @@ const Home = ({ onOpenApply }) => {
             </div>
           </div>
 
-          {/* Hero Phone Mockup with Floating Callout Card & Embedded Quick Apply Form */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-5xl mx-auto mt-8">
-            
-            {/* Left Mockup & Floating Card (Column 7) */}
-            <div className="lg:col-span-7 relative flex justify-center items-center">
-              
-              {/* Floating Info Card (Desktop) */}
-              <div className="hidden sm:block absolute -left-4 lg:-left-6 top-8 z-20 bg-slate-900/95 backdrop-blur-md text-white p-5 rounded-2xl shadow-2xl border border-white/10 max-w-[240px]">
-                <div className="flex items-center gap-2 text-xs text-blue-200 mb-1">
-                  <Award className="w-4 h-4 text-amber-400" />
-                  <span className="font-bold">Find Your Ideal Match</span>
-                </div>
-                <p className="text-sm font-black text-white mb-3">20+ Verified Lending Partners</p>
-                <div className="space-y-2 text-xs text-slate-200 font-medium">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 shrink-0" /> Free Credit Score Access
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 shrink-0" /> No Application Fee
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 shrink-0" /> Smart Rate Comparison
-                  </div>
-                </div>
-              </div>
-
-              {/* Phone Device Container */}
-              <div className="relative w-64 sm:w-72 rounded-[44px] p-3 bg-gradient-to-b from-slate-700 to-slate-900 shadow-[0_25px_60px_-15px_rgba(0,35,90,0.3)] border-4 border-slate-300">
-                <div className="relative bg-white rounded-[36px] overflow-hidden pt-4 pb-6 px-4 flex flex-col items-center min-h-[440px] border border-slate-200">
-                  {/* Notch Pill */}
-                  <div className="w-24 h-4 bg-slate-900 rounded-full mb-3" />
-                  
-                  {/* In-App Header */}
-                  <div className="w-full flex items-center justify-between pb-3 border-b border-slate-100 text-xs">
-                    <div>
-                      <span className="text-slate-400 block text-[10px] font-medium">Hi, User!</span>
-                      <span className="font-bold text-slate-800">Welcome Back</span>
-                    </div>
-                    <div className="w-8 h-8 rounded-full bg-blue-100 text-[#0050b5] flex items-center justify-center font-black">
-                      FC
-                    </div>
-                  </div>
-
-                  {/* In-App Loan Match Card */}
-                  <div className="w-full mt-4 p-3 bg-gradient-to-br from-[#0050b5] to-blue-700 rounded-xl text-white shadow-md">
-                    <span className="text-[10px] text-blue-200 tracking-wide uppercase font-bold">Pre-Approved Offer</span>
-                    <p className="text-lg font-black mt-0.5">₹ 5,00,000</p>
-                    <div className="mt-2 flex justify-between items-center text-[10px] text-blue-100">
-                      <span>Interest from 10.49%</span>
-                      <span className="bg-white/20 px-2 py-0.5 rounded font-bold">Instant</span>
-                    </div>
-                  </div>
-
-                  {/* In-App Category Tiles */}
-                  <div className="grid grid-cols-2 gap-2 w-full mt-3">
-                    <div className="p-2.5 bg-slate-50 rounded-lg text-center border border-slate-100">
-                      <Zap className="w-4 h-4 text-[#0050b5] mx-auto mb-1" />
-                      <span className="block text-[11px] font-bold text-slate-700">Personal</span>
-                    </div>
-                    <div className="p-2.5 bg-slate-50 rounded-lg text-center border border-slate-100">
-                      <Building2 className="w-4 h-4 text-[#0050b5] mx-auto mb-1" />
-                      <span className="block text-[11px] font-bold text-slate-700">Business</span>
-                    </div>
-                  </div>
-
-                  {/* Credit Score Dial Preview */}
-                  <div className="mt-3 w-full p-2.5 bg-blue-50/70 border border-blue-100 rounded-xl text-center">
-                    <span className="text-[10px] text-slate-500 font-medium">Your Credit Score</span>
-                    <p className="text-base font-extrabold text-[#0050b5]">785 <span className="text-[10px] text-emerald-600 font-bold">Excellent</span></p>
-                  </div>
-
-                  <button
-                    onClick={() => onOpenApply && onOpenApply('personal_loan')}
-                    className="btn-smooth-animate btn-brand-glow mt-4 w-full py-2 bg-[#0050b5] text-white rounded-lg text-xs font-extrabold shadow cursor-pointer"
-                  >
-                    Check Offers
-                  </button>
-                </div>
-              </div>
-
+          {/* Hero Banner Feature Graphic Display & Quick Apply Container */}
+          <div className="max-w-5xl mx-auto mt-8 space-y-10">
+            {/* Hero Banner Image */}
+            <div className="rounded-3xl overflow-hidden shadow-2xl border border-blue-100 bg-white group transition-all duration-300 hover:shadow-blue-500/10">
+              <img
+                src={heroBannerBase64 || "/hero-banner.png"}
+                alt="Seamless Loan Solutions To Empower Your Ambitions with FinCrop"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/ref-images/hero-banner.png";
+                }}
+                className="w-full h-auto object-cover rounded-3xl transform transition-transform duration-500 group-hover:scale-[1.01]"
+              />
             </div>
 
-            {/* Right Quick Lead Apply Card (Column 5) */}
-            <div className="lg:col-span-5">
+            {/* Quick Lead Apply Card */}
+            <div className="max-w-xl mx-auto">
               <div className="bg-white rounded-3xl p-6 sm:p-7 text-slate-900 shadow-xl border border-slate-200/80 relative">
                 
                 <div className="space-y-2 mb-5">
@@ -365,7 +299,6 @@ const Home = ({ onOpenApply }) => {
 
               </div>
             </div>
-
           </div>
 
         </div>
