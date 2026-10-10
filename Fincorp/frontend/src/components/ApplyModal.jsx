@@ -277,17 +277,17 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
     >
       <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 relative my-auto transition-all transform-gpu animate-in zoom-in-95 duration-200">
         
-        {/* Close Button in Top Right Corner */}
+        {/* Crisp Top Right Close (×) Button */}
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
             handleReset();
           }}
-          className="absolute top-3.5 right-3.5 z-[130] w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-800 flex items-center justify-center shadow-md border border-slate-200/80 transition transform hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md"
+          className="absolute top-3 right-3 z-[140] w-8 h-8 rounded-full bg-white hover:bg-slate-100 text-slate-900 flex items-center justify-center shadow-lg border border-slate-200/90 transition transform hover:scale-110 active:scale-95 cursor-pointer"
           aria-label="Close modal"
         >
-          <X className="w-5 h-5 stroke-[2.5]" />
+          <X className="w-4 h-4 stroke-[3]" />
         </button>
 
         {/* Top Provided Header Image Banner */}
