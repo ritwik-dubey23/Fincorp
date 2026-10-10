@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @layer base {
@@ -145,4 +146,94 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Reference Google Sheets/FinCrop Typography & Custom Color Tokens */
+
+/* Marquee Continuous Moving Lenders Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Reference Micro-Interaction Button Utility Classes */
+.btn-smooth-animate {
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  will-change: transform, box-shadow, filter, background-color;
+}
+
+.btn-smooth-animate:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  filter: brightness(1.06);
+}
+
+.btn-smooth-animate:active {
+  transform: translateY(0px) scale(0.98) !important;
+}
+
+.btn-primary-glow {
+  background-color: #0050b5 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px 0 rgba(0, 80, 181, 0.35) !important;
+}
+
+.btn-primary-glow:hover {
+  background-color: #003e8c !important;
+  box-shadow: 0 10px 24px -4px rgba(0, 80, 181, 0.42), 0 0 16px 2px rgba(0, 101, 224, 0.28) !important;
+}
+
+.btn-brand-glow {
+  background-color: #0050b5 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px 0 rgba(0, 80, 181, 0.38) !important;
+}
+
+.btn-brand-glow:hover {
+  background-color: #003e8c !important;
+  box-shadow: 0 12px 28px -4px rgba(0, 80, 181, 0.48), 0 0 20px 4px rgba(0, 101, 224, 0.32) !important;
+}
+
+.btn-dark-glow {
+  background-color: #031738 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px 0 rgba(3, 23, 56, 0.35) !important;
+}
+
+.btn-dark-glow:hover {
+  background-color: #092552 !important;
+  box-shadow: 0 12px 28px -4px rgba(3, 23, 56, 0.48), 0 0 20px 4px rgba(0, 80, 181, 0.25) !important;
+}
+
+.btn-emerald-glow {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px 0 rgba(5, 150, 105, 0.35) !important;
+}
+
+.btn-emerald-glow:hover {
+  background-color: #047857 !important;
+  box-shadow: 0 12px 28px -4px rgba(5, 150, 105, 0.48), 0 0 20px 4px rgba(16, 185, 129, 0.3) !important;
+}
+
+.shadow-soft {
+  box-shadow: 0 10px 30px -5px rgba(0, 24, 60, 0.06), 0 4px 12px -2px rgba(0, 24, 60, 0.03);
+}
+
+.shadow-card-hover {
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.shadow-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(0, 80, 181, 0.12), 0 8px 16px -4px rgba(0, 24, 60, 0.06);
 }
