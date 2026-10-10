@@ -277,21 +277,8 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
     >
       <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 relative my-auto transition-all transform-gpu animate-in zoom-in-95 duration-200">
         
-        {/* Crisp Top Right Close (×) Button */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleReset();
-          }}
-          className="absolute top-3 right-3 z-[140] w-8 h-8 rounded-full bg-white hover:bg-slate-100 text-slate-900 flex items-center justify-center shadow-lg border border-slate-200/90 transition transform hover:scale-110 active:scale-95 cursor-pointer"
-          aria-label="Close modal"
-        >
-          <X className="w-4 h-4 stroke-[3]" />
-        </button>
-
         {/* Top Provided Header Image Banner */}
-        <div className="relative w-full overflow-hidden bg-slate-950">
+        <div className="relative w-full overflow-hidden bg-slate-950 rounded-t-3xl">
           <img
             src={modalBannerBase64 || "/modal-banner.jpg"}
             alt="FinCorp Digital Loans - Instant Loan Approval Up to 10 Lakhs"
@@ -301,6 +288,19 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
             }}
             className="w-full h-auto block object-cover rounded-t-3xl"
           />
+
+          {/* Crisp Top Right Close (×) Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleReset();
+            }}
+            className="absolute top-3.5 right-3.5 z-[140] w-8 h-8 rounded-full bg-white hover:bg-slate-100 text-slate-900 flex items-center justify-center shadow-lg border border-slate-200/90 transition transform hover:scale-110 active:scale-95 cursor-pointer"
+            aria-label="Close modal"
+          >
+            <X className="w-4 h-4 stroke-[3]" />
+          </button>
         </div>
 
         {/* Modal Body Content */}
