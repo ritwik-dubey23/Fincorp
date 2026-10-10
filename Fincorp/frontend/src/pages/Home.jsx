@@ -60,20 +60,19 @@ const Home = ({ onOpenApply }) => {
   };
 
   const lenders = [
-    { name: 'Hero FINCORP', code: 'HERO' },
-    { name: 'InCred Finance', code: 'INCRED' },
-    { name: 'indifi', code: 'INDIFI' },
-    { name: 'ADITYA BIRLA CAPITAL', code: 'ABC' },
-    { name: 'FlexiLoans', code: 'FLEXI' },
-    { name: 'DMI FINANCE', code: 'DMI' },
-    { name: 'Flot', code: 'FLOT' },
-    { name: 'L&T Finance', code: 'LT' },
-    { name: 'Tata Capital', code: 'TATA' },
-    { name: 'Bajaj Finserv', code: 'BAJAJ' },
-    { name: 'Muthoot Finance', code: 'MUTHOOT' },
-    { name: 'MoneyTap', code: 'MONEYTAP' },
-    { name: 'PaySense', code: 'PAYSENSE' },
-    { name: 'KreditBee', code: 'KREDITBEE' },
+    { name: 'Hero FINCORP', logo: '/ref-images/fincrop_continuous_moving_lenders_marquee.png' },
+    { name: 'InCred Finance', logo: '/ref-images/incred.png' },
+    { name: 'indifi', logo: '/ref-images/indifi.png' },
+    { name: 'ADITYA BIRLA CAPITAL', logo: '/ref-images/aditya.png' },
+    { name: 'DMI FINANCE', logo: '/ref-images/dmi.png' },
+    { name: 'L&T Finance', logo: '/ref-images/lt.png' },
+    { name: 'Tata Capital', logo: '/ref-images/tatacaptial.png' },
+    { name: 'Poonawalla Fincorp', logo: '/ref-images/poonawalla.png' },
+    { name: 'IDFC FIRST Bank', logo: '/ref-images/idfc.png' },
+    { name: 'LENDINGKART', logo: '/ref-images/lending.png' },
+    { name: 'Ram Fincorp', logo: '/ref-images/ramfincorp.png' },
+    { name: 'SalaryOnTime', logo: '/ref-images/salaryontime.png' },
+    { name: 'Unity Bank', logo: '/ref-images/unity.png' },
   ];
 
   const benefits = [
@@ -369,11 +368,15 @@ const Home = ({ onOpenApply }) => {
             {[...lenders, ...lenders].map((lender, idx) => (
               <div
                 key={idx}
-                className="bg-white border border-slate-200/90 hover:border-[#0050b5] rounded-xl px-6 py-3.5 shadow-xs hover:shadow-md transition cursor-pointer shrink-0 flex items-center gap-3"
+                className="bg-white border border-slate-200/90 hover:border-[#0050b5] rounded-xl px-5 py-3 shadow-xs hover:shadow-md transition cursor-pointer shrink-0 flex items-center gap-3 min-h-[52px]"
               >
-                <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#0050b5] font-black flex items-center justify-center text-xs">
-                  {lender.code.substring(0, 2)}
-                </div>
+                {lender.logo && (
+                  <img
+                    src={lender.logo}
+                    alt={lender.name}
+                    className="h-7 max-w-[100px] object-contain"
+                  />
+                )}
                 <span className="text-xs font-black text-slate-800 tracking-tight whitespace-nowrap">{lender.name}</span>
               </div>
             ))}
