@@ -39,7 +39,11 @@ const Navbar = ({ onOpenApply }) => {
             <Link to="/" className="flex items-center group focus:outline-none shrink-0 py-2">
               <img
                 src="/logo.png"
-                alt="Fincorp Logo"
+                alt="FinCrop Logo"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://lh3.googleusercontent.com/aida-public/AB6AXuCZA8NC-H0zKhrhPkjysvI96EoP2Q5Wjc4SjZqNmEikYwVOgAEWF_0O3kpk2uOTUdKbdt5YAdWciCmIwrLJJxXDKr5AGLOBJqncgOxExre7Ew7zDRds9XIEwQS1AVnyR_UYFi0cEtw9w9eowu3AMSpMLMJYDvj9-l8gAyjzxL52ew27LRgxJs98mvRteHtUuh1iZqN4XBotv7a_3yaUsu4CCDAD4sGIwvAns46x4OBzzpdRDks4nniGU8DVlpi3lwdijVs";
+                }}
                 className="h-10 sm:h-12 w-auto object-contain transition transform group-hover:scale-105 duration-200"
               />
             </Link>
