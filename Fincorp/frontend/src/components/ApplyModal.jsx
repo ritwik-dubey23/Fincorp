@@ -296,7 +296,8 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
               e.stopPropagation();
               handleReset();
             }}
-            className="absolute top-3.5 right-3.5 z-[140] w-8 h-8 rounded-full bg-white hover:bg-slate-100 text-slate-900 flex items-center justify-center shadow-lg border border-slate-200/90 transition transform hover:scale-110 active:scale-95 cursor-pointer"
+            style={{ position: 'absolute', top: '12px', right: '12px', zIndex: 140 }}
+            className="w-8 h-8 rounded-full bg-white hover:bg-slate-100 text-slate-900 flex items-center justify-center shadow-lg border border-slate-200/90 transition transform hover:scale-110 active:scale-95 cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-4 h-4 stroke-[3]" />
