@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import API from '../services/api';
+import { modalBannerBase64 } from '../assets/modalBannerBase64';
 import {
   X,
   CheckCircle,
@@ -274,46 +275,32 @@ const ApplyModal = ({ isOpen, onClose, initialProduct = 'personal_loan' }) => {
       }}
       className="fixed inset-0 z-[110] overflow-y-auto bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200"
     >
-      <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 relative my-auto transition-all transform-gpu">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 relative my-auto transition-all transform-gpu animate-in zoom-in-95 duration-200">
         
-        {/* Prominent White Circular Close Button */}
+        {/* Close Button in Top Right Corner */}
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
             handleReset();
           }}
-          className="absolute top-4 right-4 z-[120] w-10 h-10 rounded-full bg-white hover:bg-slate-100 text-slate-800 flex items-center justify-center shadow-lg border border-slate-200 transition transform hover:scale-105 active:scale-95 cursor-pointer"
+          className="absolute top-3.5 right-3.5 z-[130] w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-800 flex items-center justify-center shadow-md border border-slate-200/80 transition transform hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md"
           aria-label="Close modal"
         >
           <X className="w-5 h-5 stroke-[2.5]" />
         </button>
 
-        {/* Top Gradient Banner with FinCRO Shield Logo */}
-        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white p-6 pt-7 text-center relative overflow-hidden">
-          <div className="relative z-10 space-y-2">
-            <div className="inline-flex items-center justify-center gap-2 bg-white/10 px-3.5 py-1 rounded-full border border-white/15">
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
-              <span className="text-xs font-black tracking-wider uppercase text-white">FINCORP DIGITAL LOANS</span>
-            </div>
-
-            <h3 className="text-xl font-black tracking-tight leading-tight">
-              Instant Loan Approval up to <span className="text-amber-400">₹10 Lakhs</span>
-            </h3>
-            <p className="text-xs text-blue-200 font-medium">100% digital passwordless application with instant SMS verification.</p>
-
-            <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1 text-[10px] font-bold">
-              <span className="bg-white/10 px-2.5 py-1 rounded-full flex items-center gap-1 border border-white/15">
-                <Zap className="w-3 h-3 text-amber-400" /> Fast Sanction
-              </span>
-              <span className="bg-white/10 px-2.5 py-1 rounded-full flex items-center gap-1 border border-white/15">
-                <FileText className="w-3 h-3 text-blue-300" /> Zero Paperwork
-              </span>
-              <span className="bg-white/10 px-2.5 py-1 rounded-full flex items-center gap-1 border border-white/15">
-                <Lock className="w-3 h-3 text-emerald-400" /> 256-Bit SSL
-              </span>
-            </div>
-          </div>
+        {/* Top Provided Header Image Banner */}
+        <div className="relative w-full overflow-hidden bg-slate-950">
+          <img
+            src={modalBannerBase64 || "/modal-banner.jpg"}
+            alt="FinCorp Digital Loans - Instant Loan Approval Up to 10 Lakhs"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/ref-images/modal-banner.jpg";
+            }}
+            className="w-full h-auto block object-cover rounded-t-3xl"
+          />
         </div>
 
         {/* Modal Body Content */}
