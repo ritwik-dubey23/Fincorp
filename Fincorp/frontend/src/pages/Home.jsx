@@ -378,15 +378,15 @@ const Home = ({ onOpenApply }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             
             {/* Card 1: Personal Loan */}
-            <ScrollReveal className="bg-gradient-to-b from-blue-50/60 to-[#f8faff] rounded-3xl p-6 sm:p-8 border border-blue-100 shadow-soft shadow-card-hover flex flex-col justify-between" id="personal-loan">
+            <ScrollReveal className="bg-gradient-to-b from-blue-50/60 to-[#f8faff] rounded-3xl p-6 sm:p-8 border border-blue-100 shadow-soft shadow-card-hover flex flex-col" id="personal-loan">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-[#0050b5] text-white flex items-center justify-center text-xl shadow-md mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-[#0050b5] text-white flex items-center justify-center text-xl shadow-md mb-5">
                   <UserIcon className="w-7 h-7" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
                   Personal Loan
                 </h2>
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-normal">
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-5 font-normal">
                   Access quick personal financing for important life moments - from medical needs to travel and everyday goals.
                 </p>
                 <button
@@ -398,25 +398,30 @@ const Home = ({ onOpenApply }) => {
                 </button>
               </div>
 
-              <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-md">
+              {/* Personal Loan Image directly below Apply Now button with tight gap */}
+              <div className="mt-4 rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-md">
                 <img
-                  src={personalLoanBannerBase64}
+                  src={personalLoanBannerBase64 || "/personal-loan-banner.jpg"}
                   alt="Personal Loan - For Life's Important Moments"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/personal-loan-banner.jpg";
+                  }}
                   className="w-full h-auto block rounded-2xl object-cover hover:scale-[1.02] transition-transform duration-300"
                 />
               </div>
             </ScrollReveal>
 
             {/* Card 2: Business Loan */}
-            <ScrollReveal delay={100} className="bg-gradient-to-b from-blue-50/60 to-[#f8faff] rounded-3xl p-6 sm:p-8 border border-blue-100 shadow-soft shadow-card-hover flex flex-col justify-between" id="business-loan">
+            <ScrollReveal delay={100} className="bg-gradient-to-b from-blue-50/60 to-[#f8faff] rounded-3xl p-6 sm:p-8 border border-blue-100 shadow-soft shadow-card-hover flex flex-col" id="business-loan">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center text-xl shadow-md mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center text-xl shadow-md mb-5">
                   <Building2 className="w-7 h-7" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
                   Business Loan
                 </h2>
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-normal">
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-5 font-normal">
                   Empower your business with flexible funding designed for expansion, working capital, and new growth opportunities.
                 </p>
                 <button
@@ -428,13 +433,14 @@ const Home = ({ onOpenApply }) => {
                 </button>
               </div>
 
-              <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-md">
+              {/* Business Loan Image directly below Apply Now button with tight gap */}
+              <div className="mt-4 rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-md">
                 <img
-                  src={businessLoanBannerBase64 || "/business-loan-banner.png"}
-                  alt="Business Loan - Fast Tracked Capital for MSMEs & Enterprises"
+                  src={businessLoanBannerBase64 || "/business-loan-banner.jpg"}
+                  alt="Business Loan - Fuel Your Business Growth"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "/ref-images/fincrop_business_loan_exact_recreation.png";
+                    e.target.src = "/business-loan-banner.jpg";
                   }}
                   className="w-full h-auto block rounded-2xl object-cover hover:scale-[1.02] transition-transform duration-300"
                 />
