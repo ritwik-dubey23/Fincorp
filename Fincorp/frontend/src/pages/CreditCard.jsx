@@ -1,90 +1,194 @@
-import React from 'react';
-import { CreditCard as CardIcon, CheckCircle2, ShieldCheck, Zap, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, CreditCard as CardIcon, Star, ShieldCheck, Zap, Award, Gift, Plane, Percent } from 'lucide-react';
 
-const CreditCardPage = ({ onOpenApply }) => {
-  const cards = [
+const CreditCard = ({ onOpenApply }) => {
+  const [activeTab, setActiveTab] = useState('all');
+
+  const cardProducts = [
     {
-      name: 'Fincorp Cashback Platinum',
-      reward: '5% Unlimited Cashback on Shopping & Utility Bills',
-      fee: '₹499 / year (Waived on ₹50k spend)',
-      perks: ['Complimentary Airport Lounge Access', '1% Fuel Surcharge Waiver', 'Zero Joining Fee Offer'],
-      badge: 'Most Popular',
-      color: 'from-blue-700 to-indigo-900',
+      name: 'FinCrop Platinum Cashback Card',
+      category: 'cashback',
+      tag: '5% Unlimited Cashback',
+      fee: 'Zero Joining Fee',
+      features: ['5% Cashback on Amazon & Flipkart', '1% Fuel Surcharge Waiver', 'Complimentary Airport Lounge Access'],
+      rating: 4.9,
     },
     {
-      name: 'Fincorp Travel Rewards Signature',
-      reward: '4X Reward Points on Flights & Hotel Bookings',
-      fee: '₹1,499 / year',
-      perks: ['Free International Lounge Visits', 'Comprehensive Travel Insurance', 'Complimentary Golf Rounds'],
-      badge: 'Best for Travel',
-      color: 'from-purple-800 to-slate-900',
+      name: 'FinCrop Rewards Select Card',
+      category: 'rewards',
+      tag: '10X Reward Points',
+      fee: '₹499 Annual Fee (Waived on ₹50k spend)',
+      features: ['10X Reward Points on Dining & Movies', 'Welcome Gift Voucher worth ₹1,000', 'Buy 1 Get 1 Movie Ticket Free'],
+      rating: 4.8,
     },
     {
-      name: 'Fincorp LTF Select Card',
-      reward: 'Lifetime Free Card with 2% Flat Rewards',
-      fee: 'Lifetime Free (Zero Annual Fee)',
-      perks: ['Instant Instant Approvals', 'Movie Ticket Buy-1-Get-1 Offers', 'No Fee for Life'],
-      badge: 'Lifetime Free',
-      color: 'from-emerald-700 to-slate-900',
+      name: 'FinCrop Travel Voyager Card',
+      category: 'travel',
+      tag: 'Free International Airport Lounges',
+      fee: '₹1,499 Annual Fee',
+      features: ['8 Free International Airport Lounge Visits', 'Low 1.5% Forex Markup Fee', 'Comprehensive Air Travel Insurance'],
+      rating: 4.9,
     },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
-      <div className="text-center space-y-4 max-w-2xl mx-auto">
-        <span className="bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider px-3.5 py-1 rounded-full border border-blue-200">
-          PRE-APPROVED CREDIT CARDS
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900">
-          Find The Perfect Credit Card For Your Lifestyle
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-600">
-          Compare top credit cards with instant online approval, zero paperwork, and exclusive rewards.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {cards.map((card, idx) => (
-          <div key={idx} className="bg-white rounded-3xl border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between">
-            <div>
-              <div className={`bg-gradient-to-r ${card.color} text-white p-6 relative`}>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full inline-block border border-white/20 mb-3">
-                  {card.badge}
-                </span>
-                <CardIcon className="w-10 h-10 text-white/80 mb-2" />
-                <h3 className="text-xl font-black text-white">{card.name}</h3>
-                <p className="text-xs text-blue-200 mt-1 font-medium">{card.reward}</p>
-              </div>
-
-              <div className="p-6 space-y-3 text-xs text-slate-600">
-                <div className="flex justify-between border-b border-slate-100 pb-2">
-                  <span className="font-semibold text-slate-500">Annual Fee</span>
-                  <span className="font-bold text-slate-900">{card.fee}</span>
-                </div>
-                <div className="space-y-1.5 pt-1">
-                  <span className="font-bold text-slate-700 uppercase tracking-wider text-[10px]">Key Perks:</span>
-                  {card.perks.map((p, i) => (
-                    <p key={i} className="flex items-center gap-1.5 text-slate-700">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> {p}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="p-6 pt-0">
+    <div className="space-y-16 pb-16 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif] bg-[#f8fafc]">
+      
+      {/* 1. HERO SECTION WITH EXACT CREDIT CARDS IMAGE */}
+      <section className="pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <div className="lg:col-span-6 space-y-6">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100 text-[#0050b5]">
+              PREMIUM CREDIT CARDS
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Compare & Apply For Best <span className="text-[#0050b5]">Credit Cards</span>
+            </h1>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
+              Explore leading credit cards with instant approval, lifetime free offers, reward points, and travel perks customized to your lifestyle.
+            </p>
+            <div className="pt-2 flex flex-wrap gap-4">
               <button
-                onClick={() => onOpenApply('credit_card')}
-                className="w-full py-3 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-xs uppercase tracking-wider transition"
+                onClick={() => onOpenApply && onOpenApply('credit_card')}
+                className="btn-smooth-animate btn-brand-glow px-8 py-3.5 bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-lg transition flex items-center gap-2 cursor-pointer"
               >
-                Apply Card Now
+                <span>Apply Instant Credit Card</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
-        ))}
-      </div>
+
+          <div className="lg:col-span-6 flex justify-center">
+            <div className="relative w-full max-w-md p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl border border-slate-200/80 shadow-2xl">
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuClLs66RsI064Y43nsl7MGqGqBXeOn6yAnACGhz-2jfY6oZ_TimD9S3qvEAQYNfiZxf21_NDF7D4jN69Hy-_iBRNhJZp68M6iySvaNrcUtpz3_tIc9T7Vcdy21qz80NqfEXnmr_59eZscB_uK3x6rJieRFIN--kGDqSoCcoUQVXzqoP6xA42q48mt85sf6N-5lcOSQVmJkqlVaC2idyWU5muviK0sMFIvm8Z1_3fTVsthyF15a35MPxgQfmnu5Te1Iygd0"
+                alt="Credit Cards"
+                className="w-full h-auto object-contain rounded-2xl filter drop-shadow-md"
+              />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 2. 3 STEPS ONLINE APPROVAL GRAPHIC SECTION */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <div className="lg:col-span-6 flex justify-center">
+            <div className="relative w-full max-w-lg p-4 bg-white rounded-3xl border border-slate-200 shadow-xl">
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9WYKvZnFTM5ea21f6k77UEmIjScPtC8riN9KGh48FLZWnwrQ3ohdrNO4zn9SXDd2SdM9sjxGROprutacfKqaPz0j5PcwIVxCuJEFIruZloqainV2wfC0gO4u7MW9FqDV1r3F64EWkpYTgCrDOm1krdDSw5EvvV-nicyWZCpFZDjCwUytYgGZ2_E_4qFWiG7WY1P2ivhRfVXOKk_R-wqAChAE0dpUbNkjAx45FL7wnoksTIe6zWxP8KDSgTZ-cT9VCeEY"
+                alt="3 Steps Credit Card Online Approval"
+                className="w-full h-auto object-contain rounded-2xl"
+              />
+            </div>
+          </div>
+
+          <div className="lg:col-span-6 space-y-6">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#0050b5] bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200">
+              FAST APPROVAL ENGINE
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Get Approved For Credit Cards In 3 Simple Steps
+            </h2>
+            <div className="space-y-4 text-xs sm:text-sm text-slate-600 font-medium">
+              <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+                <Gift className="w-5 h-5 text-[#0050b5] shrink-0" />
+                <div>
+                  <h4 className="font-bold text-slate-900">Step 1: Choose Your Preferred Card</h4>
+                  <p className="text-xs text-slate-500">Filter cards by cashback, rewards, travel, or fuel benefits.</p>
+                </div>
+              </div>
+              <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
+                <div>
+                  <h4 className="font-bold text-slate-900">Step 2: Instant Eligibility Match</h4>
+                  <p className="text-xs text-slate-500">Enter basic details for 100% digital instant approval check.</p>
+                </div>
+              </div>
+              <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+                <Zap className="w-5 h-5 text-amber-500 shrink-0" />
+                <div>
+                  <h4 className="font-bold text-slate-900">Step 3: Online VKYC & Card Delivery</h4>
+                  <p className="text-xs text-slate-500">Finish Video KYC and receive your physical card delivered at home.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 3. FEATURED CREDIT CARD PRODUCTS */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Top Recommended Credit Cards</h2>
+          <p className="text-slate-500 text-sm mt-2">Curated pre-approved card options with maximum rewards.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {cardProducts.map((card, idx) => (
+            <div key={idx} className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-soft flex flex-col justify-between space-y-4 hover:shadow-xl transition">
+              <div className="space-y-3">
+                <div className="flex justify-between items-start">
+                  <span className="bg-blue-50 text-[#0050b5] text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full border border-blue-200">
+                    {card.tag}
+                  </span>
+                  <div className="flex items-center text-amber-400 text-xs font-bold gap-1">
+                    <Star className="w-4 h-4 fill-amber-400" /> {card.rating}
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">{card.name}</h3>
+                <p className="text-xs text-slate-500 font-semibold">{card.fee}</p>
+                
+                <ul className="space-y-2 text-xs text-slate-600 font-medium pt-2 border-t border-slate-100">
+                  {card.features.map((feat, fIdx) => (
+                    <li key={fIdx} className="flex items-center gap-2">
+                      <span className="text-emerald-600 font-bold">✓</span> {feat}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <button
+                onClick={() => onOpenApply && onOpenApply('credit_card')}
+                className="btn-smooth-animate btn-primary-glow w-full py-3 bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow cursor-pointer"
+              >
+                Apply Now
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. CREDIT SCORE METER BANNER WITH REFERENCE IMAGE */}
+      <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">CHECK YOUR</span>
+            <h3 className="text-2xl sm:text-3xl font-black text-[#0050b5]">FREE CREDIT SCORE</h3>
+            <p className="text-xs text-slate-600 font-medium">Higher credit score unlocks premium credit cards with higher limits.</p>
+          </div>
+          <div className="flex items-center gap-4 shrink-0">
+            <img
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdwmDVewQwLuhH4FIKYsGJ6dthEpuhxvuDXDgmFVpJ8Spip3QNRsOw_Hox23ZgHpJ_bDAsrXV5iP0viK-Dy_5AWfe9LyTURk4D-8VpH-mX4Of0egBZA7h7gE4omOLJjOoLa4zleE1uE2bb8rwiHlSr_4peuUrXItDch_6IWjJAx_jFGYCCHrMZMrk03keK2jmrg1X8h0TWMkguIVwvirh64Kl37ZNc-YBELj6NkhvuSc2ZVipgLvbphJuVOtveuSlt-Ms"
+              alt="Credit Score Meter"
+              className="w-32 sm:w-44 h-auto object-contain"
+            />
+            <button
+              onClick={() => onOpenApply && onOpenApply('credit_score')}
+              className="btn-smooth-animate btn-emerald-glow px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow cursor-pointer"
+            >
+              Check Free Score
+            </button>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };
 
-export default CreditCardPage;
+export default CreditCard;

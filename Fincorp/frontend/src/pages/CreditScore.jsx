@@ -1,159 +1,123 @@
 import React, { useState } from 'react';
-import { ShieldCheck, CheckCircle2, Award, ArrowRight } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Gauge, Award, CheckCircle2, Lock, Zap } from 'lucide-react';
 import SpeedometerGauge from '../components/SpeedometerGauge';
-import API from '../services/api';
 
 const CreditScore = ({ onOpenApply }) => {
-  const [mobile, setMobile] = useState('');
-  const [name, setName] = useState('');
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState('');
-  const [scoreResult, setScoreResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
 
-  const handleSendOtp = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!/^[6-9]\d{9}$/.test(mobile)) {
-      setError('Please enter a valid 10-digit Indian mobile number');
-      return;
-    }
-    setLoading(true);
-    setError('');
-    try {
-      const res = await API.post('/otp/send', { mobile });
-      if (res.data.success) {
-        setOtpSent(true);
-      }
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to send OTP');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyScore = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      const res = await API.post('/otp/verify', { mobile, otp });
-      if (res.data.success) {
-        const randomScore = Math.floor(740 + Math.random() * 50);
-        setScoreResult(randomScore);
-      }
-    } catch (err) {
-      setError(err.response?.data?.message || 'Invalid OTP');
-    } finally {
-      setLoading(false);
+    if (onOpenApply) {
+      onOpenApply('credit_score');
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+    <div className="space-y-16 pb-16 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif] bg-[#f8faff]">
       
-      {/* Main Container */}
-      <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-        
-        <div className="lg:col-span-7 space-y-6">
-          <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider px-3.5 py-1 rounded-full inline-block border border-emerald-500/20">
-            FREE CREDIT REPORT
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-            Check Your Free Credit Score In <span className="text-emerald-400">2 Minutes</span>
-          </h1>
-          <p className="text-sm text-slate-300 leading-relaxed">
-            Get official credit bureau insights, customized loan eligibility recommendations, and actionable steps to boost your score to 750+.
-          </p>
-          <ul className="space-y-2 text-xs font-semibold text-slate-300">
-            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 100% Free - No Credit Card Needed</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Soft Inquiry - Does Not Hurt Your Credit Score</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Pre-Approved Loan & Card Offers Included</li>
-          </ul>
-        </div>
-
-        {/* Verification Form Card with Speedometer */}
-        <div className="lg:col-span-5 bg-white text-slate-900 p-6 sm:p-8 rounded-3xl shadow-xl space-y-4">
+      {/* 1. HERO SECTION WITH LAPTOP CHECK IMAGE */}
+      <section className="pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          {scoreResult ? (
-            <div className="text-center py-4 space-y-4 animate-in zoom-in-95 duration-200">
-              <span className="text-xs font-bold uppercase text-slate-500">Your Calculated Credit Score</span>
-              
-              {/* Rapid Animated Speedometer Gauge */}
-              <SpeedometerGauge targetScore={scoreResult} />
+          <div className="lg:col-span-6 space-y-6">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+              100% FREE CREDIT HEALTH CHECK
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Get Your Free Credit Score <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-700">In 2 Minutes</span>
+            </h1>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
+              Check your detailed credit health report from CIBIL / Equifax with zero impact on your credit score and free monthly updates.
+            </p>
 
-              <p className="text-xs text-slate-600">
-                Great job! You qualify for pre-approved personal loans with interest rates starting at <strong>10.5% p.a.</strong>
-              </p>
-              <button
-                onClick={() => onOpenApply('credit_score')}
-                className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider shadow-md transition"
-              >
-                Apply Pre-Approved Loan Now
-              </button>
+            {/* Quick Mobile Input Card */}
+            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xl space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5">
+                    Mobile Number (linked to PAN)
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="bg-slate-100 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-bold text-slate-700 flex items-center justify-center shrink-0">
+                      +91
+                    </div>
+                    <input
+                      type="tel"
+                      maxLength={10}
+                      value={mobileNumber}
+                      onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
+                      placeholder="Enter 10-digit mobile"
+                      required
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white transition"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn-smooth-animate btn-emerald-glow w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Get Free Credit Report</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </form>
             </div>
-          ) : (
-            <form onSubmit={!otpSent ? handleSendOtp : handleVerifyScore} className="space-y-4">
-              <h3 className="text-lg font-bold text-slate-900 text-center">Get Your Credit Score</h3>
-              
-              <SpeedometerGauge targetScore={785} />
+          </div>
 
-              {error && <div className="p-3 bg-red-50 text-red-600 text-xs rounded-xl font-medium">⚠️ {error}</div>}
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter full name"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-600"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Mobile Number</label>
-                <div className="flex">
-                  <span className="bg-slate-100 border border-r-0 border-slate-200 rounded-l-xl px-3 flex items-center text-xs font-bold text-slate-600">+91</span>
-                  <input
-                    type="tel"
-                    value={mobile}
-                    onChange={(e) => setMobile(e.target.value)}
-                    maxLength={10}
-                    placeholder="10-digit mobile"
-                    disabled={otpSent}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-r-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-600 disabled:opacity-75"
-                  />
-                </div>
-              </div>
-
-              {otpSent && (
-                <div className="space-y-2">
-                  <label className="block text-xs font-bold text-blue-900 uppercase">Enter OTP (Demo: 555555)</label>
-                  <input
-                    type="text"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    maxLength={6}
-                    placeholder="Enter 6-digit OTP"
-                    className="w-full bg-white border border-blue-300 rounded-xl px-4 py-2 text-center text-base font-mono font-bold tracking-widest"
-                  />
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider shadow-md transition"
-              >
-                {loading ? 'Processing...' : (!otpSent ? 'Send Verification OTP' : 'Check My Score Now')}
-              </button>
-            </form>
-          )}
+          {/* Right Image Column (EXACT REFERENCE LAPTOP IMAGE) */}
+          <div className="lg:col-span-6 flex justify-center">
+            <div className="relative w-full max-w-md p-3 bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden">
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaTB6b4R4hYTt2snRKxSrrD1j8uyxdxyW14QKcxrOTHq0RUCJMhT250XB4O3UW1IaGYdasegbiuINZv4WfAcjXK88cFh-576MDZEykt5GVoXKU7B2y3C791cF-QXMb10RYflAhwC5Xo_X7lErd-d-9CEDmwB4gcKPERrHEGtSbJVJxMnXpOOk5zQtoZrcUQpkboVNIPMoBvBXo9yW-2o3gdHvubelL8mF3W5FeMCjCPJ_Sahyl2nqcEfXms2sY-ycjEqs"
+                alt="Credit score check on laptop"
+                className="w-full h-auto block rounded-2xl object-cover"
+              />
+            </div>
+          </div>
 
         </div>
+      </section>
 
-      </div>
+      {/* 2. DYNAMIC SPEEDOMETER GAUGE DEMO SECTION */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-8 bg-white rounded-3xl border border-slate-200/90 shadow-soft">
+        <div className="space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">INTERACTIVE CREDIT GAUGE</span>
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Understand Credit Ranges</h2>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium">A credit score above 750 ensures pre-approved lowest interest rates.</p>
+        </div>
+
+        <div className="flex justify-center pt-4">
+          <SpeedometerGauge score={785} />
+        </div>
+      </section>
+
+      {/* 3. WHY CHECK CREDIT SCORE */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Why Check Credit Score On FinCrop?</h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+            <Lock className="w-8 h-8 text-[#0050b5]" />
+            <h3 className="font-bold text-slate-900 text-base">Zero Impact On Score</h3>
+            <p className="text-xs text-slate-500 font-medium">Checking your own credit score is a soft inquiry and never lowers your rating.</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+            <ShieldCheck className="w-8 h-8 text-emerald-600 stroke-[2.5]" />
+            <h3 className="font-bold text-slate-900 text-base">100% Data Protection</h3>
+            <p className="text-xs text-slate-500 font-medium">Your financial identity is protected using 256-bit bank grade encryption.</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+            <Zap className="w-8 h-8 text-amber-500" />
+            <h3 className="font-bold text-slate-900 text-base">Instant Pre-Approved Offers</h3>
+            <p className="text-xs text-slate-500 font-medium">Unlock exclusive loan and credit card offers tailored to your credit band.</p>
+          </div>
+        </div>
+      </section>
 
     </div>
   );

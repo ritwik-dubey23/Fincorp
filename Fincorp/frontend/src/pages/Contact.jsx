@@ -1,81 +1,185 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, PhoneCall, MapPin, Clock, Send, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
-const Contact = () => {
+const Contact = ({ onOpenApply }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    mobile: '',
+    subject: '',
+    message: '',
+  });
+
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleContactSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-      <div className="text-center max-w-2xl mx-auto space-y-3">
-        <span className="bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider px-3.5 py-1 rounded-full border border-blue-200">
-          GET IN TOUCH
+    <div className="space-y-16 pb-16 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif] bg-[#f8fafc]">
+      
+      {/* 1. HERO SECTION */}
+      <section className="pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center space-y-4">
+        <span className="px-4 py-1.5 rounded-full bg-blue-100 text-[#0050b5] text-xs font-bold uppercase tracking-wider">
+          24/7 CUSTOMER SUPPORT
         </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900">
-          We Are Here To Help
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Get in Touch With FinCrop
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600">
-          Have questions about your loan application, interest rates, or eligibility? Reach out to our financial support team.
+        <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
+          Have questions about loan eligibility, application status, or repayments? Our team is available 24/7 to assist you.
         </p>
-      </div>
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        <div className="lg:col-span-5 bg-gradient-to-br from-slate-900 to-blue-950 text-white p-8 rounded-3xl space-y-6 shadow-xl">
-          <h3 className="text-xl font-bold">Contact Information</h3>
-          <div className="space-y-4 text-xs">
-            <div className="flex items-center gap-3">
-              <MapPin className="w-5 h-5 text-blue-400 shrink-0" />
-              <span>Financial District, Visakhapatnam, Andhra Pradesh, India</span>
+      {/* 2. CONTACT INFO CARDS & CONTACT FORM */}
+      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          
+          {/* Left Side: Contact Information Cards */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-6">
+              <h2 className="text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">Contact Details</h2>
+
+              <div className="flex items-start gap-4">
+                <div className="w-11 h-11 rounded-2xl bg-blue-50 text-[#0050b5] flex items-center justify-center shrink-0">
+                  <PhoneCall className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm">Helpline Number</h4>
+                  <p className="text-xs text-slate-500 font-medium">1800-123-4567 / +91 98765 43210</p>
+                  <span className="text-[10px] text-emerald-600 font-bold uppercase">Toll Free • Mon-Sat 9AM-8PM</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-11 h-11 rounded-2xl bg-blue-50 text-[#0050b5] flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm">Email Support</h4>
+                  <p className="text-xs text-slate-500 font-medium">support@fincrop.in / care@fincrop.in</p>
+                  <span className="text-[10px] text-slate-400 font-medium">24-Hour Response Guarantee</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-11 h-11 rounded-2xl bg-blue-50 text-[#0050b5] flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 text-sm">Corporate Office</h4>
+                  <p className="text-xs text-slate-500 font-medium">FinCrop Financial Towers, Business Bay, BKC, Mumbai - 400051</p>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <Phone className="w-5 h-5 text-blue-400 shrink-0" />
-              <a href="tel:+919154297990" className="hover:underline">+91 91542 97990</a>
-            </div>
-            <div className="flex items-center gap-3">
-              <Mail className="w-5 h-5 text-blue-400 shrink-0" />
-              <a href="mailto:support@fincorp.com" className="hover:underline">support@fincorp.com</a>
+
+            {/* Embedded Credit Score Gauge Promo Banner */}
+            <div className="bg-gradient-to-r from-[#0d3b66] to-[#1e40af] p-6 rounded-3xl text-white shadow-xl flex items-center justify-between gap-4">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase font-bold text-blue-200">FREE SCORE</span>
+                <h4 className="text-base font-extrabold">Check Credit Health</h4>
+                <p className="text-xs text-blue-100 font-medium">Instant report with zero impact.</p>
+              </div>
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM2xtS9K9uqBqhLWmGwRQqxJg5D6TCfIFYQ9fAz7Msnuhu1T4fod1RiQZz3jye-KWQ9QJfAVQroGepa3_H_xuiWjhJEuaRDPkrX1N22Ti3bze3W2QK4kl1ubevgFSnNYqdNI68zndr7VjZlgy0tuoZiazvdPK0rUgrU836x9eT1-wkfB0DcZBFXJ0gtCgVTVLOmnWaazD_hgz1zeCcvfza9lZm5yvjKrmnrTjUWU0kv6dyGMDG_tZI-EnktyDYXrEL7FQ"
+                alt="Free Credit Score Gauge Meter"
+                className="w-24 sm:w-28 h-auto object-contain shrink-0"
+              />
             </div>
           </div>
-        </div>
 
-        <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xl">
-          {submitted ? (
-            <div className="text-center py-10 space-y-2 text-emerald-600 font-bold">
-              ✓ Thank you! Your message has been received. Our team will get back to you within 24 hours.
+          {/* Right Side: Message Form */}
+          <div className="lg:col-span-7">
+            <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
+              <h2 className="text-2xl font-extrabold text-slate-900">Send Us a Message</h2>
+
+              {submitted ? (
+                <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center space-y-3">
+                  <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
+                  <h3 className="text-lg font-bold text-emerald-900">Thank You!</h3>
+                  <p className="text-xs text-emerald-700 font-medium">Your message has been received. Our team will contact you within 24 hours.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleContactSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5">Full Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="John Doe"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5">Mobile Number</label>
+                      <input
+                        type="tel"
+                        maxLength={10}
+                        required
+                        value={formData.mobile}
+                        onChange={(e) => setFormData({ ...formData, mobile: e.target.value.replace(/\D/g, '') })}
+                        placeholder="10-digit mobile"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5">Email Address</label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="name@example.com"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5">Subject</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      placeholder="e.g. Loan Eligibility Query"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-extrabold text-slate-700 uppercase mb-1.5">Message</label>
+                    <textarea
+                      rows={4}
+                      required
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Type your message details..."
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn-smooth-animate btn-brand-glow w-full py-3.5 rounded-xl bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>Send Message</span>
+                    <Send className="w-4 h-4" />
+                  </button>
+                </form>
+              )}
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-              <h3 className="text-lg font-bold text-slate-900">Send Us A Message</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Your Name</label>
-                  <input type="text" required placeholder="John Doe" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3" />
-                </div>
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Mobile</label>
-                  <input type="tel" required placeholder="10-digit mobile" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3" />
-                </div>
-              </div>
-              <div>
-                <label className="block font-bold text-slate-700 uppercase mb-1">Email</label>
-                <input type="email" required placeholder="john@example.com" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3" />
-              </div>
-              <div>
-                <label className="block font-bold text-slate-700 uppercase mb-1">Message</label>
-                <textarea rows={4} required placeholder="How can we help you?" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4" />
-              </div>
-              <button type="submit" className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold uppercase tracking-wider shadow-md">
-                Send Message
-              </button>
-            </form>
-          )}
+          </div>
+
         </div>
-      </div>
+      </section>
+
     </div>
   );
 };
