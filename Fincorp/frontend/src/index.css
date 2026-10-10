@@ -25,13 +25,107 @@
   --brand-green: #10b981;
 }
 
+/* ==========================================
+   STRICT UNIVERSAL BUTTON ANIMATION SYSTEM
+   ========================================== */
+
+button,
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-smooth-animate,
+.cb-btn-primary,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.25s ease,
+              border-color 0.25s ease,
+              color 0.25s ease,
+              filter 0.25s ease !important;
+  will-change: transform, box-shadow, filter;
+  outline: none;
+}
+
+/* Hover Interaction: Lift -2px, Brightness Shift, Glow Shadow */
+button:hover,
+.btn:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-smooth-animate:hover,
+.cb-btn-primary:hover,
+[role="button"]:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.06);
+}
+
+/* Press-Down Active Effect */
+button:active,
+.btn:active,
+.btn-primary:active,
+.btn-secondary:active,
+.btn-smooth-animate:active,
+.cb-btn-primary:active,
+[role="button"]:active,
+input[type="submit"]:active,
+input[type="button"]:active {
+  transform: translateY(0px) scale(0.97) !important;
+  box-shadow: 0 2px 6px -1px rgba(15, 23, 42, 0.2) !important;
+  transition-duration: 0.1s !important;
+}
+
+/* Keyboard Focus Accessibility State */
+button:focus-visible,
+.btn:focus-visible,
+[role="button"]:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="button"]:focus-visible {
+  outline: 2px solid #2563eb !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* Subtle Animated Shimmer Color-Wave Overlay for Buttons */
+button::after,
+.btn::after,
+.cb-btn-primary::after,
+.btn-smooth-animate::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg) translateX(-100%);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+button:hover::after,
+.btn:hover::after,
+.cb-btn-primary:hover::after,
+.btn-smooth-animate:hover::after {
+  transform: rotate(30deg) translateX(100%);
+}
+
 /* Modern Card & Glass Micro-Interactions */
 .cb-card {
   background: #ffffff;
   border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: 1.75rem;
   box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
   will-change: transform, box-shadow;
 }
 
@@ -61,29 +155,25 @@
   border-radius: 9999px;
   font-weight: 800;
   box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.35);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 
 .cb-btn-primary:hover {
   background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
   box-shadow: 0 16px 32px -6px rgba(37, 99, 235, 0.45);
-  transform: translateY(-2px);
-}
-
-.cb-btn-primary:active {
-  transform: scale(0.98);
 }
 
 .cb-glow {
   box-shadow: 0 0 40px -5px rgba(37, 99, 235, 0.18);
 }
 
-/* Scroll Reveal Animations */
+/* ==========================================
+   SCROLL REVEAL & STAGGER ANIMATIONS
+   ========================================== */
 .reveal-card {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -92,11 +182,46 @@
   transform: translateY(0);
 }
 
+/* Additional Reveal Directions & Effects */
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95) translateY(16px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.reveal-slide-right {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-slide-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger Delay Helper Classes */
+.stagger-1 { transition-delay: 80ms !important; }
+.stagger-2 { transition-delay: 160ms !important; }
+.stagger-3 { transition-delay: 240ms !important; }
+.stagger-4 { transition-delay: 320ms !important; }
+
 @media (prefers-reduced-motion: reduce) {
-  .reveal-card {
+  .reveal-card,
+  .reveal-scale,
+  .reveal-slide-right,
+  button,
+  .btn,
+  .cb-card {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
   }
 }
 
@@ -148,8 +273,6 @@
   background: #94a3b8;
 }
 
-/* Reference Google Sheets/FinCrop Typography & Custom Color Tokens */
-
 /* Marquee Continuous Moving Lenders Animation */
 @keyframes marquee {
   0% { transform: translateX(0%); }
@@ -166,19 +289,19 @@
   animation-play-state: paused;
 }
 
-/* Reference Micro-Interaction Button Utility Classes */
+/* Dedicated Glow Utility Classes for Themed Buttons */
 .btn-smooth-animate {
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
   will-change: transform, box-shadow, filter, background-color;
 }
 
 .btn-smooth-animate:hover {
-  transform: translateY(-2px) scale(1.03) !important;
+  transform: translateY(-2px) scale(1.02) !important;
   filter: brightness(1.06);
 }
 
 .btn-smooth-animate:active {
-  transform: translateY(0px) scale(0.98) !important;
+  transform: translateY(0px) scale(0.97) !important;
 }
 
 .btn-primary-glow {
@@ -189,7 +312,7 @@
 
 .btn-primary-glow:hover {
   background-color: #003e8c !important;
-  box-shadow: 0 10px 24px -4px rgba(0, 80, 181, 0.42), 0 0 16px 2px rgba(0, 101, 224, 0.28) !important;
+  box-shadow: 0 10px 24px -4px rgba(0, 80, 181, 0.45), 0 0 16px 2px rgba(0, 101, 224, 0.3) !important;
 }
 
 .btn-brand-glow {
@@ -200,7 +323,7 @@
 
 .btn-brand-glow:hover {
   background-color: #003e8c !important;
-  box-shadow: 0 12px 28px -4px rgba(0, 80, 181, 0.48), 0 0 20px 4px rgba(0, 101, 224, 0.32) !important;
+  box-shadow: 0 12px 28px -4px rgba(0, 80, 181, 0.48), 0 0 20px 4px rgba(0, 101, 224, 0.35) !important;
 }
 
 .btn-dark-glow {
@@ -211,7 +334,7 @@
 
 .btn-dark-glow:hover {
   background-color: #092552 !important;
-  box-shadow: 0 12px 28px -4px rgba(3, 23, 56, 0.48), 0 0 20px 4px rgba(0, 80, 181, 0.25) !important;
+  box-shadow: 0 12px 28px -4px rgba(3, 23, 56, 0.48), 0 0 20px 4px rgba(0, 80, 181, 0.28) !important;
 }
 
 .btn-emerald-glow {
@@ -222,7 +345,7 @@
 
 .btn-emerald-glow:hover {
   background-color: #047857 !important;
-  box-shadow: 0 12px 28px -4px rgba(5, 150, 105, 0.48), 0 0 20px 4px rgba(16, 185, 129, 0.3) !important;
+  box-shadow: 0 12px 28px -4px rgba(5, 150, 105, 0.48), 0 0 20px 4px rgba(16, 185, 129, 0.32) !important;
 }
 
 .shadow-soft {
@@ -230,10 +353,11 @@
 }
 
 .shadow-card-hover {
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .shadow-card-hover:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 40px -10px rgba(0, 80, 181, 0.12), 0 8px 16px -4px rgba(0, 24, 60, 0.06);
 }
+
