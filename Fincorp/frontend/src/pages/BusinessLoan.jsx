@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Building2, CheckCircle2, TrendingUp, ShieldCheck, Zap, PhoneCall, User as UserIcon } from 'lucide-react';
 import EMICalculator from '../components/EMICalculator';
+import { businessLoanBannerBase64 } from '../assets/businessLoanBannerBase64';
 
 const BusinessLoan = ({ onOpenApply }) => {
   const [fullName, setFullName] = useState('');
@@ -102,6 +103,10 @@ const BusinessLoan = ({ onOpenApply }) => {
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7OMq7YrGTkUXstt3CAA6_WJll6XJtPieQxsRtpkty115fxcY4zjbL45oFbMiAhrmR_ezIh5tr0d6NpathGeD1RzrkFc3CRiGq07OxAzJEtQJ0mMbHnw05ZUVDiVz6LcK2JduR9wgHFSXCaFD43X30jr9IPrBvWJJ9jHUh6J-iwfzdzI-yihDCNG-wFvs8jkVScezcPZnDhTwgYFIY-fT88ArHyM4AmXF1C0h5XNGT8OKPkuHk2WVikJ6aqCtmu5NGsgo"
                 alt="Business Loan"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = businessLoanBannerBase64 || "/business-loan-banner.png";
+                }}
                 className="w-full h-auto block rounded-2xl object-contain shadow-md"
               />
             </div>
@@ -119,6 +124,10 @@ const BusinessLoan = ({ onOpenApply }) => {
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkPI6XY4uzfGpJB_e2XhESUHyKMKfv575Ose4X0vQlx4JI7twrN7lLQSfjbccvsYA4T5MDztOmm_M3FMeNL_fekrdZ-71sP0a6oFwX583RHr-GMZ_veSACK15kzM3rD2EbNUqAIaK1NdSJd7MrtnbIggoc1uEdgujf7rO8hGUhuonmUnN0ga_XiOZmtMGKDDfsGz3evblW0V6wO_KFD3yzZtKsEuF4EJe-VpLBdjKWZ1McBpUSyOYGuw8Jad11n_4F8e4"
                 alt="Business Loan Application Steps"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/ref-images/fincrop_business_loan_exact_recreation.png";
+                }}
                 className="w-full h-auto block rounded-2xl object-contain"
               />
             </div>
