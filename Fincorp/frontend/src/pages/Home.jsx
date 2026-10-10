@@ -463,13 +463,12 @@ const Home = ({ onOpenApply }) => {
                 </button>
               </div>
 
-              <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200/80 bg-white">
-                <div className="h-44 sm:h-52 bg-gradient-to-br from-amber-50 to-orange-50 flex flex-col items-center justify-center text-center p-6 border-t border-amber-100">
-                  <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-900 px-4 py-2 rounded-xl font-mono font-bold text-base sm:text-lg tracking-wider shadow-inner uppercase mb-2">
-                    <Zap className="w-4 h-4 text-amber-600 fill-amber-600" /> [ PERSONAL LOAN ]
-                  </div>
-                  <span className="text-xs text-slate-600 font-bold">Quick approval • Flexible repayment • 100% digital</span>
-                </div>
+              <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-md">
+                <img
+                  src="/personal-loan-banner.jpg"
+                  alt="Personal Loan - For Life's Important Moments"
+                  className="w-full h-auto block rounded-2xl object-cover hover:scale-[1.02] transition-transform duration-300"
+                />
               </div>
             </ScrollReveal>
 
