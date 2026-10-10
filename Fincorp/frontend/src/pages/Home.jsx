@@ -34,6 +34,7 @@ import AnimatedCounter from '../components/AnimatedCounter';
 import ScrollReveal from '../components/ScrollReveal';
 import { personalLoanBannerBase64 } from '../assets/personalLoanBannerBase64';
 import { heroBannerBase64 } from '../assets/heroBannerBase64';
+import { businessLoanBannerBase64 } from '../assets/businessLoanBannerBase64';
 
 const Home = ({ onOpenApply }) => {
   // Hero Embedded Lead State
@@ -407,7 +408,7 @@ const Home = ({ onOpenApply }) => {
             </ScrollReveal>
 
             {/* Card 2: Business Loan */}
-            <ScrollReveal delay={100} className="bg-gradient-to-b from-blue-50/60 to-[#f8faffに入っ] rounded-3xl p-6 sm:p-8 border border-blue-100 shadow-soft shadow-card-hover flex flex-col justify-between" id="business-loan">
+            <ScrollReveal delay={100} className="bg-gradient-to-b from-blue-50/60 to-[#f8faff] rounded-3xl p-6 sm:p-8 border border-blue-100 shadow-soft shadow-card-hover flex flex-col justify-between" id="business-loan">
               <div>
                 <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center text-xl shadow-md mb-6">
                   <Building2 className="w-7 h-7" />
@@ -427,13 +428,16 @@ const Home = ({ onOpenApply }) => {
                 </button>
               </div>
 
-              <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200/80 bg-white">
-                <div className="h-44 sm:h-52 bg-gradient-to-br from-blue-50 to-indigo-50 flex flex-col items-center justify-center text-center p-6 border-t border-blue-100">
-                  <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-900 px-4 py-2 rounded-xl font-mono font-bold text-base sm:text-lg tracking-wider shadow-inner uppercase mb-2">
-                    <Briefcase className="w-4 h-4 text-blue-700" /> [ BUSINESS LOAN ]
-                  </div>
-                  <span className="text-xs text-slate-600 font-bold">Collateral-free options • Fast disbursal • High limits</span>
-                </div>
+              <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-md">
+                <img
+                  src={businessLoanBannerBase64 || "/business-loan-banner.png"}
+                  alt="Business Loan - Fast Tracked Capital for MSMEs & Enterprises"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/ref-images/fincrop_business_loan_exact_recreation.png";
+                  }}
+                  className="w-full h-auto block rounded-2xl object-cover hover:scale-[1.02] transition-transform duration-300"
+                />
               </div>
             </ScrollReveal>
 
