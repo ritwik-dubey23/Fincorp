@@ -16,20 +16,18 @@ const Footer = ({ onOpenApply }) => {
           
           {/* Left: Logo & Mission Statement */}
           <div className="space-y-4 max-w-xl">
-            <div className="bg-white rounded-xl px-4 py-2.5 inline-block shadow-md">
-              <img
-                src="/logo.png"
-                alt="FinCRO Logo"
-                className="h-9 w-auto object-contain"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              <div className="hidden items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-blue-600" />
-                <span className="text-lg font-black text-slate-900">FINCRO</span>
-              </div>
+            <div className="bg-white rounded-xl px-4 py-2 inline-block shadow-md">
+              <Link to="/" className="flex items-center">
+                <img
+                  src="/logo.png"
+                  alt="FinCrop Logo"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://lh3.googleusercontent.com/aida-public/AB6AXuCZA8NC-H0zKhrhPkjysvI96EoP2Q5Wjc4SjZqNmEikYwVOgAEWF_0O3kpk2uOTUdKbdt5YAdWciCmIwrLJJxXDKr5AGLOBJqncgOxExre7Ew7zDRds9XIEwQS1AVnyR_UYFi0cEtw9w9eowu3AMSpMLMJYDvj9-l8gAyjzxL52ew27LRgxJs98mvRteHtUuh1iZqN4XBotv7a_3yaUsu4CCDAD4sGIwvAns46x4OBzzpdRDks4nniGU8DVlpi3lwdijVs";
+                  }}
+                  className="h-10 sm:h-11 w-auto object-contain"
+                />
+              </Link>
             </div>
 
             <p className="text-xs text-slate-400 font-medium leading-relaxed">
@@ -41,11 +39,11 @@ const Footer = ({ onOpenApply }) => {
           <div className="space-y-3 text-left md:text-right">
             <h4 className="text-xs font-black text-white uppercase tracking-wider">Contact</h4>
             <a
-              href="mailto:supportmaharajji@gmail.com"
+              href="mailto:contact@fincrop.in"
               className="inline-flex items-center gap-2 bg-slate-800/90 hover:bg-slate-800 border border-slate-700/80 rounded-xl px-5 py-3 text-xs text-slate-200 font-bold transition shadow-sm hover:border-slate-600"
             >
               <Mail className="w-4 h-4 text-blue-400" />
-              <span>contact@fincro.com</span>
+              <span>contact@fincrop.in</span>
             </a>
           </div>
 
@@ -92,9 +90,9 @@ const Footer = ({ onOpenApply }) => {
           </div>
         </div>
 
-        {/* Bottom Copyright Row (Matching Screenshot 5) */}
+        {/* Bottom Copyright Row */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p className="font-semibold text-slate-400">FinCRO. All Rights Reserved.</p>
+          <p className="font-semibold text-slate-400">FinCrop. All Rights Reserved.</p>
           <button 
             onClick={scrollToTop} 
             aria-label="Back to top" 
