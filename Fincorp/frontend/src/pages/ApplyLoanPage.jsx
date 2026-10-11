@@ -240,7 +240,7 @@ const ApplyLoanPage = () => {
         {currentStep <= 2 ? (
           <>
             <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Get Instant Personal Loans
+              Instant Loan
             </h1>
             <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal max-w-xl mx-auto">
               Get quick funds with a seamless personal loan. Compare offers from trusted lenders and get approved within minutes—with minimal documentation.

@@ -43,7 +43,7 @@ const PersonalLoan = ({ onOpenApply }) => {
             INSTANT PERSONAL FINANCING
           </span>
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight">
-            Get Instant Personal Loans
+            Instant Loan
           </h1>
           <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
             Get quick funds with a seamless personal loan. Compare offers from trusted lenders and get approved within minutes—with minimal documentation.
