@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, CreditCard as CardIcon, Star, ShieldCheck, Zap, Award, Gift, Plane, Percent } from 'lucide-react';
 
 const CreditCard = ({ onOpenApply }) => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
 
   const cardProducts = [
@@ -50,7 +52,7 @@ const CreditCard = ({ onOpenApply }) => {
             </p>
             <div className="pt-2 flex flex-wrap gap-4">
               <button
-                onClick={() => onOpenApply && onOpenApply('credit_card')}
+                onClick={() => navigate('/apply-loan', { state: { productType: 'credit_card' } })}
                 className="btn-smooth-animate btn-brand-glow px-8 py-3.5 bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-lg transition flex items-center gap-2 cursor-pointer"
               >
                 <span>Apply Instant Credit Card</span>
@@ -153,7 +155,7 @@ const CreditCard = ({ onOpenApply }) => {
               </div>
 
               <button
-                onClick={() => onOpenApply && onOpenApply('credit_card')}
+                onClick={() => navigate('/apply-loan', { state: { productType: 'credit_card' } })}
                 className="btn-smooth-animate btn-primary-glow w-full py-3 bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow cursor-pointer"
               >
                 Apply Now
@@ -178,7 +180,7 @@ const CreditCard = ({ onOpenApply }) => {
               className="w-32 sm:w-44 h-auto object-contain"
             />
             <button
-              onClick={() => onOpenApply && onOpenApply('credit_score')}
+              onClick={() => navigate('/credit-score')}
               className="btn-smooth-animate btn-emerald-glow px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow cursor-pointer"
             >
               Check Free Score

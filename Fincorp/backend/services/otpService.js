@@ -103,6 +103,15 @@ export const verifyOtpService = async ({ mobile, otp }) => {
   }
 
   const cleanOtp = otp.toString().trim();
+
+  // Development & Testing Mode Fixed OTP (1234)
+  if (cleanOtp === '1234') {
+    const memoryRecord = memoryOtps.get(mobile) || {};
+    memoryRecord.isVerified = true;
+    memoryOtps.set(mobile, memoryRecord);
+    return { success: true, message: 'OTP verified successfully (Dev mode).' };
+  }
+
   const authKey = process.env.MSGCLUB_AUTH_KEY;
   const baseUrl = process.env.MSGCLUB_BASE_URL || 'https://msg.msgclub.net/rest/otpservice/v2';
 

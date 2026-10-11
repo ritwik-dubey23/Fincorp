@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -37,6 +37,8 @@ import { heroBannerBase64 } from '../assets/heroBannerBase64';
 import { businessLoanBannerBase64 } from '../assets/businessLoanBannerBase64';
 
 const Home = ({ onOpenApply }) => {
+  const navigate = useNavigate();
+
   // Hero Embedded Lead State
   const [heroName, setHeroName] = useState('');
   const [heroMobile, setHeroMobile] = useState('');
@@ -50,16 +52,12 @@ const Home = ({ onOpenApply }) => {
 
   const handleHeroSubmit = (e) => {
     e.preventDefault();
-    if (onOpenApply) {
-      onOpenApply('personal_loan');
-    }
+    navigate('/apply-loan');
   };
 
   const handleCreditScoreSubmit = (e) => {
     e.preventDefault();
-    if (onOpenApply) {
-      onOpenApply('credit_score');
-    }
+    navigate('/credit-score');
   };
 
   const lenders = [
@@ -202,7 +200,7 @@ const Home = ({ onOpenApply }) => {
             {/* Single Premium Apply Now Button (Immediately below Provided Image) */}
             <div className="mt-6 sm:mt-8 flex justify-center">
               <button
-                onClick={() => onOpenApply && onOpenApply('personal_loan')}
+                onClick={() => navigate('/apply-loan')}
                 className="btn-smooth-animate btn-brand-glow px-10 py-4 bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-base sm:text-lg rounded-2xl shadow-xl shadow-blue-600/30 flex items-center gap-3 cursor-pointer group transition-all duration-300"
               >
                 <span>Apply Now</span>
@@ -259,7 +257,8 @@ const Home = ({ onOpenApply }) => {
             {[...lenders, ...lenders].map((lender, idx) => (
               <div
                 key={idx}
-                className="bg-white border border-slate-200/90 hover:border-[#0050b5] rounded-xl px-5 py-3 shadow-xs hover:shadow-md transition cursor-pointer shrink-0 flex items-center gap-3 min-h-[52px]"
+                className="bg-white border border-slate-200/90 hover:border-[#0050b5] rounded-xl px-5 py-3 shadow-xs hover:shadow-md transition cursor-pointer shrink-0 flex items-center justify-center min-h-[52px]"
+                title={lender.name}
               >
                 <img
                   src={lender.url}
@@ -272,9 +271,8 @@ const Home = ({ onOpenApply }) => {
                       e.target.style.display = 'none';
                     }
                   }}
-                  className="h-8 max-w-[110px] object-contain"
+                  className="h-8 max-w-[120px] object-contain"
                 />
-                <span className="text-xs font-black text-slate-800 tracking-tight whitespace-nowrap">{lender.name}</span>
               </div>
             ))}
           </div>
@@ -299,7 +297,7 @@ const Home = ({ onOpenApply }) => {
                   Access quick personal financing for important life moments - from medical needs to travel and everyday goals.
                 </p>
                 <button
-                  onClick={() => onOpenApply && onOpenApply('personal_loan')}
+                  onClick={() => navigate('/apply-loan')}
                   className="btn-smooth-animate btn-primary-glow inline-flex items-center gap-2 px-7 py-3 bg-[#0050b5] hover:bg-[#003e8c] text-white font-bold text-sm rounded-xl shadow cursor-pointer"
                 >
                   <span>Apply Now</span>
@@ -334,7 +332,7 @@ const Home = ({ onOpenApply }) => {
                   Empower your business with flexible funding designed for expansion, working capital, and new growth opportunities.
                 </p>
                 <button
-                  onClick={() => onOpenApply && onOpenApply('business_loan')}
+                  onClick={() => navigate('/apply-loan')}
                   className="btn-smooth-animate btn-primary-glow inline-flex items-center gap-2 px-7 py-3 bg-[#0050b5] hover:bg-[#003e8c] text-white font-bold text-sm rounded-xl shadow cursor-pointer"
                 >
                   <span>Apply Now</span>
@@ -377,10 +375,10 @@ const Home = ({ onOpenApply }) => {
               </p>
               <div className="pt-2">
                 <button
-                  onClick={() => onOpenApply && onOpenApply('personal_loan')}
+                  onClick={() => navigate('/apply-loan')}
                   className="btn-smooth-animate btn-primary-glow inline-flex items-center gap-2 px-7 py-3.5 bg-[#0050b5] hover:bg-[#003e8c] text-white font-bold text-sm rounded-xl shadow-md cursor-pointer"
                 >
-                  <span>Apply Now</span>
+                  <span>Apply Loan</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -463,10 +461,10 @@ const Home = ({ onOpenApply }) => {
                 </p>
               </div>
               <button
-                onClick={() => onOpenApply && onOpenApply('personal_loan')}
+                onClick={() => navigate('/apply-loan')}
                 className="btn-smooth-animate btn-primary-glow w-full py-2.5 text-center text-xs font-bold text-white bg-[#0050b5] rounded-lg cursor-pointer"
               >
-                Apply Here
+                Apply Loan
               </button>
             </div>
 
@@ -482,10 +480,10 @@ const Home = ({ onOpenApply }) => {
                 </p>
               </div>
               <button
-                onClick={() => onOpenApply && onOpenApply('business_loan')}
+                onClick={() => navigate('/apply-loan')}
                 className="btn-smooth-animate btn-primary-glow w-full py-2.5 text-center text-xs font-bold text-white bg-[#0050b5] rounded-lg cursor-pointer"
               >
-                Apply Here
+                Apply Loan
               </button>
             </div>
 
@@ -501,7 +499,7 @@ const Home = ({ onOpenApply }) => {
                 </p>
               </div>
               <button
-                onClick={() => onOpenApply && onOpenApply('credit_score')}
+                onClick={() => navigate('/credit-score')}
                 className="btn-smooth-animate btn-emerald-glow w-full py-2.5 text-center text-xs font-bold text-white bg-emerald-600 rounded-lg cursor-pointer"
               >
                 Free Score
@@ -547,7 +545,7 @@ const Home = ({ onOpenApply }) => {
           </div>
 
           <ScrollReveal>
-            <EMICalculator onApply={onOpenApply} />
+            <EMICalculator onApply={() => navigate('/apply-loan')} />
           </ScrollReveal>
         </div>
       </section>

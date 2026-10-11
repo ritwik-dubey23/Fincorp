@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Building2, Calculator, MapPin, ShieldCheck, ArrowRight } from 'lucide-react';
 import EMICalculator from '../components/EMICalculator';
 
 const ToolsPage = ({ onOpenApply }) => {
+  const navigate = useNavigate();
   const [bank, setBank] = useState('');
   const [state, setState] = useState('');
   const [district, setDistrict] = useState('');
@@ -27,16 +29,16 @@ const ToolsPage = ({ onOpenApply }) => {
   return (
     <div className="space-y-16 pb-16 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif] bg-[#f8fafc]">
       
-      {/* 1. HERO TITLE */}
+      {/* 1. HERO TITLE - Pay EMI & Calculators */}
       <section className="pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center space-y-4">
         <span className="px-4 py-1.5 rounded-full bg-blue-100 text-[#0050b5] text-xs font-bold uppercase tracking-wider">
-          FINANCIAL TOOLS & CALCULATORS
+          PAY EMI & FINANCIAL CALCULATORS
         </span>
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          IFSC Code Finder & Loan Calculators
+          Pay EMI & Smart Loan Planner
         </h1>
         <p className="text-base sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
-          Search Bank IFSC codes, calculate personal & business loan EMIs, and check borrowing eligibility instantly online.
+          Calculate your monthly EMI installments, view breakdown schedules, find Bank IFSC codes, and track repayment options easily.
         </p>
       </section>
 
@@ -157,7 +159,7 @@ const ToolsPage = ({ onOpenApply }) => {
               className="h-28 sm:h-32 w-auto object-contain rounded-xl"
             />
             <button
-              onClick={() => onOpenApply && onOpenApply('credit_score')}
+              onClick={() => navigate('/credit-score')}
               className="btn-smooth-animate btn-emerald-glow px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow cursor-pointer"
             >
               Check Now
@@ -168,7 +170,7 @@ const ToolsPage = ({ onOpenApply }) => {
 
       {/* 4. EMI CALCULATOR COMPONENT */}
       <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <EMICalculator onApply={() => onOpenApply && onOpenApply('personal_loan')} />
+        <EMICalculator onApply={() => navigate('/apply-loan')} />
       </section>
 
     </div>

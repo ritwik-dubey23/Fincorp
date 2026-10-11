@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, ShieldCheck, Zap, Lock, DollarSign, Clock, User as UserIcon, PhoneCall, HelpCircle } from 'lucide-react';
 import EMICalculator from '../components/EMICalculator';
 
 const PersonalLoan = ({ onOpenApply }) => {
+  const navigate = useNavigate();
   const [fullName, setFullName] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [openFaq, setOpenFaq] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onOpenApply) {
-      onOpenApply('personal_loan');
-    }
+    navigate('/apply-loan', { state: { fullName, mobile: mobileNumber } });
   };
 
   const faqs = [
@@ -277,7 +277,7 @@ const PersonalLoan = ({ onOpenApply }) => {
 
       {/* 4. EMI CALCULATOR COMPONENT */}
       <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <EMICalculator onApply={() => onOpenApply && onOpenApply('personal_loan')} />
+        <EMICalculator onApply={() => navigate('/apply-loan')} />
       </section>
 
       {/* 5. CREDIT SCORE BANNER PROMO WITH REFERENCE GAUGE METER IMAGE */}
@@ -295,7 +295,7 @@ const PersonalLoan = ({ onOpenApply }) => {
               className="w-28 sm:w-36 h-auto object-contain"
             />
             <button
-              onClick={() => onOpenApply && onOpenApply('credit_score')}
+              onClick={() => navigate('/credit-score')}
               className="btn-smooth-animate btn-emerald-glow px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow cursor-pointer"
             >
               Check Now

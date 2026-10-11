@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, Gauge, Award, CheckCircle2, Lock, Zap } from 'lucide-react';
 import SpeedometerGauge from '../components/SpeedometerGauge';
 
 const CreditScore = ({ onOpenApply }) => {
+  const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onOpenApply) {
-      onOpenApply('credit_score');
-    }
+    navigate('/apply-loan', { state: { mobile: mobileNumber, productType: 'credit_score' } });
   };
 
   return (

@@ -13,6 +13,7 @@ const CreditScore = lazy(() => import('./pages/CreditScore'));
 const CreditCardPage = lazy(() => import('./pages/CreditCard'));
 const ToolsPage = lazy(() => import('./pages/ToolsPage'));
 const TrackStatusPage = lazy(() => import('./pages/TrackStatusPage'));
+const ApplyLoanPage = lazy(() => import('./pages/ApplyLoanPage'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 
@@ -92,8 +93,9 @@ function App() {
             {/* Authentication Routes */}
             <Route path="/login" element={<LoginPage initialView="login" />} />
             <Route path="/signup" element={<LoginPage initialView="signup" />} />
-            <Route path="/apply" element={<DirectApplyRoute handleOpenApply={handleOpenApply} />} />
-            <Route path="/apply-loan" element={<DirectApplyRoute handleOpenApply={handleOpenApply} />} />
+            {/* Dedicated Apply Loan Page (Direct Page, NOT popup) */}
+            <Route path="/apply" element={<ApplyLoanPage />} />
+            <Route path="/apply-loan" element={<ApplyLoanPage />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
