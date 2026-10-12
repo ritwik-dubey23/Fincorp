@@ -25,6 +25,23 @@
   --brand-green: #10b981;
 }
 
+/* CredBuddha Exact Reference Pattern & Curved Bottom */
+.dot-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+
+.curved-bottom {
+  border-bottom-left-radius: 50% 50px;
+  border-bottom-right-radius: 50% 50px;
+}
+@media (min-width: 768px) {
+  .curved-bottom {
+    border-bottom-left-radius: 50% 80px;
+    border-bottom-right-radius: 50% 80px;
+  }
+}
+
 /* ==========================================
    STRICT UNIVERSAL BUTTON ANIMATION SYSTEM
    ========================================== */

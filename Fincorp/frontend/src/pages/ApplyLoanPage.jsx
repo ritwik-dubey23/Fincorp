@@ -44,8 +44,8 @@ const ApplyLoanPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
   // Form Fields
-  const [fullName, setFullName] = useState(initialData.fullName || 'Pawan soni');
-  const [mobileNumber, setMobileNumber] = useState(initialData.mobile || '9165079260');
+  const [fullName, setFullName] = useState(initialData.fullName || '');
+  const [mobileNumber, setMobileNumber] = useState(initialData.mobile || '');
 
   // OTP Fields
   const [otpValues, setOtpValues] = useState(['', '', '', '']);
@@ -233,20 +233,76 @@ const ApplyLoanPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f3f7fd] font-['Plus_Jakarta_Sans',sans-serif] text-slate-800 pb-16">
+    <div className="min-h-screen bg-[#f8fafc] font-sans text-slate-800 antialiased flex flex-col justify-between selection:bg-blue-200">
       
-      {/* Top Header Information (Matching Reference Screenshot 1 & 3) */}
-      <div className="max-w-2xl mx-auto pt-6 sm:pt-10 px-4 text-center">
-        {currentStep <= 2 ? (
-          <>
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Instant Loan
+      {/* ========================================================================= */}
+      {/* SCREEN 1 & 2: DOTTED NAVY CURVED HEADER                                   */}
+      {/* ========================================================================= */}
+      {currentStep <= 2 && (
+        <header className="relative bg-gradient-to-b from-[#021d4d] via-[#052968] to-[#0a357e] curved-bottom pb-44 pt-10 px-4">
+          {/* Dotted Overlay */}
+          <div aria-hidden="true" className="absolute inset-0 dot-pattern pointer-events-none opacity-85 curved-bottom" />
+          
+          <div className="relative max-w-4xl mx-auto text-center z-10">
+            {/* Main Heading */}
+            <h1 className="text-3xl sm:text-4xl md:text-[42px] font-extrabold text-white tracking-tight leading-tight md:leading-snug">
+              Get Instant Loans<br />
+              <span className="text-white">up to </span><span className="text-[#f59e0b]">₹10 Lakhs</span>
             </h1>
-            <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal max-w-xl mx-auto">
-              Get quick funds with a seamless personal loan. Compare offers from trusted lenders and get approved within minutes—with minimal documentation.
-            </p>
-          </>
-        ) : (
+
+            {/* Value Propositions Row */}
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-y-3 gap-x-2 sm:gap-x-5 text-white text-xs sm:text-[13px] font-medium">
+              {/* Feature 1: Instant Approval */}
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-[#f97316] flex items-center justify-center shadow-sm">
+                  <svg className="w-4 h-4 text-white fill-current" viewBox="0 0 24 24">
+                    <path d="M13 2L3 14h7v8l11-14h-8l0-6z" />
+                  </svg>
+                </div>
+                <span className="leading-tight text-left">Instant<br className="hidden sm:inline" /> Approval</span>
+              </div>
+              
+              <div aria-hidden="true" className="hidden sm:block w-px h-6 bg-white/20" />
+
+              {/* Feature 2: Paperless Process */}
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-[#0ea5e9] flex items-center justify-center shadow-sm">
+                  <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <span className="leading-tight text-left">Paperless<br className="hidden sm:inline" /> Process</span>
+              </div>
+
+              <div aria-hidden="true" className="hidden sm:block w-px h-6 bg-white/20" />
+
+              {/* Feature 3: Quick Disbursal */}
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-[#10b981] flex items-center justify-center shadow-sm">
+                  <span className="text-white text-xs font-bold leading-none">₹</span>
+                </div>
+                <span className="leading-tight text-left">Quick<br className="hidden sm:inline" /> Disbursal</span>
+              </div>
+
+              <div aria-hidden="true" className="hidden sm:block w-px h-6 bg-white/20" />
+
+              {/* Feature 4: Secure & Safe */}
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-[#8b5cf6] flex items-center justify-center shadow-sm">
+                  <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path clipRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" fillRule="evenodd" />
+                  </svg>
+                </div>
+                <span className="leading-tight text-left">Secure<br className="hidden sm:inline" /> & Safe</span>
+              </div>
+            </div>
+          </div>
+        </header>
+      )}
+
+      {/* Top Header Information for Stepper 3 & 4 */}
+      {currentStep > 2 && (
+        <div className="max-w-2xl mx-auto pt-6 sm:pt-10 px-4 text-center">
           <div className="space-y-1">
             <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Apply in minutes! <span className="text-[#0050b5]">just in few minutes!</span>
@@ -255,255 +311,211 @@ const ApplyLoanPage = () => {
               We need a few details to show your best loan offers
             </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Main Container */}
-      <div className="max-w-xl mx-auto mt-6 px-4">
-        
-        {/* ========================================================================= */}
-        {/* SCREEN 1: INITIAL LEAD ENTRY (credBuddha.com/person)                      */}
-        {/* ========================================================================= */}
-        {currentStep === 1 && (
-          <div className="rounded-3xl shadow-2xl overflow-hidden border border-blue-200/60 bg-white animate-in fade-in duration-300">
-            
-            {/* Blue Gradient Header Hero Card */}
-            <div className="bg-gradient-to-b from-[#1952d4] via-[#1546b8] to-[#103aa2] p-6 sm:p-8 text-white relative">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-                Get Instant Loans <br />
-                up to <span className="text-[#fbb03b]">₹10 Lakhs</span>
-              </h2>
-              <p className="mt-2 text-xs sm:text-sm text-blue-100/90 leading-relaxed">
-                Simple, fast and 100% digital loan process.<br />
-                Check your eligibility in just 30 seconds.
-              </p>
-
-              {/* Badges Strip */}
-              <div className="mt-6 flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] font-bold">
-                <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/15">
-                  <span className="w-4 h-4 rounded-full bg-[#f97316] text-white flex items-center justify-center text-[9px]">⚡</span>
-                  <span>Fast Loan Application</span>
-                </div>
-                <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/15">
-                  <span className="w-4 h-4 rounded-full bg-[#06b6d4] text-white flex items-center justify-center text-[9px]">✓</span>
-                  <span>Instant Eligibility Check</span>
-                </div>
-                <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/15">
-                  <span className="w-4 h-4 rounded-full bg-[#9333ea] text-white flex items-center justify-center text-[9px]">🔒</span>
-                  <span>Secure & Safe</span>
+      {/* ========================================================================= */}
+      {/* MAIN CARD CONTAINER (-mt-36 matching reference)                          */}
+      {/* ========================================================================= */}
+      <main className={`relative z-20 px-4 mb-14 ${currentStep <= 2 ? '-mt-36' : 'mt-6'}`}>
+        <div className="max-w-[530px] mx-auto bg-white rounded-[24px] shadow-[0_12px_40px_-8px_rgba(0,0,0,0.14)] border border-slate-100 p-6 sm:p-8">
+          
+          {/* STEP 1: LEAD ENTRY (Exact CredBuddha Replication) */}
+          {currentStep === 1 && (
+            <div>
+              {/* Card Step Header */}
+              <div className="flex items-center justify-between pb-3">
+                <span className="text-[17px] font-bold text-[#0c387b]">Step 1 of 2</span>
+                <div className="flex items-center gap-1.5 text-emerald-600 text-xs sm:text-sm font-medium">
+                  <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span>Your data is safe</span>
                 </div>
               </div>
-            </div>
 
-            {/* Input Form Body */}
-            <form onSubmit={handleStep1Submit} className="p-6 sm:p-8 bg-white space-y-6">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-2">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                    <UserIcon className="w-4 h-4 text-blue-600" />
-                  </div>
+              {/* Progress Track */}
+              <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" className="w-full bg-[#e8ecf2] h-1.5 rounded-full overflow-hidden mb-7" role="progressbar">
+                <div className="bg-[#1e5cd9] h-full w-[24%] rounded-full" />
+              </div>
+
+              <form onSubmit={handleStep1Submit} className="space-y-5">
+                {/* Field 1: Full Name */}
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-slate-700" htmlFor="fullName">
+                    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span>Full Name (as per PAN)</span>
+                  </label>
                   <input
+                    id="fullName"
+                    name="fullName"
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Enter full name"
+                    placeholder="Enter your full name"
                     required
-                    className="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 font-semibold focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition shadow-xs"
+                    className="w-full h-12 px-4 rounded-lg border border-slate-200 bg-[#f8fafc]/50 text-slate-800 placeholder-slate-400 text-[15px] focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-2">
-                  Mobile Number
-                </label>
-                <div className="flex gap-2">
-                  <div className="bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-3 text-sm font-bold text-slate-700 flex items-center justify-center shrink-0">
-                    +91
-                  </div>
-                  <div className="relative flex-grow">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-blue-600">
-                      <Phone className="w-4 h-4" />
-                    </div>
+                {/* Field 2: Mobile Number */}
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-slate-700" htmlFor="mobileNumber">
+                    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span>Mobile Number</span>
+                  </label>
+                  <div className="flex rounded-lg border border-slate-200 bg-[#f8fafc]/50 overflow-hidden focus-within:ring-2 focus-within:ring-blue-600 focus-within:border-transparent focus-within:bg-white transition">
+                    <span className="inline-flex items-center px-4 text-slate-800 text-[15px] font-medium border-r border-slate-200 select-none">
+                      +91
+                    </span>
                     <input
+                      id="mobileNumber"
+                      name="mobileNumber"
                       type="tel"
                       maxLength={10}
                       value={mobileNumber}
                       onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
                       placeholder="Enter 10-digit mobile number"
                       required
-                      className="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 font-semibold focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition shadow-xs"
+                      className="w-full h-12 px-4 bg-transparent border-0 text-slate-800 placeholder-slate-400 text-[15px] focus:ring-0 focus:outline-none"
                     />
                   </div>
                 </div>
-              </div>
 
-              {errorMsg && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs font-medium rounded-xl flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  <span>{errorMsg}</span>
+                {errorMsg && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs font-medium rounded-xl flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
+
+                {/* CTA Button */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    className="w-full h-13 py-3.5 px-6 rounded-full bg-gradient-to-r from-[#1752c4] via-[#1e5cd9] to-[#2563eb] text-white font-semibold text-base shadow-md shadow-blue-500/25 hover:brightness-105 active:scale-[0.99] transition flex items-center justify-center gap-2 tracking-wide cursor-pointer"
+                  >
+                    <span>Get OTP</span>
+                    <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                      <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
                 </div>
-              )}
 
-              <button
-                type="submit"
-                className="w-full py-4 rounded-full bg-gradient-to-r from-[#114cc9] via-[#0b3fad] to-[#082f8a] hover:from-[#0b3fad] hover:to-[#06246b] text-white font-extrabold text-sm shadow-lg shadow-blue-600/30 transition transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
-              >
-                Continue
-              </button>
-
-              <p className="text-[11px] text-slate-500 font-normal leading-relaxed text-center pt-1">
-                By clicking "Continue", you agree to FinCrop's{' '}
-                <Link to="/privacy" className="text-blue-600 font-bold underline">Privacy Policy</Link>,{' '}
-                <Link to="/terms" className="text-blue-600 font-bold underline">Terms & Conditions</Link>, and{' '}
-                <span className="text-blue-600 font-bold underline cursor-pointer">Bureau Terms & Conditions</span>.
-              </p>
-            </form>
-
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* SCREEN 2: OTP VERIFICATION (credbuddha.com/apply- / Step 2 of 2)          */}
-        {/* ========================================================================= */}
-        {currentStep === 2 && (
-          <div className="rounded-3xl shadow-2xl overflow-hidden border border-blue-200/60 bg-white animate-in fade-in duration-300">
-            
-            {/* Top Blue Hero Ribbon */}
-            <div className="bg-gradient-to-b from-[#1952d4] via-[#1546b8] to-[#103aa2] p-6 text-white text-center">
-              <h2 className="text-2xl font-extrabold text-white">
-                Get Instant Loans up to <span className="text-[#fbb03b]">₹10 Lakhs</span>
-              </h2>
-              <div className="mt-4 flex flex-wrap justify-center items-center gap-2 text-[10px] font-bold">
-                <span className="bg-white/10 px-2.5 py-1 rounded-full border border-white/15">⚡ Instant Approval</span>
-                <span className="bg-white/10 px-2.5 py-1 rounded-full border border-white/15">📄 Paperless Process</span>
-                <span className="bg-white/10 px-2.5 py-1 rounded-full border border-white/15">₹ Quick Disbursal</span>
-                <span className="bg-white/10 px-2.5 py-1 rounded-full border border-white/15">🔒 Secure & Safe</span>
-              </div>
+                {/* Terms and Conditions text */}
+                <p className="text-[11.5px] leading-relaxed text-slate-500 text-center px-2 pt-1">
+                  By clicking "Continue", you agree to CredBuddha's Privacy Policy, Terms &amp; Conditions, and Bureau Terms &amp; Conditions.{' '}
+                  <Link to="/terms" className="text-[#0e4eb5] font-semibold hover:underline">Read More</Link>
+                </p>
+              </form>
             </div>
+          )}
 
-            {/* OTP Form Body */}
-            <div className="p-6 sm:p-8 space-y-6">
-              
+          {/* STEP 2: OTP VERIFICATION (Clean matching card) */}
+          {currentStep === 2 && (
+            <div>
               {/* Progress Step Header */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-xs font-bold text-slate-700">
-                  <span>Step 2 of 2</span>
+              <div className="flex items-center justify-between pb-3">
+                <span className="text-[17px] font-bold text-[#0c387b]">Step 2 of 2</span>
+                <div className="flex items-center gap-1.5 text-emerald-600 text-xs sm:text-sm font-medium">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                </div>
-                <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-[#114cc9] h-full w-full rounded-full transition-all duration-500" />
+                  <span>Your information is safe with us</span>
                 </div>
               </div>
 
-              {/* Verify OTP Green Notification Box */}
-              <div className="bg-[#f0fbf4] border border-[#d1fae5] rounded-2xl p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center">
-                    <Check className="w-4 h-4 stroke-[3]" />
+              {/* Progress Track */}
+              <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="100" className="w-full bg-[#e8ecf2] h-1.5 rounded-full overflow-hidden mb-7" role="progressbar">
+                <div className="bg-[#1e5cd9] h-full w-full rounded-full transition-all duration-500" />
+              </div>
+
+              <div className="space-y-6">
+                {/* Verify OTP Green Notification Box */}
+                <div className="bg-[#f0fbf4] border border-[#d1fae5] rounded-2xl p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center">
+                      <Check className="w-4 h-4 stroke-[3]" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900">Verify Your OTP</h4>
+                      <p className="text-xs text-slate-500 font-medium">Sent to +91 {mobileNumber}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-900">Verify Your OTP</h4>
-                    <p className="text-xs text-slate-500 font-medium">Sent to +91 {mobileNumber}</p>
+                  <button
+                    onClick={() => setCurrentStep(1)}
+                    className="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
+                  >
+                    Edit
+                  </button>
+                </div>
+
+                {/* 4-Digit OTP Boxes */}
+                <div className="space-y-3 text-center">
+                  <label className="block text-xs font-bold text-slate-700">
+                    Enter 4-digit OTP
+                  </label>
+                  <div className="flex justify-center gap-3 sm:gap-4">
+                    {otpValues.map((val, idx) => (
+                      <input
+                        key={idx}
+                        id={`otp-box-${idx}`}
+                        type="text"
+                        maxLength={1}
+                        value={val}
+                        onChange={(e) => handleOtpChange(idx, e.target.value)}
+                        onKeyDown={(e) => handleOtpKeyDown(idx, e)}
+                        className="w-13 h-14 sm:w-14 sm:h-16 text-center text-xl font-bold text-slate-900 bg-white border-2 border-slate-300 rounded-xl focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100 transition shadow-xs"
+                      />
+                    ))}
+                  </div>
+
+                  {/* Resend OTP */}
+                  <div className="text-xs text-slate-500 pt-1">
+                    Didn't receive OTP?{' '}
+                    {timer > 0 ? (
+                      <span className="text-blue-600 font-bold">Resend OTP in 00:{timer < 10 ? `0${timer}` : timer}</span>
+                    ) : (
+                      <button
+                        onClick={handleResendOtp}
+                        className="text-blue-600 font-bold hover:underline cursor-pointer"
+                      >
+                        Resend OTP
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="pt-1">
+                    <span className="inline-block text-[11px] text-slate-400 font-medium">
+                      (Development Testing Mode OTP: <strong>1234</strong>)
+                    </span>
                   </div>
                 </div>
+
+                {errorMsg && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs font-medium rounded-xl flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
+
                 <button
-                  onClick={() => setCurrentStep(1)}
-                  className="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
+                  onClick={handleStep2VerifyOtp}
+                  className="w-full h-13 py-3.5 px-6 rounded-full bg-gradient-to-r from-[#1752c4] via-[#1e5cd9] to-[#2563eb] text-white font-semibold text-base shadow-md shadow-blue-500/25 hover:brightness-105 active:scale-[0.99] transition flex items-center justify-center gap-2 tracking-wide cursor-pointer"
                 >
-                  Edit
+                  <span>Verify OTP</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
-              </div>
 
-              {/* 4-Digit OTP Boxes */}
-              <div className="space-y-3 text-center">
-                <label className="block text-xs font-bold text-slate-700">
-                  Enter 4-digit OTP
-                </label>
-                <div className="flex justify-center gap-3 sm:gap-4">
-                  {otpValues.map((val, idx) => (
-                    <input
-                      key={idx}
-                      id={`otp-box-${idx}`}
-                      type="text"
-                      maxLength={1}
-                      value={val}
-                      onChange={(e) => handleOtpChange(idx, e.target.value)}
-                      onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                      className="w-13 h-14 sm:w-14 sm:h-16 text-center text-xl font-bold text-slate-900 bg-white border-2 border-slate-300 rounded-xl focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100 transition shadow-xs"
-                    />
-                  ))}
-                </div>
-
-                {/* Resend OTP */}
-                <div className="text-xs text-slate-500 pt-1">
-                  Didn't receive OTP?{' '}
-                  {timer > 0 ? (
-                    <span className="text-blue-600 font-bold">Resend OTP in 00:{timer < 10 ? `0${timer}` : timer}</span>
-                  ) : (
-                    <button
-                      onClick={handleResendOtp}
-                      className="text-blue-600 font-bold hover:underline cursor-pointer"
-                    >
-                      Resend OTP
-                    </button>
-                  )}
-                </div>
-
-                <div className="pt-1">
-                  <span className="inline-block text-[11px] text-slate-400 font-medium">
-                    (Development Testing Mode OTP: <strong>1234</strong>)
-                  </span>
-                </div>
-              </div>
-
-              {/* Data Safety Note */}
-              <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 flex items-center gap-2.5 text-xs text-slate-600 font-medium">
-                <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
-                <span>Your information is safe with us.</span>
-              </div>
-
-              {errorMsg && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs font-medium rounded-xl flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  <span>{errorMsg}</span>
-                </div>
-              )}
-
-              <button
-                onClick={handleStep2VerifyOtp}
-                className="w-full py-4 rounded-full bg-gradient-to-r from-[#114cc9] via-[#0b3fad] to-[#082f8a] hover:from-[#0b3fad] hover:to-[#06246b] text-white font-extrabold text-sm shadow-lg shadow-blue-600/30 transition transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span>Verify OTP</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <p className="text-[11px] text-slate-400 text-center flex items-center justify-center gap-1.5 font-medium">
-                <Lock className="w-3.5 h-3.5 text-slate-400" />
-                <span>OTP is 100% secure and confidential</span>
-              </p>
-
-            </div>
-
-            {/* Below OTP: OUR LENDERS Leading Banks and NBFCs Track */}
-            <div className="border-t border-slate-100 p-6 bg-slate-50/70 text-center">
-              <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">OUR LENDERS</span>
-              <h4 className="text-xs font-bold text-slate-700 mt-0.5 mb-4">Leading Banks and NBFCs</h4>
-              
-              <div className="flex flex-wrap justify-center items-center gap-3">
-                {lenders.slice(0, 5).map((l, idx) => (
-                  <div key={idx} className="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-xs shrink-0 flex items-center justify-center h-10 min-w-[70px]">
-                    <img src={l.url} alt={l.name} className="h-6 max-w-[80px] object-contain" />
-                  </div>
-                ))}
+                <p className="text-[11px] text-slate-400 text-center flex items-center justify-center gap-1.5 font-medium">
+                  <Lock className="w-3.5 h-3.5 text-slate-400" />
+                  <span>OTP is 100% secure and confidential</span>
+                </p>
               </div>
             </div>
-
-          </div>
-        )}
+          )}
 
         {/* ========================================================================= */}
         {/* SCREEN 3 & 4: cbform Stepper (Basic Details / Employment Details)         */}
@@ -860,40 +872,47 @@ const ApplyLoanPage = () => {
           </div>
         )}
 
-        {/* Bottom Feature Badges Strip (credBuddha.com footer matching Screenshot 2) */}
-        <div className="mt-8 pt-6 border-t border-slate-200/80 flex items-center justify-around text-center">
-          <div className="flex flex-col items-center">
-            <div className="w-8 h-8 rounded-full bg-[#06b6d4] text-white flex items-center justify-center text-xs shadow-xs mb-1.5">
-              🛡️
+        {currentStep > 2 && (
+          <div className="mt-8 pt-6 border-t border-slate-200/80 flex items-center justify-around text-center">
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 rounded-full bg-[#06b6d4] text-white flex items-center justify-center text-xs shadow-xs mb-1.5">
+                🛡️
+              </div>
+              <span className="text-xs font-bold text-slate-900">100% Safe</span>
+              <span className="text-[10px] text-slate-400">& Secure</span>
             </div>
-            <span className="text-xs font-bold text-slate-900">100% Safe</span>
-            <span className="text-[10px] text-slate-400">& Secure</span>
-          </div>
 
-          <div className="flex flex-col items-center">
-            <div className="w-8 h-8 rounded-full bg-[#f97316] text-white flex items-center justify-center text-xs shadow-xs mb-1.5">
-              ⏱️
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 rounded-full bg-[#f97316] text-white flex items-center justify-center text-xs shadow-xs mb-1.5">
+                ⏱️
+              </div>
+              <span className="text-xs font-bold text-slate-900">Takes 2 Min</span>
+              <span className="text-[10px] text-slate-400">Quick & Easy</span>
             </div>
-            <span className="text-xs font-bold text-slate-900">Takes 2 Min</span>
-            <span className="text-[10px] text-slate-400">Quick & Easy</span>
-          </div>
 
-          <div className="flex flex-col items-center">
-            <div className="w-8 h-8 rounded-full bg-[#10b981] text-white flex items-center justify-center text-xs shadow-xs mb-1.5">
-              👥
+            <div className="flex flex-col items-center">
+              <div className="w-8 h-8 rounded-full bg-[#10b981] text-white flex items-center justify-center text-xs shadow-xs mb-1.5">
+                👥
+              </div>
+              <span className="text-xs font-bold text-slate-900">2 Million+ Users</span>
+              <span className="text-[10px] text-slate-400">Trusted by millions</span>
             </div>
-            <span className="text-xs font-bold text-slate-900">2 Million+ Users</span>
-            <span className="text-[10px] text-slate-400">Trusted by millions</span>
           </div>
-        </div>
-
-        <div className="text-center mt-6 text-[11px] text-slate-400 font-medium">
-          FinCrop. All Rights Reserved.
-        </div>
-
+        )}
       </div>
+    </main>
 
-    </div>
+    {/* BEGIN: Lenders Section Footer Info */}
+    <footer className="pb-10 pt-2 text-center" data-purpose="lenders-section">
+      <h3 className="text-[12px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">
+        OUR LENDERS
+      </h3>
+      <p className="text-base sm:text-lg font-bold text-[#0c2e63]">
+        Leading Banks and NBFCs
+      </p>
+    </footer>
+    {/* END: Lenders Section Footer Info */}
+  </div>
   );
 };
 
