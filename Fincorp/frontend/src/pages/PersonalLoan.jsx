@@ -2,17 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, ShieldCheck, Zap, Lock, DollarSign, Clock, User as UserIcon, PhoneCall, HelpCircle } from 'lucide-react';
 import EMICalculator from '../components/EMICalculator';
+import InstantLoanHero from '../components/InstantLoanHero';
 
 const PersonalLoan = ({ onOpenApply }) => {
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState('');
-  const [mobileNumber, setMobileNumber] = useState('');
   const [openFaq, setOpenFaq] = useState(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate('/apply-loan', { state: { fullName, mobile: mobileNumber } });
-  };
 
   const faqs = [
     {
@@ -36,113 +30,8 @@ const PersonalLoan = ({ onOpenApply }) => {
   return (
     <div className="space-y-16 pb-16 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif] bg-[#f8fafc]">
       
-      {/* 1. HERO SECTION & DUAL SPLIT FORM */}
-      <section className="pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center max-w-4xl mx-auto mb-10">
-          <span className="px-4 py-1.5 rounded-full bg-blue-100 text-[#0050b5] text-xs font-bold uppercase tracking-wider mb-3 inline-block">
-            INSTANT PERSONAL FINANCING
-          </span>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight">
-            Instant Loan
-          </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
-            Get quick funds with a seamless personal loan. Compare offers from trusted lenders and get approved within minutes—with minimal documentation.
-          </p>
-        </div>
-
-        {/* Split Card Form Component */}
-        <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden flex flex-col md:flex-row">
-          
-          {/* Left Side: Dark Blue Promo Banner */}
-          <div className="md:w-1/2 bg-gradient-to-br from-slate-950 via-[#0d2847] to-slate-900 p-8 sm:p-10 text-white flex flex-col justify-between relative border-r border-slate-800">
-            <div>
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-400 text-xs font-bold mb-4 tracking-wider uppercase">
-                <span>✨ Exclusive Offer</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight">
-                Get Instant Loans <br />up to <span className="text-amber-400 drop-shadow-sm">₹10 Lakhs</span>
-              </h2>
-              <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
-                Simple, fast and 100% digital loan process.<br />Check your eligibility in just 30 seconds.
-              </p>
-
-              {/* 3 Badges */}
-              <div className="mt-8 flex flex-wrap gap-3">
-                <div className="flex items-center space-x-2 bg-slate-900/80 backdrop-blur-md px-3.5 py-2 rounded-xl text-xs font-semibold border border-white/10">
-                  <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-[10px]">⚡</span>
-                  <span className="text-slate-200">Fast Application</span>
-                </div>
-                <div className="flex items-center space-x-2 bg-slate-900/80 backdrop-blur-md px-3.5 py-2 rounded-xl text-xs font-semibold border border-white/10">
-                  <span className="w-5 h-5 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-[10px]">✓</span>
-                  <span className="text-slate-200">Instant Check</span>
-                </div>
-                <div className="flex items-center space-x-2 bg-slate-900/80 backdrop-blur-md px-3.5 py-2 rounded-xl text-xs font-semibold border border-white/10">
-                  <span className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-[10px]">🔒</span>
-                  <span className="text-slate-200">Secure & Safe</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Privacy Note */}
-            <div className="mt-8 bg-slate-900/60 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-center space-x-3 text-xs text-slate-300">
-              <ShieldCheck className="w-6 h-6 text-emerald-400 shrink-0 stroke-[2.5]" />
-              <p className="leading-relaxed font-medium">We value your privacy and keep your data <span class="text-emerald-400 font-bold">100% safe</span> and confidential.</p>
-            </div>
-          </div>
-
-          {/* Right Side: Quick Lead Form */}
-          <div className="md:w-1/2 p-8 sm:p-10 bg-white flex flex-col justify-center" id="hero-form">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-xs font-extrabold text-slate-700 uppercase mb-2 flex items-center gap-1.5">
-                  <UserIcon className="w-3.5 h-3.5 text-[#0050b5]" /> Full Name (as per PAN)
-                </label>
-                <input
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Enter your full name"
-                  required
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-extrabold text-slate-700 uppercase mb-2 flex items-center gap-1.5">
-                  <PhoneCall className="w-3.5 h-3.5 text-[#0050b5]" /> Mobile Number
-                </label>
-                <div className="flex gap-2">
-                  <div className="bg-slate-100 border border-slate-200 rounded-xl px-3.5 py-3 text-sm font-bold text-slate-700 flex items-center justify-center shrink-0">
-                    +91
-                  </div>
-                  <input
-                    type="tel"
-                    maxLength={10}
-                    value={mobileNumber}
-                    onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
-                    placeholder="Enter 10-digit mobile"
-                    required
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#0050b5] focus:bg-white transition"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="btn-smooth-animate btn-brand-glow w-full py-3.5 rounded-xl bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span>Continue</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <p className="text-[11px] text-slate-400 font-medium leading-normal text-center pt-1">
-                By clicking "Continue", you agree to FinCrop's Privacy Policy & Bureau Terms.
-              </p>
-            </form>
-          </div>
-
-        </div>
-      </section>
+      {/* 1. HERO SECTION & FORM (Exact Updated Upper Instant Loan Section) */}
+      <InstantLoanHero />
 
       {/* 2. SMART ADVANTAGES & ELIGIBILITY DUAL CARDS */}
       <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">

@@ -41,7 +41,9 @@ const ApplyLoanPage = () => {
   const initialData = location.state || {};
 
   // Flow State: 1 = Lead, 2 = OTP, 3 = Basic Details, 4 = Employment Details, 5 = Confirmation / Offers
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(
+    initialData.fullName && initialData.mobile ? 2 : 1
+  );
 
   // Form Fields
   const [fullName, setFullName] = useState(initialData.fullName || '');

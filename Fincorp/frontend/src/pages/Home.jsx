@@ -32,6 +32,7 @@ import EMICalculator from '../components/EMICalculator';
 import SpeedometerGauge from '../components/SpeedometerGauge';
 import AnimatedCounter from '../components/AnimatedCounter';
 import ScrollReveal from '../components/ScrollReveal';
+import InstantLoanHero from '../components/InstantLoanHero';
 import { personalLoanBannerBase64 } from '../assets/personalLoanBannerBase64';
 import { heroBannerBase64 } from '../assets/heroBannerBase64';
 import { businessLoanBannerBase64 } from '../assets/businessLoanBannerBase64';
@@ -170,47 +171,8 @@ const Home = ({ onOpenApply }) => {
   return (
     <div className="space-y-16 pb-16 overflow-x-hidden font-['Plus_Jakarta_Sans',sans-serif]">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-6 pb-12 md:pt-8 md:pb-16 overflow-hidden bg-gradient-to-b from-white via-blue-50/30 to-[#f8faff]" data-purpose="hero-section">
-        {/* Subtle Decorative Grid Pattern Overlay */}
-        <div 
-          className="absolute inset-0 opacity-15 pointer-events-none"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #0050b5 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
-          }}
-        />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          {/* Main Hero Visual Image (Immediately below Navbar) */}
-          <div className="max-w-6xl mx-auto">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border border-blue-100/80 bg-white group transition-all duration-300 hover:shadow-blue-500/15">
-              <img
-                src={heroBannerBase64 || "/hero-banner.png"}
-                alt="Seamless Loan Solutions To Empower Your Ambitions with FinCrop"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "/ref-images/hero-banner.png";
-                }}
-                className="w-full h-auto object-cover rounded-3xl transform transition-transform duration-500 group-hover:scale-[1.005]"
-              />
-            </div>
-
-            {/* Single Premium Apply Now Button (Immediately below Provided Image) */}
-            <div className="mt-6 sm:mt-8 flex justify-center">
-              <button
-                onClick={() => navigate('/apply-loan')}
-                className="btn-smooth-animate btn-brand-glow px-10 py-4 bg-[#0050b5] hover:bg-[#003e8c] text-white font-extrabold text-base sm:text-lg rounded-2xl shadow-xl shadow-blue-600/30 flex items-center gap-3 cursor-pointer group transition-all duration-300"
-              >
-                <span>Apply Now</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </section>
+      {/* 1. HERO SECTION (Exact Updated Upper Instant Loan Section) */}
+      <InstantLoanHero />
 
       {/* 2. METRIC COUNTER STRIP */}
       <section className="bg-slate-950 text-white py-10 relative border-y border-slate-800" data-purpose="metrics-counter">

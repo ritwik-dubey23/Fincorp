@@ -50,7 +50,7 @@ const Navbar = ({ onOpenApply }) => {
 
             {/* 2. Center: Desktop Navigation Items - Strictly 6 items */}
             <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-black uppercase tracking-wider text-slate-700 whitespace-nowrap">
-              <Link to="/apply-loan" className="hover:text-blue-600 transition leading-none">Instant Loan</Link>
+              <Link to="/personal-loan" className="hover:text-blue-600 transition leading-none">Instant Loan</Link>
               <Link to="/tools" className="hover:text-blue-600 transition leading-none">Pay EMI</Link>
               <Link to="/credit-card" className="hover:text-blue-600 transition leading-none">Credit Cards</Link>
               <Link to="/credit-score" className="hover:text-blue-600 transition leading-none">Credit Score</Link>
@@ -145,7 +145,7 @@ const Navbar = ({ onOpenApply }) => {
         <div className="fixed inset-0 top-20 z-30 bg-slate-900/60 backdrop-blur-xs lg:hidden animate-in fade-in duration-200">
           <div className="bg-white border-b border-slate-200 p-6 space-y-4 shadow-2xl animate-in slide-in-from-top duration-200">
             <div className="space-y-3 font-extrabold text-xs uppercase tracking-wider text-slate-800">
-              <Link to="/apply-loan" onClick={() => setMobileMenuOpen(false)} className="block py-2 hover:text-blue-600">Instant Loan</Link>
+              <Link to="/personal-loan" onClick={() => setMobileMenuOpen(false)} className="block py-2 hover:text-blue-600">Instant Loan</Link>
               <Link to="/tools" onClick={() => setMobileMenuOpen(false)} className="block py-2 hover:text-blue-600">Pay EMI</Link>
               <Link to="/credit-card" onClick={() => setMobileMenuOpen(false)} className="block py-2 hover:text-blue-600">Credit Cards</Link>
               <Link to="/credit-score" onClick={() => setMobileMenuOpen(false)} className="block py-2 hover:text-blue-600">Credit Score</Link>

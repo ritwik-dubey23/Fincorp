@@ -65,7 +65,7 @@ function App() {
   };
 
   const hideGlobalFooter =
-    ['/apply', '/apply-loan', '/personal-loan'].includes(location.pathname) ||
+    ['/apply', '/apply-loan'].includes(location.pathname) ||
     location.pathname.startsWith('/admin');
 
   return (
@@ -77,7 +77,7 @@ function App() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Home onOpenApply={() => handleOpenApply('personal_loan')} />} />
-            <Route path="/personal-loan" element={<ApplyLoanPage />} />
+            <Route path="/personal-loan" element={<PersonalLoan onOpenApply={(prod) => handleOpenApply(prod)} />} />
             <Route path="/business-loan" element={<BusinessLoan onOpenApply={(prod) => handleOpenApply(prod)} />} />
             <Route path="/credit-score" element={<CreditScore onOpenApply={(prod) => handleOpenApply(prod)} />} />
             <Route path="/credit-card" element={<CreditCardPage onOpenApply={(prod) => handleOpenApply(prod)} />} />
