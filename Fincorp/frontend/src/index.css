@@ -312,19 +312,19 @@ button:hover::after,
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marqueeHorizontal 38s linear infinite;
+  animation: marqueeHorizontal 18s linear infinite;
 }
 
 .animate-marquee-slow {
   display: flex;
   width: max-content;
-  animation: marqueeHorizontal 48s linear infinite;
+  animation: marqueeHorizontal 22s linear infinite;
 }
 
 .animate-marquee-testimonials {
   display: flex;
   width: max-content;
-  animation: marqueeHorizontal 42s linear infinite;
+  animation: marqueeHorizontal 20s linear infinite;
 }
 
 /* Pause animation on interactive hover */
