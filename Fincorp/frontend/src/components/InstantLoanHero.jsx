@@ -186,6 +186,16 @@ const InstantLoanHero = () => {
         </div>
       </div>
       {/* END: Main Interactive Card */}
+
+      {/* BEGIN: Lenders Section Header */}
+      <div className="pb-8 pt-2 text-center" data-purpose="lenders-section">
+        <h3 className="text-[12px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">
+          OUR LENDERS
+        </h3>
+        <p className="text-base sm:text-lg font-bold text-[#0c2e63]">
+          Leading Banks and NBFCs
+        </p>
+      </div>
     </div>
   );
 };

@@ -19,6 +19,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import API from '../services/api';
+import InstantLoanScrollContent from '../components/InstantLoanScrollContent';
 
 const lenders = [
   { name: 'Aditya Birla Capital', url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD39a5MVXWjh9aQfm2QDHSUtI304dQ6w1o2mTTj9e_OJ1AilLjsA-LRyPN6ZiTcPI2pOKJW564KJnrYa1NULtph-Pg-WFEJ1iWo1YvgD_H3rzg6CYpAeX7y3EwTzgOeizj10P5aWpjNXCQ0NsXFu7-zSwN4Z1yVBut5GoKGYWpbLrnGgZhU6KEXUOw6Rl_QOpb23fjvxRfHidD6t857izkO6lwtZGJWl5M_UEoo6qkXyjdIK-lfNVs1N20xWbP2EPJh1BQ', local: '/ref-images/aditya.png' },
@@ -904,16 +905,11 @@ const ApplyLoanPage = () => {
       </div>
     </main>
 
-    {/* BEGIN: Lenders Section Footer Info */}
-    <footer className="pb-10 pt-2 text-center" data-purpose="lenders-section">
-      <h3 className="text-[12px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">
-        OUR LENDERS
-      </h3>
-      <p className="text-base sm:text-lg font-bold text-[#0c2e63]">
-        Leading Banks and NBFCs
-      </p>
-    </footer>
-    {/* END: Lenders Section Footer Info */}
+    {/* BEGIN: Lenders Section Footer Info & Original Lower Sections */}
+    <div className="pt-2 text-center" data-purpose="lenders-section">
+      {/* 100% UNCHANGED ORIGINAL LOWER SECTIONS & BRAND NAMES */}
+      {currentStep <= 2 && <InstantLoanScrollContent />}
+    </div>
   </div>
   );
 };
