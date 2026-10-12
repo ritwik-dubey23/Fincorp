@@ -64,7 +64,11 @@ function App() {
     setApplyModalOpen(true);
   };
 
-  const hideGlobalFooter = location.pathname.startsWith('/admin');
+  const hideGlobalFooter =
+    location.pathname.startsWith('/admin') ||
+    location.pathname === '/personal-loan' ||
+    location.pathname === '/apply' ||
+    location.pathname === '/apply-loan';
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-['Urbanist',sans-serif]">

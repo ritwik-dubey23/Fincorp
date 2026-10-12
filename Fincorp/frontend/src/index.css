@@ -290,20 +290,67 @@ button:hover::after,
   background: #94a3b8;
 }
 
-/* Marquee Continuous Moving Lenders Animation */
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+/* Marquee Continuous Moving Lenders & Features Animations */
+@keyframes marqueeHorizontal {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marqueeReverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 25s linear infinite;
+  animation: marqueeHorizontal 38s linear infinite;
 }
 
-.animate-marquee:hover {
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marqueeHorizontal 48s linear infinite;
+}
+
+.animate-marquee-testimonials {
+  display: flex;
+  width: max-content;
+  animation: marqueeHorizontal 42s linear infinite;
+}
+
+/* Pause animation on interactive hover */
+.pause-on-hover:hover {
   animation-play-state: paused;
+}
+
+/* Soft Edge Gradient Masks for sliders */
+.mask-fade-edges {
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+/* Dotted background grid for hero section */
+.hero-dots-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+/* Custom scrollbar hiding */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Dedicated Glow Utility Classes for Themed Buttons */
