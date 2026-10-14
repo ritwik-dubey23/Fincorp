@@ -44,50 +44,47 @@ const InstantLoanHero = () => {
             <span className="text-white">up to </span><span className="text-[#f59e0b]">₹10 Lakhs</span>
           </h1>
 
-          {/* Value Propositions Row — single line on all screen sizes */}
-          <div className="mt-7 flex flex-nowrap items-center justify-center gap-x-3 sm:gap-x-5 text-white text-[10px] sm:text-[13px] font-medium overflow-hidden" data-purpose="value-propositions">
+          {/* Value Propositions — 2×2 on mobile, single row on sm+ */}
+          <div
+            className="mt-6 grid grid-cols-2 sm:flex sm:flex-nowrap items-center justify-center gap-3 sm:gap-x-5 text-white text-[11px] sm:text-[13px] font-medium px-2"
+            data-purpose="value-propositions"
+          >
             {/* Feature 1: Instant Approval */}
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#f97316] flex items-center justify-center shadow-sm flex-shrink-0">
-                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white fill-current" viewBox="0 0 24 24">
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <div className="w-7 h-7 rounded-full bg-[#f97316] flex items-center justify-center shadow-sm flex-shrink-0">
+                <svg className="w-4 h-4 text-white fill-current" viewBox="0 0 24 24">
                   <path d="M13 2L3 14h7v8l11-14h-8l0-6z" />
                 </svg>
               </div>
-              <span className="leading-tight whitespace-nowrap">Instant Approval</span>
+              <span className="leading-tight">Instant Approval</span>
             </div>
 
-            <div aria-hidden="true" className="w-px h-5 bg-white/20 flex-shrink-0" />
-
             {/* Feature 2: Paperless Process */}
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#0ea5e9] flex items-center justify-center shadow-sm flex-shrink-0">
-                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <div className="w-7 h-7 rounded-full bg-[#0ea5e9] flex items-center justify-center shadow-sm flex-shrink-0">
+                <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              <span className="leading-tight whitespace-nowrap">Paperless</span>
+              <span className="leading-tight">Paperless Process</span>
             </div>
-
-            <div aria-hidden="true" className="w-px h-5 bg-white/20 flex-shrink-0" />
 
             {/* Feature 3: Quick Disbursal */}
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#10b981] flex items-center justify-center shadow-sm flex-shrink-0">
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <div className="w-7 h-7 rounded-full bg-[#10b981] flex items-center justify-center shadow-sm flex-shrink-0">
                 <span className="text-white text-xs font-bold leading-none">₹</span>
               </div>
-              <span className="leading-tight whitespace-nowrap">Quick Disbursal</span>
+              <span className="leading-tight">Quick Disbursal</span>
             </div>
 
-            <div aria-hidden="true" className="w-px h-5 bg-white/20 flex-shrink-0" />
-
             {/* Feature 4: Secure & Safe */}
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#8b5cf6] flex items-center justify-center shadow-sm flex-shrink-0">
-                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <div className="w-7 h-7 rounded-full bg-[#8b5cf6] flex items-center justify-center shadow-sm flex-shrink-0">
+                <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path clipRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" fillRule="evenodd" />
                 </svg>
               </div>
-              <span className="leading-tight whitespace-nowrap">Secure & Safe</span>
+              <span className="leading-tight">Secure &amp; Safe</span>
             </div>
           </div>
         </div>
